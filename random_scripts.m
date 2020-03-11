@@ -1,4 +1,34 @@
+%%
 
+L = 1e-2; 
+R = 1e-2; 
+M = 1e6;
+
+Xin = Mdl_dtl.purelinex(50);
+Yin = Mdl_dtl.pureliney;
+Zin = Mdl_dtl.purelinez;
+
+[Xunitx,Yunitx] = Bandit_Cac_UVs(Xin,Yin,Zin,L,R,M);
+
+
+%%
+
+phi = deg2rad(linspace(1,720,73));
+
+figure(6)
+
+    for p = 1:length(phi)
+
+        tester = Xunitx.*cos(phi(p)) + Yunitx.*sin(phi(p));
+        imagesc(Mdl_dtl.pureliney,Mdl_dtl.purelinez, tester)
+        xlabel 'Y'; ylabel 'Z'; title 'checking rotation'
+        colorbar
+        pause(0.25)
+
+    end 
+    
+    %%
+    
 % small piece of code so that we can get the mumax parameter space probed.
 % input in this code is Bobj, but can be called anything (just make sure it
 % knows).
