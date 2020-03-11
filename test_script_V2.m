@@ -1,6 +1,9 @@
 num = 50;
 
-phiM = (-137);
+phiM = (23);
+
+% Based on what was in here before, it looks like this was in the wrong
+% direction (negative sign). Adjust if this is true.
 
 xline = Mdl_dtl.purelinex; % linspace(-5, 5,100);
 yline = Mdl_dtl.pureliney; % linspace(-5, 5,100);
@@ -22,8 +25,8 @@ for xcount = 1:size(xline,2)
     x = X(xcount,ycount); y = Y(xcount,ycount); z = Mdl_dtl.purelinez(num);
     
     
-    xprime = x.*cos(phiM) - y.*sin(phiM);
-    yprime = x.*sin(phiM) + y.*cos(phiM);
+    xprime = x.*cos(-phiM) - y.*sin(-phiM);
+    yprime = x.*sin(-phiM) + y.*cos(-phiM);
     zprime = z;
 
                 % xprime = sample.X.*cos(pull) - sample.Z.*sin(pull);
@@ -49,15 +52,15 @@ for xcount = 1:size(xline,2)
     [Kvis(xcount,ycount,1)] = K(z,l, Coord_polar(xcount,ycount,1), R, 'p'); [Kvis(xcount,ycount,2)] = K(z,l, Coord_polar(xcount,ycount,1), R, 'm'); 
     
     Bpolar(xcount,ycount,1) = mu0*Hrho; Bpolar(xcount,ycount,2) = mu0*Hphi; Bpolar(xcount,ycount,3) = mu0*Hz; 
-    [Bcartpri(xcount,ycount,1),Bcartpri(xcount,ycount,2),Bcartpri(xcount,ycount,3)] = Vec_feild_cyl_conv(Bpolar(xcount,ycount,1), Bpolar(xcount,ycount,2), Bpolar(xcount,ycount,3), Coord_polar(xcount,ycount,2),phiM);
+    [Bcartpri(xcount,ycount,1),Bcartpri(xcount,ycount,2),Bcartpri(xcount,ycount,3)] = Vec_feild_cyl_conv(Bpolar(xcount,ycount,1), Bpolar(xcount,ycount,2), Bpolar(xcount,ycount,3), Coord_polar(xcount,ycount,2),-phiM);
     
-    Bcart(xcount,ycount,1) = (Bcartpri(xcount,ycount,1).*cos(-phiM) - Bcartpri(xcount,ycount,2).*sin(-phiM));
-    Bcart(xcount,ycount,2) = (Bcartpri(xcount,ycount,1).*sin(-phiM) + Bcartpri(xcount,ycount,2).*cos(-phiM));
+    Bcart(xcount,ycount,1) = (Bcartpri(xcount,ycount,1).*cos(phiM) - Bcartpri(xcount,ycount,2).*sin(phiM));
+    Bcart(xcount,ycount,2) = (Bcartpri(xcount,ycount,1).*sin(phiM) + Bcartpri(xcount,ycount,2).*cos(phiM));
     Bcart(xcount,ycount,3) = Bcartpri(xcount,ycount,3);
     
  
     %[Bcart(xcount,ycount,1),Bcart(xcount,ycount,2),Bcart(xcount,ycount,3)] = pol2cart(Bpolar(xcount,ycount,2), Bpolar(xcount,ycount,1), Bpolar(xcount,ycount,3));
-    BAkoun(xcount,ycount,1) = (HxAkoun.*cos(-phiM) - HyAkoun.*sin(-phiM))/4/pi; BAkoun(xcount,ycount,2) = (HxAkoun.*sin(-phiM) + HyAkoun.*cos(-phiM))/4/pi/4/pi; BAkoun(xcount,ycount,3) = HzAkoun/4/pi; 
+    BAkoun(xcount,ycount,1) = (HxAkoun.*cos(phiM) - HyAkoun.*sin(phiM))/4/pi; BAkoun(xcount,ycount,2) = (HxAkoun.*sin(phiM) + HyAkoun.*cos(phiM))/4/pi/4/pi; BAkoun(xcount,ycount,3) = HzAkoun/4/pi; 
     
     clear Hrho Hz Hphi HxAkoun HyAkoun HzAkoun
     
