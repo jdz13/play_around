@@ -1,4 +1,4 @@
-function [varst, SWres,Bset,FWHMres,ind1res,ind2res,MxB] = search_tool_1_Caciagli(KRV,PM,RES,pm_cl,theta,particle_loc,con)
+function [varst, SWres,Bset,FWHMres,ind1res,ind2res,MxB] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con)
 
 tic
 
@@ -8,13 +8,13 @@ clear SWres SH0 swinit SWnext count count2 NVC DNVC FWHMX MLOC SWnextpos
 
 % We need to have defined the maxima's for each part
 
-D_prac = 10e-2; N_probe = 101;
+D_prac = 10e-2; N_probe = 101; M = 1e6;
 
-[MxB, probe_line] = MxBProbe(M,pm_cl, pm_cl,D_prac,N_probe);
+[MxB, probe_line] = MxBProbeMulti(M,pm_cl, pm_cl,D_prac,N_probe);
 
 ntestmax = 100;
 
-SWres = zeros(size(KRV,2),ntestmax,length(PM),length(RES)); 
+SWres = zeros(size(KRV,2),ntestmax,length(pm_cl),length(RES)); 
 FWHMres = SWres; ind1res = SWres; ind2res = SWres; Bset = SWres;
 
 for gg = 1:length(RES)
@@ -25,9 +25,7 @@ for rescount = 1:length(RES)
 
     res = RES(rescount);
 
-    for pmcount = 1:length(PM)
-
-        pm = PM(pmcount);
+    for pmcount = 1:length(pm_cl)
 
         for  count2 = 1:size(KRV,2)
 
@@ -37,14 +35,14 @@ for rescount = 1:length(RES)
             count = 1;
             tmps = [0,1];
 
-            while abs(tmps(1) - tmps(2)) > 1e-4 && SH0 > MxB(pm,length(MxB(pm,:))) && tmps(2) ~= 0 
+            while abs(tmps(1) - tmps(2)) > 1e-4 && SH0 > MxB(pmcount,length(MxB(pmcount,:))) && tmps(2) ~= 0 
                 % 
                 % Do I need to change this to a physical value for all?
                 % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
                 %
 
                 % Find where that sits in space (Pz)
-               pzcut =  find(MxB(pm,:) >= SH0, 1, 'last');
+               pzcut =  find(MxB(pmcount,:,pmcount) >= SH0, 1, 'last');
                
                 clear variable % fill this with whatever needs refreshing through each run. 
 
@@ -55,18 +53,20 @@ for rescount = 1:length(RES)
                 %% ------------------------------------------------------------------------
                 % Look for information about this initial condition
                 
-                [Xunitx,Yunitx] = Bandit_Cac_UVs(Mdl_dtl.purelinex(50),...
-                    pureliney,Mdl_dtl.purelinez,pm_cl./2,pm_cl./2,1e6);
+                [Xunitx,Yunitx] = Bandit_Cac_UVs(probe_line(pmcount,pzcut),...
+                    Yin,Zin,pm_cl(pmcount)./2,pm_cl(pmcount)./2,1e6);
 
 
                     for pull = 1:length(theta) 
                        % Use rotation matricies to find the Z component 
                        Bxnew = Xunitx.*cos(theta(pull)) + Yunitx.*sin(theta(pull)); 
-                       % Look at the plane where the sample sits 
-                       lkatpln = Bxnew(:,:,pzcut);
                        %Find out how much of this areas is above or below the threshold
-                       BZM = (lkatpln >= swinit) - (lkatpln <= -swinit);
+                       BZM = (Bxnew >= swinit) - (Bxnew <= -swinit);
                        % Correlate with where the particles actually are in the world
+                       
+                       [particle_loc] = plane_mask(Yin,Zin,s_rad);
+                       control = sum(sum(particle_loc));
+                       
                        CM = BZM .* particle_loc;
                        % Find a qualitative number for how much is 'on'
                        vc = sum(sum(CM));
@@ -86,7 +86,7 @@ for rescount = 1:length(RES)
                 FWHMres(count2,count+1,pmcount,rescount) = FWHMX(1); % if +1 not needed then can use FWHMres(:,1,:,:) = [];
                 ind1res(count2,count+1,pmcount,rescount)= indout(1);
                 ind2res(count2,count+1,pmcount,rescount) = indout(2);
-                Bset(count2,count,pmcount,rescount) = MxB(pm,pzcut);
+                Bset(count2,count,pmcount,rescount) = MxB(pmcount,pzcut,pmcount);
                 % manipulate the results to run the next leg
 
                 tmps(1) = swinit; 
@@ -110,7 +110,7 @@ for rescount = 1:length(RES)
 end 
 
 varst.KRV = KRV;
-varst.PM = PM;
+varst.PM = pm_cl;
 varst.RES = RES;
 varst.CON = con;
 varst.theta = theta;
