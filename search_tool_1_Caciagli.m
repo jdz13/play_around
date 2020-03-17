@@ -116,5 +116,8 @@ varst.CON = con;
 varst.theta = theta;
 varst.MxB = MxB;
 varst.timer = toc;
+varst.Yin = Yin;
+varst.Zin = Zin;
+varst.s_rad = s_rad;
 
 end 

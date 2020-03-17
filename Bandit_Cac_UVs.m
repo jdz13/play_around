@@ -4,6 +4,8 @@ function [Xunitx,Yunitx] = Bandit_Cac_UVs(Xin,Yin,Zin,L,R,M)
 
 [Y,Z] = meshgrid(Yin, Zin);
 
+Y = Y'; Z = Z';
+
 mu0 = 4*pi*1e-7;
 
 Bpolar = zeros(size(Y,1),size(Y,2),3,2); Bcartpri = Bpolar; 
@@ -21,7 +23,7 @@ for n_axi = 1:2
         
             phiM = PhiM(n_axi);
             
-            x = Xin; y = Y(ycount,zcount); z = Z(ycount, zcount);
+            x = Xin; y = Y(ycount, zcount); z = Z(ycount, zcount);
 
 
             xprime = x.*cos(-phiM) - y.*sin(-phiM);
