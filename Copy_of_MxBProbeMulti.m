@@ -1,4 +1,4 @@
-function [MxB, probe_line] = MxBProbeMulti(M,OD, L,D_prac,N_probe)
+function [MxB, probe_line] = Copy_of_MxBProbeMulti(M,OD, L,D_prac,N_probe)
 % MxBProbe - Finding the value on axis for a high resolution line variable.
 % Will allow for selection of appropriate height to probe at.
 %   
@@ -13,8 +13,7 @@ probe_line = zeros(length(OD),N_probe);
 
 
     for p = 1:length(OD)
-        probe_line(p,:) = (((linspace(0,D_prac, Nprobe)).^3)./(D_prac^3).*(D_prac))+ OD(p)./2; 
-                            %linspace(OD(p)/2, D_prac+(OD(p)/2), N_probe);
+        probe_line(p,:) = linspace(OD(p)/2, D_prac+(OD(p)/2), N_probe);
     end
 
 MxB = zeros(length(OD),size(probe_line,2),length(L));

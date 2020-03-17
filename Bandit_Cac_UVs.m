@@ -13,8 +13,6 @@ Coord_polar = Bpolar; Bcart = Bpolar;
 
 PhiM = [0, pi/2];
 
-tic
-
 for n_axi = 1:2
 
     for ycount = 1:size(Yin,2)

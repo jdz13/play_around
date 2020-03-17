@@ -1,4 +1,4 @@
-function [varst, SWres,Bset,FWHMres,ind1res,ind2res,MxB, SHo] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con)
+function [varst, SWres,Bset,FWHMres,ind1res,ind2res,MxB, SHo] = Copy_of_search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con)
 
 tic
 
@@ -10,7 +10,7 @@ clear SWres SH0 swinit SWnext count count2 NVC DNVC FWHMX MLOC SWnextpos
 
 D_prac = 10e-2; N_probe = 10001; M = 1e6;
 
-[MxB, probe_line] = MxBProbeMulti(M,pm_cl, pm_cl,D_prac,N_probe);
+[MxB, probe_line] = Copy_of_MxBProbeMulti(M,pm_cl, pm_cl,D_prac,N_probe);
 
 ntestmax = 100;
 
