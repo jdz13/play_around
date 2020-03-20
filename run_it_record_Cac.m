@@ -86,6 +86,7 @@ con = 0.7;
 [SaveVar1p1.varst, SaveVar1p1.SWres,SaveVar1p1.Bset,SaveVar1p1.FWHMres,SaveVar1p1.ind1res,SaveVar1p1.ind2res, SaveVar1p1.MxB, SaveVar1p1.SH0] = Copy_of_search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con);
 SaveVar1p1.timer = toc; SaveVar1p1.comments = "Rerun 1.1, but this time with 10001 probe points in Z, and saving SH0 value";
 
+tic
 %Save outputs
 [SaveVar1p2.varst, SaveVar1p2.SWres,SaveVar1p2.Bset,SaveVar1p2.FWHMres,SaveVar1p2.ind1res,SaveVar1p2.ind2res, SaveVar1p2.MxB, SaveVar1p2.SH0] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con);
 SaveVar1p2.timer = toc; SaveVar1p2.comments = "Rerun 1.2, to test the effect of using cubic probe term";
