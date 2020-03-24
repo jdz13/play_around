@@ -13,8 +13,8 @@ probe_line = zeros(length(OD),N_probe);
 
 
     for p = 1:length(OD)
-        probe_line(p,:) = (((linspace(0,D_prac, Nprobe)).^3)./(D_prac^3).*(D_prac))+ OD(p)./2; 
-                            %linspace(OD(p)/2, D_prac+(OD(p)/2), N_probe);
+        probe_line(p,:) = linspace(OD(p)/2, D_prac+(OD(p)/2), N_probe);
+                            %(((linspace(0,D_prac, N_probe)).^3)./(D_prac^3).*(D_prac))+ OD(p)./2;
     end
 
 MxB = zeros(length(OD),size(probe_line,2),length(L));

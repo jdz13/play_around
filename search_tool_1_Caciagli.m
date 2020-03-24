@@ -1,4 +1,4 @@
-function [varst, SWres,Bset,FWHMres,ind1res,ind2res,MxB, SHo] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con)
+function [SaveVar] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con)
 
 tic
 
@@ -120,5 +120,14 @@ varst.timer = toc;
 varst.Yin = Yin;
 varst.Zin = Zin;
 varst.s_rad = s_rad;
+
+SaveVar.SWres = SWres;
+SaveVar.FWHMres = FWHMres;
+SaveVar.ind1res = ind1res;
+SaveVar.ind2res = ind2res;
+SaveVar.Bset = Bset;
+SaveVar.SHo = SHo;
+SaveVar.probe_line = probe_line;
+SaveVar.varst = varst;
 
 end 
