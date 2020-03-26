@@ -9,13 +9,13 @@ RES = [0.15,0.2,0.25,0.3,0.35,0.4]; % Start field values.
 
 pm_cl = [2,3,4]*1e-2; % Magnet outer diameters.
 
-Yin = linspace(-1e-3, 1e-3,101); % Probe plane points in Y 
-Zin = linspace(-1e-3, 1e-3,51); % Probe plane points in Z 
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = linspace(-1e-3, 1e-3,101); % Probe plane points in Z 
 
 s_rad = 1e-3; % define the sample radius (where the particles will actually be
 con = 0.7; 
 
 %Save outputs
-[SaveVar2p2] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con);
-SaveVar2p2.timer = toc; SaveVar2p2.comments = "Looking at this again, this time with linear, 10001 point probe line";
+[SaveVar4p2] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con);
+SaveVar4p2.timer = toc; SaveVar4p2.comments = "Looking at 2xZ again, this time with linear, 10001 point probe line";
 

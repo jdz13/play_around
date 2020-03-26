@@ -127,6 +127,7 @@ SaveVar.ind1res = ind1res;
 SaveVar.ind2res = ind2res;
 SaveVar.Bset = Bset;
 SaveVar.SHo = SHo;
+SaveVar.MxB = MxB;
 SaveVar.probe_line = probe_line;
 SaveVar.varst = varst;
 
