@@ -4,13 +4,13 @@ function [] = PltOpCh(inputStr, figno, KRVn, PMn)
 
     figure(figno); clf;
 
-    for RESn = 1:size(inputStr.SH0,4)
+    for RESn = 1:size(inputStr.SWres,4)
 
         plt1 = inputStr.SWres(KRVn,:,PMn,RESn); plt1(plt1 == 0) = [];
         plot(plt1,'x'); hold on 
         title 'Viewing the channel profile'
         xlabel 'Channel number'
-        ylabel 'Optimised distance'
+        ylabel 'Field Value [T]'
 
     end
 

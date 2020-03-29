@@ -10,13 +10,13 @@ function [] = PltDeltaDiff(inputStr, figno, KRVn, RESn, PMn)
     figure(figno); clf;
     subplot(1,2,1)
     plot(plt1)
-    title 'Difference between set and actual field values'
+    title (compose("Difference between set and actual field values\n"))
     xlabel 'Channel number'
     ylabel 'Absolute difference'
 
     subplot(1,2,2)
     plot(Dpset(KRVn,:,PMn,RESn))
-    title 'Percentage difference'
+    title (compose("Percentage difference\n"))
     xlabel 'Channel number'
     ylabel 'Percentage difference'
 
