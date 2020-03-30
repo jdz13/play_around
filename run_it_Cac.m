@@ -4,7 +4,7 @@ clear
 
 tic
 
-theta = linspace(0,pi/2,1081); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+theta = linspace(0,pi/2,5401); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
 
 KRV = 2.5; % Key ratio values, how strict of a condition do we want 
 RES = [0.15,0.2,0.25,0.3,0.35,0.4]; % Start field values. 
@@ -18,6 +18,6 @@ s_rad = 1e-3; % define the sample radius (where the particles will actually be
 con = 0.7; 
 
 %Save outputs
-[SaveVar6p0] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con);
-SaveVar6p0.timer = toc; SaveVar6p0.comments = "Increasing angular resolution heavily to probe relationship";
+[SaveVar6p1] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con);
+SaveVar6p1.timer = toc; SaveVar6p1.comments = "Increasing angular resolution (5401) heavily to probe relationship";
 
