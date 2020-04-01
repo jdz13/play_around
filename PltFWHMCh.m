@@ -4,7 +4,7 @@ function [] = PltFWHMCh(inputStr, figno, KRVn, PMn)
 
     figure(figno); clf;
 
-    for RESn = 1%:size(inputStr.FWHMres,4)
+    for RESn = 1:size(inputStr.FWHMres,4)
 
         plt1 = inputStr.FWHMres(KRVn,:,PMn,RESn); plt1(plt1 == 0) = [];
         plot(rad2deg(plt1),'x-'); hold on 
