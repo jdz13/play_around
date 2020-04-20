@@ -39,7 +39,7 @@ for rescount = 1:length(RES)
             count = 1;
             tmps = [0,1];
 
-            while abs(tmps(1) - tmps(2)) > 1e-4 && SH0 > MxB(pmcount,length(MxB(pmcount,:))) && tmps(2) ~= 0 
+         %   while abs(tmps(1) - tmps(2)) > 1e-4 && SH0 > MxB(pmcount,length(MxB(pmcount,:))) && tmps(2) ~= 0 
                 % 
                 % Do I need to change this to a physical value for all?
                 % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
@@ -116,7 +116,7 @@ for rescount = 1:length(RES)
 
                 disp (['count = ', num2str(count),', range = ', num2str(tmps)])
 
-            end
+           % end
         end
     end
 end 
@@ -137,9 +137,12 @@ SaveVar.FWHMres = FWHMres;
 SaveVar.ind1res = ind1res;
 SaveVar.ind2res = ind2res;
 SaveVar.Bset = Bset;
-SaveVar.SHo = SHo;
+SaveVar.SH0 = SHo;
 SaveVar.MxB = MxB;
 SaveVar.probe_line = probe_line;
 SaveVar.varst = varst;
+SaveVar.NVC = NVC;
+SaveVar.MLOC = MLOC;
+SaveVar.swinit = swinit;
 
 end 

@@ -20,4 +20,3 @@ con = 0.7;
 %Save outputs
 [SaveVar7p1] = search_tool_1_Caciagli(KRV,RES,pm_cl,theta,Yin,Zin,s_rad,con);
 SaveVar7p1.timer = toc; SaveVar7p1.comments = "Testing the symmetry benefit. Shorter param space. 9001 theta";
-

@@ -1,7 +1,7 @@
 
-clear
-common.M = 1e6; common.L = 2e-2; common.R = 2e-2; common.Xin = 1e-2;
-common.swinit = 0.2; common.theta =  linspace(0,0.5*pi,37); 
+
+common.M = 1e6; common.L = 2e-2; common.R = 2e-2; common.Xin = 3e-2;
+common.swinit = 0.2; common.theta =  0.8;%linspace(0,0.5*pi,37); 
 
 
 zero.Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
@@ -10,7 +10,8 @@ zero.Zin = linspace(-1e-3, 1e-3,51);
 
 
 new.Yin= linspace(-1e-3, 1e-3,51); % Probe plane points in Y
-new.Zin = linspace(-1e-3, 0,26);
+new.Zin = zero.Zin(1:26); % Difference in two codes (FPP) is due to how linspace variable is made.
+%new.Zin = linspace(-1e-3, 0,26); 
 [new.Xunitx,new.Yunitx] = Bandit_Cac_UVs_V2(common.Xin,new.Yin,new.Zin,common.L,common.R,common.M);
 
 %%
@@ -47,10 +48,10 @@ new.Zin = linspace(-1e-3, 0,26);
            % Correlate with where the particles actually are in the world
 
            figure(112); clf
-           subplot(2,2,1); imagesc(new.Yin, new.Zin, new.newBxnew); xlabel 'Y distance'; ylabel 'Z distance'; colorbar; title 'X comp with rotation - new'; %caxis([0,1.25*common.swinit]);
-           subplot(2,2,2); imagesc(new.Yin, new.Zin, new.BZM); xlabel 'Y distance'; ylabel 'Z distance'; colorbar; title 'Over threshold - new'; caxis([-1,1]); 
-           subplot(2,2,3); imagesc(zero.Yin, zero.Zin, zero.Bxnew); xlabel 'Y distance'; ylabel 'Z distance'; colorbar; title 'X comp with rotation - old'; %caxis([0,1.25*common.swinit]); 
-           subplot(2,2,4); imagesc(zero.Yin, zero.Zin, zero.BZM); xlabel 'Y distance'; ylabel 'Z distance'; colorbar; title 'Over threshold - old'; caxis([-1,1]); 
+           subplot(2,2,1); imagesc(new.Yin, new.Zin, new.newBxnew); xlabel 'Y distance'; ylabel 'Z distance'; colorbar; title (compose("X comp with rotation - new\n")); %caxis([0,1.25*common.swinit]);
+           subplot(2,2,2); imagesc(new.Yin, new.Zin, new.BZM); xlabel 'Y distance'; ylabel 'Z distance'; colorbar; title (compose("Over threshold - new\n")); caxis([-1,1]); 
+           subplot(2,2,3); imagesc(zero.Yin, zero.Zin, zero.Bxnew); xlabel 'Y distance'; ylabel 'Z distance'; colorbar; title (compose("X comp with rotation - old\n")); %caxis([0,1.25*common.swinit]); 
+           subplot(2,2,4); imagesc(zero.Yin, zero.Zin, zero.BZM); xlabel 'Y distance'; ylabel 'Z distance'; colorbar; title (compose("Over threshold - old\n")); caxis([-1,1]); 
 
 
            test.test1 = new.newBxnew - zero.Bxnew;
@@ -58,9 +59,9 @@ new.Zin = linspace(-1e-3, 0,26);
 
            figure(113); clf; 
            subplot(1,2,1); imagesc(new.Yin, new.Zin, test.test1); colorbar
-           title 'Absolute difference (new vs old)'
+           title (compose("Absolute difference (new vs old) \n"))
            subplot(1,2,2); imagesc(new.Yin, new.Zin, test.test2); colorbar
-           title 'Difference in on/off' 
+           title (compose("Difference in on/off \n"))
 
            pause(0.1)
 

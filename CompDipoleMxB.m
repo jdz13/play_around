@@ -1,4 +1,4 @@
-function [MxB,B_a, probe_line] = CompDipoleMxB(figno, M,OD, L,D_prac,N_probe,Thresh)
+function [MxB,B_a, probe_line] = CompDipoleMxB(figno, M,OD, L,D_prac,N_probe,ThreshPercent)
 %UNTITLED7 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -91,12 +91,12 @@ function [MxB,B_a, probe_line] = CompDipoleMxB(figno, M,OD, L,D_prac,N_probe,Thr
      
      % at what point does it improve past threshold percentage (%) ? 
     
-     finder1 =  find(abs(pdiff(ODn,:,Ln)) >= Thresh, 1, 'last');
+     finder1 =  find(abs(pdiff(ODn,:,Ln)) >= ThreshPercent, 1, 'last');
      
      subplot(2,2,4)
      %legend (['Value is below ', num2str(Thresh) , '% at ', num2str(probe_line(ODn,finder1)), 'm'])
      text (0.3*max(probe_line), 0.5*val2, compose("Value is below " ...
-         + num2str(Thresh) + "% \nat " + num2str(probe_line(ODn,finder1)) + "[m]"))
+         + num2str(ThreshPercent) + "% \nat " + num2str(probe_line(ODn,finder1)) + "[m]"))
      
 end
 

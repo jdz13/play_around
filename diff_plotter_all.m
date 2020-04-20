@@ -6,7 +6,7 @@ function [] = diff_plotter_all(ist1,ist2, figno)
         disp 'The two inputs are different sizes, this isn''t possible'
     else 
 
-        thrsh = ist1.MxB(3,size(ist1.MxB,2));
+        thrsh = ist1.MxB(size(ist1.MxB,1),size(ist1.MxB,2));
         plotter1 = zeros(length(ist1.varst.KRV), length(ist1.varst.PM)-1, length(ist1.varst.RES));
         plotter2 = plotter1;
 
@@ -24,12 +24,19 @@ function [] = diff_plotter_all(ist1,ist2, figno)
 
         dplotter = plotter1 - plotter2;
 
-        nox = 2;
-        if rem(length(ist1.varst.RES),2) ==1
-            noy = length(ist1.varst.RES)+1/2;
-        else 
-            noy = length(ist1.varst.RES)/2;
-        end
+        if size(ist1.varst.RES,2) == 1
+            nox = 1;
+            noy = 1;
+        else
+            
+            nox = 2;
+            if rem(length(ist1.varst.RES),2) ==1
+                noy = length(ist1.varst.RES)+1/2;
+            else 
+                noy = length(ist1.varst.RES)/2;
+            end
+            
+        end 
 
         figure(figno); clf;
             for jj = 1:length(ist1.varst.RES)
@@ -41,7 +48,7 @@ function [] = diff_plotter_all(ist1,ist2, figno)
                 yticks(trial);    yticklabels((fliplr(ist1.varst.KRV)));
 
                 if jj == ceil(noy/2)
-                    title (compose("Data for " + str1 + " minus " + str2 + "\nKRV  = [" + num2str(ist1.varst.KRV) + "], PM sizes = [" + num2str(ist1.varst.PM(1:3)) + "], Con = " + num2str(ist1.varst.CON) + "\n \n Start field = " + num2str(ist1.varst.RES(jj)) + "T"))
+                %    title (compose("Data for " + str1 + " minus " + str2 + "\nKRV  = [" + num2str(ist1.varst.KRV) + "], PM sizes = [" + num2str(ist1.varst.PM(1:3)) + "], Con = " + num2str(ist1.varst.CON) + "\n \n Start field = " + num2str(ist1.varst.RES(jj)) + "T"))
                 end 
             end
     end 

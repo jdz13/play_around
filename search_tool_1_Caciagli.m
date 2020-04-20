@@ -35,7 +35,7 @@ for rescount = 1:length(RES)
             count = 1;
             tmps = [0,1];
 
-            while abs(tmps(1) - tmps(2)) > 1e-4 && SH0 > MxB(pmcount,length(MxB(pmcount,:))) && tmps(2) ~= 0 
+            while abs(tmps(1) - tmps(2)) > 1e-4 && SH0 > MxB(pmcount,size(MxB,2),pmcount) && tmps(2) ~= 0  
                 % 
                 % Do I need to change this to a physical value for all?
                 % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
@@ -83,9 +83,9 @@ for rescount = 1:length(RES)
                 SWnext = swinit*cos(SWnextpos);
 
                 SWres(count2,count+1,pmcount,rescount) = SWnext;
-                FWHMres(count2,count+1,pmcount,rescount) = FWHMX(1); % if +1 not needed then can use FWHMres(:,1,:,:) = [];
-                ind1res(count2,count+1,pmcount,rescount)= indout(1);
-                ind2res(count2,count+1,pmcount,rescount) = indout(2);
+                FWHMres(count2,count,pmcount,rescount) = FWHMX(1); % if +1 not needed then can use FWHMres(:,1,:,:) = [];
+                ind1res(count2,count,pmcount,rescount)= indout(1);
+                ind2res(count2,count,pmcount,rescount) = indout(2);
                 Bset(count2,count,pmcount,rescount) = MxB(pmcount,pzcut,pmcount);
                 SHo(count2,count,pmcount,rescount) = SH0;
                 % manipulate the results to run the next leg
@@ -126,7 +126,7 @@ SaveVar.FWHMres = FWHMres;
 SaveVar.ind1res = ind1res;
 SaveVar.ind2res = ind2res;
 SaveVar.Bset = Bset;
-SaveVar.SHo = SHo;
+SaveVar.SH0 = SHo;
 SaveVar.MxB = MxB;
 SaveVar.probe_line = probe_line;
 SaveVar.varst = varst;

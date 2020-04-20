@@ -1,5 +1,14 @@
 %%
 
+D_prac = 10e-2; N_probe = 10001; M = 1e6; pm_cl = [2,3,4]*1e-2;
+
+[MxB, SaveVar1p1.probe_line] = MxBProbeMulti(M,pm_cl, pm_cl,D_prac,N_probe);
+
+
+all(le (SaveVar1p1.MxB - MxB, 1e-9),'all');
+
+%%
+
 L = 1e-2; 
 R = 1e-2; 
 M = 1e6;

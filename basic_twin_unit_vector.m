@@ -5,13 +5,15 @@ PhiM = [0,deg2rad(90)];
 % Based on what was in here before, it looks like this was in the wrong
 % direction (negative sign). Adjust if this is true.
 
-xline = Mdl_dtl.purelinex; % linspace(-5, 5,100);
-yline = Mdl_dtl.pureliney; % linspace(-5, 5,100);
+xline = UnitX.Mdl_dtl.purelinex; % linspace(-5, 5,100);
+yline = UnitX.Mdl_dtl.pureliney; % linspace(-5, 5,100);
 [X,Y] = meshgrid(xline, yline);
 
 mu0 = 4*pi*1e-7;
 
 l = 1e-2; R = 1e-2; M = 1e6;
+
+R = 3e-3;
 
 Bpolar = zeros(size(X,1),size(X,2),3,3); Bcartpri = Bpolar; BAkoun = Bpolar;
 Coord_polar = Bpolar; Kvis = Bpolar; Bcart = Bpolar;
@@ -26,7 +28,7 @@ for n_axi = 1:2
         
             phiM = PhiM(n_axi);
             
-            x = X(xcount,ycount); y = Y(xcount,ycount); z = Mdl_dtl.purelinez(num);
+            x = X(xcount,ycount); y = Y(xcount,ycount); z = UnitX.Mdl_dtl.purelinez(num);
 
 
             xprime = x.*cos(-phiM) - y.*sin(-phiM);
@@ -71,5 +73,11 @@ for n_axi = 1:2
         end 
     end 
 end 
+
+
+Bcart_str.inner = Bcart;
+BAkoun_str.inner = BAkoun;
+
+clear PhiM xline yline X Y mu0 L R M Bpolar Bcart BAkoun Kvis  n_axi l n x y z xcount ycount zcount xprime yprime zprime 
 
 toc
