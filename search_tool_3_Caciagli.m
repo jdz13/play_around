@@ -60,8 +60,8 @@ for Lcount = 1:length(Lengths)
                     %% ------------------------------------------------------------------------
                     % Look for information about this initial condition
 
-                    [Xunitx,Yunitx] = Bandit_Cac_UVs(probe_line(pmcount,pzcut),...
-                        Yin,Zin,L./2,PM./2,M);
+                    [Xunitx,Yunitx] = Bandit_Cac_UVs_V2(probe_line(pmcount,pzcut),...
+                    Yin,Zin,pm_cl(pmcount)./2,pm_cl(pmcount)./2,1e6);
 
 
                         for pull = 1:length(theta) 
