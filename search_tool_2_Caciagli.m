@@ -38,8 +38,8 @@ for rescount = 1:length(RES)
             swinit = res; % What's the max channel value?
             count = 1;
             tmps = [0,1];
-
-         %   while abs(tmps(1) - tmps(2)) > 1e-4 && SH0 > MxB(pmcount,length(MxB(pmcount,:))) && tmps(2) ~= 0 
+                   
+            while abs(tmps(1) - tmps(2)) > 1e-4 && SH0 > MxB(pmcount,size(MxB,2),pmcount) && tmps(2) ~= 0  
                 % 
                 % Do I need to change this to a physical value for all?
                 % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
@@ -116,7 +116,7 @@ for rescount = 1:length(RES)
 
                 disp (['count = ', num2str(count),', range = ', num2str(tmps)])
 
-           % end
+            end
         end
     end
 end 

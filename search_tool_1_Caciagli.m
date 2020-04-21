@@ -64,6 +64,7 @@ for rescount = 1:length(RES)
                        BZM = (Bxnew >= swinit) - (Bxnew <= -swinit);
                        % Correlate with where the particles actually are in the world
                        
+                       % these can come out of the loop. 
                        [particle_loc] = plane_mask(Yin,Zin,s_rad);
                        control = sum(sum(particle_loc));
                        
