@@ -1,4 +1,4 @@
-function [propkeepers] = homog_L_PM_plott(inputStr,figno)
+function [propkeepers,plt] = homog_L_PM_plott(inputStr,figno)
 %UNTITLED8 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -79,37 +79,63 @@ function [propkeepers] = homog_L_PM_plott(inputStr,figno)
     
     
     
-    plt1 = zeros(size(inputStr.varst.Lengths,2), size(inputStr.varst.PM,2));
-    plt2 = plt1; plt3 = plt1;
+   plt.AvY = zeros(size(inputStr.varst.Lengths,2), size(inputStr.varst.PM,2));
+    plt.AvZ = plt.AvY; plt.AvT = plt.AvY; plt.pltpm = plt.AvY; plt.pltL = plt.AvY;
 
     for cck = 1:size(inputStr.varst.Lengths,2)*size(inputStr.varst.PM,2)
 
         if rem(cck,size(inputStr.varst.PM,2)) == 0 
 
-            plt1(ceil(cck/size(inputStr.varst.PM,2)),size(inputStr.varst.PM,2)) = propkeepers(cck).MeanAvY;
-            plt2(ceil(cck/size(inputStr.varst.PM,2)),size(inputStr.varst.PM,2)) = propkeepers(cck).MeanAvZ;
-            plt3(ceil(cck/size(inputStr.varst.PM,2)),size(inputStr.varst.PM,2)) = propkeepers(cck).MeanAvTheta;
+            plt.AvY(ceil(cck/size(inputStr.varst.PM,2)),size(inputStr.varst.PM,2)) = propkeepers(cck).MeanAvY;
+            plt.AvZ(ceil(cck/size(inputStr.varst.PM,2)),size(inputStr.varst.PM,2)) = propkeepers(cck).MeanAvZ;
+            plt.AvT(ceil(cck/size(inputStr.varst.PM,2)),size(inputStr.varst.PM,2)) = propkeepers(cck).MeanAvTheta;
+            plt.pltpm(ceil(cck/size(inputStr.varst.PM,2)),size(inputStr.varst.PM,2)) = propkeepers(cck).pm;
+            plt.pltL(ceil(cck/size(inputStr.varst.PM,2)),size(inputStr.varst.PM,2)) = propkeepers(cck).L;
+
+
 
         else
 
-            plt1(ceil(cck/size(inputStr.varst.PM,2)),rem(cck,size(inputStr.varst.PM,2))) = propkeepers(cck).MeanAvY;
-            plt2(ceil(cck/size(inputStr.varst.PM,2)),rem(cck,size(inputStr.varst.PM,2))) = propkeepers(cck).MeanAvZ;
-            plt3(ceil(cck/size(inputStr.varst.PM,2)),rem(cck,size(inputStr.varst.PM,2))) = propkeepers(cck).MeanAvTheta;
+            plt.AvY(ceil(cck/size(inputStr.varst.PM,2)),rem(cck,size(inputStr.varst.PM,2))) = propkeepers(cck).MeanAvY;
+            plt.AvZ(ceil(cck/size(inputStr.varst.PM,2)),rem(cck,size(inputStr.varst.PM,2))) = propkeepers(cck).MeanAvZ;
+            plt.AvT(ceil(cck/size(inputStr.varst.PM,2)),rem(cck,size(inputStr.varst.PM,2))) = propkeepers(cck).MeanAvTheta;
+            plt.pltpm(ceil(cck/size(inputStr.varst.PM,2)),rem(cck,size(inputStr.varst.PM,2))) = propkeepers(cck).pm;
+            plt.pltL(ceil(cck/size(inputStr.varst.PM,2)),rem(cck,size(inputStr.varst.PM,2))) = propkeepers(cck).L;
         end
     end
 
+    plt.sq = (plt.pltpm.^2 + plt.pltL.^2).^0.5;
+
     figure(figno); clf; 
-    subplot(2,2,1)
-    imagesc (inputStr.varst.PM,inputStr.varst.Lengths, plt1);
+    subplot(4,4,1)
+    imagesc (inputStr.varst.PM,inputStr.varst.Lengths, flipud(plt.AvY'));
     xlabel 'PM'; ylabel 'Lengths'; title 'Mean Av Y'; colorbar
 
-    subplot(2,2,2)
-    imagesc (inputStr.varst.PM,inputStr.varst.Lengths, plt2);
-    xlabel 'PM'; ylabel 'Lengths'; title 'Mean Av Z'; colorbar
+    ax = gca; trial = linspace(ax.YLim(1),ax.YLim(2),length(inputStr.varst.Lengths)+1);
+    trial = trial - (trial(2)-trial(1))/2;    trial(1) = [];
+    yticks(trial);    yticklabels((fliplr(inputStr.varst.Lengths)));
 
-    subplot(2,2,3)
-    imagesc (inputStr.varst.PM,inputStr.varst.Lengths, plt3);
+    trial = linspace(ax.XLim(1),ax.XLim(2),length(inputStr.varst.PM)+1);
+    trial = trial - (trial(2)-trial(1))/2;    trial(1) = [];
+    xticks(trial);    xticklabels(((inputStr.varst.PM)));
+
+    subplot(4,4,2)
+    imagesc (inputStr.varst.PM,inputStr.varst.Lengths, flipud(plt.AvZ'));
+    xlabel 'PM'; ylabel 'Lengths'; title 'Mean Av Z'; colorbar
+    xticks(trial);    xticklabels(((inputStr.varst.PM)));
+    yticks(trial);    yticklabels((fliplr(inputStr.varst.Lengths)));
+
+    subplot(4,4,3)
+    imagesc (inputStr.varst.PM,inputStr.varst.Lengths, flipud(plt.AvT'));
     xlabel 'PM'; ylabel 'Lengths'; title 'Mean Av Theta'; colorbar
+    xticks(trial);    xticklabels(((inputStr.varst.PM)));
+    yticks(trial);    yticklabels((fliplr(inputStr.varst.Lengths)));
+    
+    subplot(4,4,4)
+    imagesc (inputStr.varst.PM,inputStr.varst.Lengths, flipud(plt.sq'));
+    xlabel 'PM'; ylabel 'Lengths'; title 'polarity checking (pm^2 + L^2)^0^.^5'; colorbar
+    xticks(trial);    xticklabels(((inputStr.varst.PM)));
+    yticks(trial);    yticklabels((fliplr(inputStr.varst.Lengths)));
 
 end
 
