@@ -38,12 +38,21 @@ KRVno = 1;
 
 figure(figno); clf;
     for jj = 1:length(ist.varst.RES)
-        subplot(nox,noy,jj); imagesc(ist.varst.PM, ist.varst.Lengths, squeeze(plotter(KRVno,:,jj,:)));
-        xlabel 'PM size [cm]'; ylabel 'Lengths'; title (['Start field = ', num2str(ist.varst.RES(jj)),'T'])
+        subplot(nox,noy,jj); imagesc(ist.varst.PM.*100, ist.varst.Lengths.*100, flipud(squeeze(plotter(KRVno,:,jj,:))'));
+        xlabel 'PM size [cm]'; ylabel 'Lengths [cm]'; title (['Start field = ', num2str(ist.varst.RES(jj)),'T'])
         caxis([min(plotter,[],'all'),max(plotter,[],'all')]); colorbar
         
+        ax = gca; trial = linspace(ax.YLim(1),ax.YLim(2),length(ist.varst.Lengths)+1);
+        trial = trial - (trial(2)-trial(1))/2;    trial(1) = [];
+        yticks(trial);    yticklabels((fliplr(ist.varst.Lengths)));
+        
+        trial = linspace(ax.XLim(1),ax.XLim(2),length(ist.varst.PM)+1);
+        trial = trial - (trial(2)-trial(1))/2;    trial(1) = [];
+        xticks(trial);    xticklabels(((ist.varst.PM)));
+        
+        
         if jj == ceil(noy/2)
-            title (compose("Data for " + str + "\nKRV  = [" + num2str(ist.varst.KRV) + "], Con = " + num2str(ist.varst.CON) + "\n" + ist.comments + "\n \n Start field = " + num2str(ist.varst.RES(jj)) + "T"))
+            title (compose("Data for " + str + "\nKRV  = [" + num2str(ist.varst.KRV) + "], Con = " + num2str(ist.varst.CON) + "\n" + ist.comments + "\n \n Start field = " + num2str(ist.varst.RES(jj)) + "[T]"))
         end 
     end
 end

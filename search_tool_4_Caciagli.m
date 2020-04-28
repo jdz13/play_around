@@ -10,12 +10,12 @@ clear SWres SH0 swinit SWnext count count2 NVC DNVC FWHMX MLOC SWnextpos
 
 D_prac = 10e-2; N_probe = 10001; M = 1e6;
 
-[MxB, probe_line] = MxBProbeMulti(M,pm_cl, pm_cl,D_prac,N_probe);
+[MxB, probe_line] = MxBProbeMulti(M,pm_cl, Lengths,D_prac,N_probe);
 
 ntestmax = 100;
 
-SWres = zeros(size(KRV,2),ntestmax,length(pm_cl),length(RES)); SHo = SWres;
-FWHMres = SWres; ind1res = SWres; ind2res = SWres; Bset = SWres;
+SWres = zeros(size(KRV,2),ntestmax,length(pm_cl),length(RES),length(Lengths)); 
+SHo = SWres; FWHMres = SWres; ind1res = SWres; ind2res = SWres; Bset = SWres; MLOCa = SWres;
 
 [particle_loc1] = plane_mask(Yin,Zin,s_rad);
 particle_loc = [particle_loc1, fliplr(particle_loc1(:, 1:(size(particle_loc1,2)-1)))];
@@ -101,9 +101,9 @@ for Lcount = 1:length(Lengths)
                     FWHMres(count2,count,pmcount,rescount,Lcount) = FWHMX(1); % if +1 not needed then can use FWHMres(:,1,:,:) = [];
                     ind1res(count2,count,pmcount,rescount,Lcount)= indout(1);
                     ind2res(count2,count,pmcount,rescount,Lcount) = indout(2);
-                    Bset(count2,count,pmcount,rescount,Lcount) = MxB(pmcount,pzcut,pmcount);
+                    Bset(count2,count,pmcount,rescount,Lcount) = MxB(pmcount,pzcut,Lcount);
                     SHo(count2,count,pmcount,rescount,Lcount) = SH0;
-                    
+                    MLOCa(count2,count,pmcount,rescount,Lcount) = MLOC(1);
                     % manipulate the results to run the next leg
 
                     tmps(1) = swinit; 
@@ -148,7 +148,7 @@ SaveVar.MxB = MxB;
 SaveVar.probe_line = probe_line;
 SaveVar.varst = varst;
 SaveVar.NVC = NVC;
-SaveVar.MLOC = MLOC;
+SaveVar.MLOC = MLOCa;
 SaveVar.swinit = swinit;
 
 end 
