@@ -3,9 +3,11 @@ function [] = saved_var_plotter_V3_comparison (ist,figno,MxB)
 % should only now need that input and what figure you would like and it
 % will sort the rest. 
 
-thrsh = MxB(3,size(MxB,2)); %Why is this a 3? I should change this. 
+%thrsh = MxB(3,size(MxB,2)); %Why is this a 3? I should change this. 
 % If we want the smallest value from any magnet, we could use min(MxB(MxB > 0),[],'all') 
 % Else if we would like the smallest field from the biggest magnet , we could use max(MxB(:,size(MxB,2),:),[],'all')
+
+thrsh = max(MxB(:,size(MxB,2),:),[],'all');
 
 plotter = zeros(length(ist.varst.KRV), length(ist.varst.PM)-1, length(ist.varst.RES));
 str = inputname(1);
@@ -18,12 +20,18 @@ for i = 1:length(ist.varst.KRV)
     end 
 end
 
-nox = 2;
-if rem(length(ist.varst.RES),2) ==1
-    noy = length(ist.varst.RES)+1/2;
-else 
-    noy = length(ist.varst.RES)/2;
-end
+
+if length(ist.varst.RES) == 1
+    nox = 1;
+    noy = 1;
+else
+    nox = 2;
+    if rem(length(ist.varst.RES),2) ==1
+        noy = length(ist.varst.RES)+1/2;
+    else 
+        noy = length(ist.varst.RES)/2;
+    end
+end 
 
 figure(figno); clf;
     for jj = 1:length(ist.varst.RES)
@@ -35,7 +43,7 @@ figure(figno); clf;
         yticks(trial);    yticklabels((fliplr(ist.varst.KRV)));
         
         if jj == ceil(noy/2)
-            title (compose("Data for " + str + "\nKRV  = [" + num2str(ist.varst.KRV) + "], PM sizes = [" + num2str(ist.varst.PM(1:3)) + "], Con = " + num2str(ist.varst.CON) + "\n" + ist.comments + "\n \n Start field = " + num2str(ist.varst.RES(jj)) + "T"))
+            title (compose("Data for " + str + "\nKRV  = [" + num2str(ist.varst.KRV) + "], PM sizes = [" + num2str(ist.varst.PM) + "], Con = " + num2str(ist.varst.CON) + "\n" + ist.comments + "\n \n Start field = " + num2str(ist.varst.RES(jj)) + "T"))
         end 
     end
 end

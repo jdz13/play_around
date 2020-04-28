@@ -103,7 +103,7 @@ end
      bb = 10^mean(log10(abs(xlim)))*(mean(xlim)/abs(mean(xlim)));
      cc = 10^mean(log10(abs(ylim)))*(mean(ylim)/abs(mean(ylim)));
      text (bb, cc,compose("\n\n\nMagnet OD = " + ... 
-         num2str(OD*100) + "[cm] \nMagnet length = " + num2str(L*100) + "[cm]"))
+         num2str(OD*200) + "[cm] \nMagnet length = " + num2str(L*200) + "[cm]"))
 
      subplot(2,2,4)
      loglog (probe_line(2:end), floater2)
