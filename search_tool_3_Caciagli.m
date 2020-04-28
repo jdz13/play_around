@@ -10,7 +10,7 @@ clear SWres SH0 swinit SWnext count count2 NVC DNVC FWHMX MLOC SWnextpos
 
 D_prac = 10e-2; N_probe = 10001; M = 1e6;
 
-[MxB, probe_line] = MxBProbeMulti(M,pm_cl, pm_cl,D_prac,N_probe);
+[MxB, probe_line] = MxBProbeMulti(M,pm_cl, Lengths,D_prac,N_probe);
 
 ntestmax = 100;
 
@@ -61,7 +61,7 @@ for Lcount = 1:length(Lengths)
                     % Look for information about this initial condition
 
                     [Xunitx,Yunitx] = Bandit_Cac_UVs_V2(probe_line(pmcount,pzcut),...
-                    Yin,Zin,pm_cl(pmcount)./2,pm_cl(pmcount)./2,1e6);
+                    Yin,Zin,PM/2,L/2,1e6);
 
 
                         for pull = 1:length(theta) 
@@ -92,7 +92,7 @@ for Lcount = 1:length(Lengths)
                     FWHMres(count2,count,pmcount,rescount,Lcount) = FWHMX(1); % if +1 not needed then can use FWHMres(:,1,:,:) = [];
                     ind1res(count2,count,pmcount,rescount,Lcount)= indout(1);
                     ind2res(count2,count,pmcount,rescount,Lcount) = indout(2);
-                    Bset(count2,count,pmcount,rescount,Lcount) = MxB(pmcount,pzcut,pmcount);
+                    Bset(count2,count,pmcount,rescount,Lcount) = MxB(pmcount,pzcut,Lcount);
                     SHo(count2,count,pmcount,rescount,Lcount) = SH0;
                     
                     % manipulate the results to run the next leg
