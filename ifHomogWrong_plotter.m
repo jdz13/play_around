@@ -3,7 +3,7 @@ function [] = ifHomogWrong_plotter(inputStr,figno)
 %   Detailed explanation goes here
 
  inputStr.plt.AvY = zeros(size(inputStr.varst.PM,2), size(inputStr.varst.Lengths,2));
-    inputStr.plt.AvZ = inputStr.plt.AvY; inputStr.plt.AvT = plt.AvY; inputStr.plt.pltpm = plt.AvY; inputStr.plt.pltL = plt.AvY;
+    inputStr.plt.AvZ = inputStr.plt.AvY; inputStr.plt.AvT = inputStr.plt.AvY; inputStr.plt.pltpm = inputStr.plt.AvY; inputStr.plt.pltL = inputStr.plt.AvY;
 
     for cck = 1:size(inputStr.varst.PM,2)*size(inputStr.varst.Lengths,2)
 
