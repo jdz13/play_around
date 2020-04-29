@@ -8,9 +8,9 @@ clear SWres SH0 swinit SWnext count count2 NVC DNVC FWHMX MLOC SWnextpos
 
 % We need to have defined the maxima's for each part
 
-D_prac = 10e-2; N_probe = 10001; M = 1e6;
+D_prac = 10e-2; N_probe = 10001; M = 1e6; IB = 6e-3;
 
-[MxB, probe_line] = MxBProbeMulti(M,pm_cl, Lengths,D_prac,N_probe);
+[MxB, probe_line] = MxBProbeMulti_V2(M,pm_cl, Lengths,D_prac,N_probe, IB);
 
 ntestmax = 100;
 
