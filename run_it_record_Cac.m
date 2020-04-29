@@ -376,8 +376,7 @@ Lengths = linspace(2,4.2,12).*1e-2;
 
 %Save outputs
 [SaveVar10p6] = search_tool_4_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar10p6.timer = toc;% SaveVar10p6.comments = "After de-bug, compare with 10p4. Issue in MxBProbeMulti";
-
+SaveVar10p6.timer = toc; SaveVar10p6.comments = "Proper code running, with larger information space. Last stop before toroidal integration";
 
 
 %% Run it. Script for controlling entry variables into the new Caciagli code, ready for analysis.
@@ -405,6 +404,9 @@ Lengths = linspace(2,4.2,12).*1e-2;
 [SaveVar11p1] = search_tool_5_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
 SaveVar11p1.timer = toc; SaveVar11p1.comments = "Using the new search code, which implements toroids. Will look to run coherent story off back of this";
 
-[SaveVar11p1.propkeepers,SaveVar11p1.plt] = homog_L_PM_plott(SaveVar11p1,2);
+
+[SaveVar11p1.propkeepers,SaveVar11p1.plt] = homog_L_PM_plott_toroid(SaveVar11p1,2);
+
+saved_var_plotter_V4_comparison (SaveVar11p1,21,SaveVar11p1.MxB);
 
 

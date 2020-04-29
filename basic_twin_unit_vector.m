@@ -13,8 +13,6 @@ mu0 = 4*pi*1e-7;
 
 l = 1e-2; R = 1e-2; M = 1e6;
 
-R = 3e-3;
-
 Bpolar = zeros(size(X,1),size(X,2),3,3); Bcartpri = Bpolar; BAkoun = Bpolar;
 Coord_polar = Bpolar; Kvis = Bpolar; Bcart = Bpolar;
 
