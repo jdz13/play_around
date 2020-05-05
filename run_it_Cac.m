@@ -23,8 +23,8 @@ Zin = Yin(1:26); % Probe plane points in Z
 Lengths = linspace(2,4.2,12).*1e-2;
 
 %Save outputs
-[SaveVar12p1] = search_tool_6_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar12p1.timer = toc; SaveVar12p1.comments = "Using the new search code, which implements toroids. Will look to run coherent story off back of this";
+[SaveVar12p1] = search_tool_6_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, 5);
+SaveVar12p1.timer = toc; SaveVar12p1.comments = "Same as SV11p1 though this time incorporating the sigmoidal switching dependence";
 
 %[SaveVar12p1.propkeepers,SaveVar12p1.plt] = homog_L_PM_plott_toroid(SaveVar12p1,2);
 
