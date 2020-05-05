@@ -22,7 +22,7 @@ particle_loc = [particle_loc1, fliplr(particle_loc1(:, 1:(size(particle_loc1,2)-
 control = sum(sum(particle_loc));
 
 for gg = 1:length(RES)
-    SWres(:,1,:,gg) = RES(gg);
+    SWres(:,1,:,gg,:) = RES(gg);
 end
 
 for Lcount = 1:length(Lengths)

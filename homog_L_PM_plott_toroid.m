@@ -1,7 +1,7 @@
 function [propkeepers,plt] = homog_L_PM_plott_toroid(inputStr,figno)
 %UNTITLED8 Summary of this function goes here
 %   Detailed explanation goes here
-
+%%
     M = 1e6; IB = 6e-3;
     cnt.StartB = 1; cnt.StChan = 1; cnt.KRV = 1;
 
@@ -31,6 +31,8 @@ function [propkeepers,plt] = homog_L_PM_plott_toroid(inputStr,figno)
 
 
                 pind = (inputStr.ind1res(cnt.KRV, cnt.StChan, cnt.pm, cnt.StartB, cnt.L):inputStr.ind2res(cnt.KRV, cnt.StChan, cnt.pm, cnt.StartB, cnt.L));
+                
+                clear new
 
             for pull = 1:length(pind)
 
