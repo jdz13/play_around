@@ -23,9 +23,9 @@ Zin = Yin(1:26); % Probe plane points in Z
 Lengths = linspace(2,4.2,12).*1e-2;
 
 %Save outputs
-[SaveVar11p1] = search_tool_5_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar11p1.timer = toc; SaveVar11p1.comments = "Using the new search code, which implements toroids. Will look to run coherent story off back of this";
+[SaveVar12p1] = search_tool_6_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar12p1.timer = toc; SaveVar12p1.comments = "Using the new search code, which implements toroids. Will look to run coherent story off back of this";
 
-[SaveVar11p1.propkeepers,SaveVar11p1.plt] = homog_L_PM_plott_toroid(SaveVar11p1,2);
+%[SaveVar12p1.propkeepers,SaveVar12p1.plt] = homog_L_PM_plott_toroid(SaveVar12p1,2);
 
-saved_var_plotter_V4_comparison (SaveVar11p1,21,SaveVar11p1.MxB);
+saved_var_plotter_V4_comparison (SaveVar12p1,22,SaveVar12p1.MxB);
