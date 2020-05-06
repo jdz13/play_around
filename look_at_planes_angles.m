@@ -1,48 +1,46 @@
- M = 1e6; IB = 6e-3;
-    cnt.StartB = 1; cnt.StChan = 1; cnt.KRV = 1;
+ ICS.M = 1e6; ICS.IB = 6e-3;
+ ICS.StartB = 1; ICS.StChan = 1; ICS.KRV = 1;
+ ICS.crook = 1; ICS.pm = 1; ICS.L = 1;
+ inputStr = SaveVar12p1;
 
-    [particle_loc] = plane_mask(inputStr.varst.Yin,inputStr.varst.Zin,inputStr.varst.s_rad);
-    control = sum(sum(particle_loc));
-    
-    crook = 1;
-    
- pm = 1;
- L = 1;
+ 
+            ICS.L = ICS.L;
+            ICS.pm = ICS.pm;
+            
+            [ICS.particle_loc] = plane_mask(inputStr.varst.Yin,inputStr.varst.Zin,inputStr.varst.s_rad);
+            ICS.control = sum(sum(ICS.particle_loc));
 
-            cnt.L = L;
-            cnt.pm = pm;
+            ICS.SH0 = inputStr.SH0(ICS.KRV, ICS.StChan, ICS.pm, ICS.StartB, ICS.L);
+            ICS.swinit = inputStr.SWres(ICS.KRV, ICS.StChan, ICS.pm, ICS.StartB, ICS.L);
 
-            SH0 = inputStr.SH0(cnt.KRV, cnt.StChan, cnt.pm, cnt.StartB, cnt.L);
-            swinit = inputStr.SWres(cnt.KRV, cnt.StChan, cnt.pm, cnt.StartB, cnt.L);
+                ICS.pzcut =  find(inputStr.MxB(ICS.pm,:,ICS.L) >= ICS.SH0, 1, 'last');
 
-                pzcut =  find(inputStr.MxB(cnt.pm,:,cnt.L) >= SH0, 1, 'last');
-
-                [XunitX,YunitX] = Bandit_Cac_UVs(inputStr.probe_line(cnt.pm,pzcut),...
-                                    inputStr.varst.Yin,inputStr.varst.Zin,inputStr.varst.Lengths(cnt.L)./2,inputStr.varst.PM(cnt.pm)./2,M);
+                [Field.XunitX,Field.YunitX] = Bandit_Cac_UVs(inputStr.probe_line(ICS.pm,ICS.pzcut),...
+                                    inputStr.varst.Yin,inputStr.varst.Zin,inputStr.varst.Lengths(ICS.L)./2,inputStr.varst.PM(ICS.pm)./2,ICS.M);
                                 
-                [IBx, IBy] = Bandit_Cac_UVs(inputStr.probe_line(cnt.pm,pzcut),...
-                                    inputStr.varst.Yin,inputStr.varst.Zin,inputStr.varst.Lengths(cnt.L)./2,IB./2,M);
+                [Field.IBx, Field.IBy] = Bandit_Cac_UVs(inputStr.probe_line(ICS.pm,ICS.pzcut),...
+                                    inputStr.varst.Yin,inputStr.varst.Zin,inputStr.varst.Lengths(ICS.L)./2,ICS.IB./2,ICS.M);
                     
-                Xunitx = XunitX - IBx; Yunitx = YunitX - IBy;
+                Field.Xunitx = Field.XunitX - Field.IBx; Field.Yunitx = Field.YunitX - Field.IBy;
 
 
-                pind = (inputStr.ind1res(cnt.KRV, cnt.StChan, cnt.pm, cnt.StartB, cnt.L):inputStr.ind2res(cnt.KRV, cnt.StChan, cnt.pm, cnt.StartB, cnt.L));
+                ICS.pind = (inputStr.ind1res(ICS.KRV, ICS.StChan, ICS.pm, ICS.StartB, ICS.L):inputStr.ind2res(ICS.KRV, ICS.StChan, ICS.pm, ICS.StartB, ICS.L));
                 
                 clear new keepers
 
-            for pull = 1:length(pind)
+            for pull = 1:length(ICS.pind)
 
-                       new.Bxnew = (Xunitx.*cos(inputStr.varst.theta(pind(pull))) + Yunitx.*sin(inputStr.varst.theta(pind(pull))))'; 
+                       new.Bxnew = (Field.Xunitx.*cos(inputStr.varst.theta(ICS.pind(pull))) + Field.Yunitx.*sin(inputStr.varst.theta(ICS.pind(pull))))'; 
 
                        %Find out how much of this areas is above or below the threshold
-                       new.BZM = (new.Bxnew >= swinit) - (new.Bxnew <= -swinit);
+                       new.BZM = (new.Bxnew >= ICS.swinit) - (new.Bxnew <= -ICS.swinit);
                        % Correlate with where the particles actually are in the world
 
-                       new.CM = new.BZM .* particle_loc';
+                       new.CM = new.BZM .* ICS.particle_loc';
                        % Find a qualitative number for how much is 'on'
                        new.vc = sum(sum(new.CM));
                        % Compare this to how many are in the sample space 
-                       new.NVC(1,pull) = new.vc./control;
+                       new.NVC(1,pull) = new.vc./ICS.control;
 
                        keepers.Bx(:,:,pull) = new.Bxnew;
                        keepers.BZM(:,:,pull) = new.BZM;
@@ -61,18 +59,18 @@
                 keepers.AvTheta(count) = mean(keepers.gradTheta(:,:,count),'all');
             end
 
-            pltx = rad2deg(inputStr.varst.theta(pind));
+            ICS.pltx = rad2deg(inputStr.varst.theta(ICS.pind));
 
-            propkeepers(crook).pm = inputStr.varst.PM(cnt.pm);
-            propkeepers(crook).L = inputStr.varst.Lengths(cnt.L);
-            propkeepers(crook).AvY = keepers.AvY;
-            propkeepers(crook).AvZ = keepers.AvZ;
-            propkeepers(crook).AvTheta = keepers.AvTheta;
-            propkeepers(crook).MeanAvY = mean(keepers.AvY);
-            propkeepers(crook).MeanAvZ = mean(keepers.AvZ);
-            propkeepers(crook).MeanAvTheta = mean(keepers.AvTheta);
-            propkeepers(crook).pltx = pltx;
+            propkeepers(ICS.crook).pm = inputStr.varst.PM(ICS.pm);
+            propkeepers(ICS.crook).L = inputStr.varst.Lengths(ICS.L);
+            propkeepers(ICS.crook).AvY = keepers.AvY;
+            propkeepers(ICS.crook).AvZ = keepers.AvZ;
+            propkeepers(ICS.crook).AvTheta = keepers.AvTheta;
+            propkeepers(ICS.crook).MeanAvY = mean(keepers.AvY);
+            propkeepers(ICS.crook).MeanAvZ = mean(keepers.AvZ);
+            propkeepers(ICS.crook).MeanAvTheta = mean(keepers.AvTheta);
+            propkeepers(ICS.crook).pltx = ICS.pltx;
             
-            crook = crook + 1;
 
-            
+
+            clear count crook pull

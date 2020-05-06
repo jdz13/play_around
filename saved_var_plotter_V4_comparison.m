@@ -3,7 +3,7 @@ function [] = saved_var_plotter_V4_comparison (ist,figno,MxB)
 % should only now need that input and what figure you would like and it
 % will sort the rest. 
 
-thrsh = MxB(3,size(MxB,2)); %Why is this a 3? I should change this. 
+thrsh = min(MxB(MxB > 0),[],'all'); %MxB(3,size(MxB,2)); %Why is this a 3? I should change this. 
 % If we want the smallest value from any magnet, we could use min(MxB(MxB > 0),[],'all') 
 % Else if we would like the smallest field from the biggest magnet , we could use max(MxB(:,size(MxB,2),:),[],'all')
 
@@ -14,7 +14,7 @@ for i = 1:length(ist.varst.KRV)
     for j = 1:length(ist.varst.PM)
         for k = 1:length(ist.varst.RES)
             for l = 1:length(ist.varst.Lengths)
-                plotter(i,j,k,l) = nnz(ist.SWres(i,:,j, k, l)>thrsh);
+                plotter(i,j,k,l) = nnz(ist.SWres(i,:,j, k, l));%>thrsh);
             end 
         end 
     end 
