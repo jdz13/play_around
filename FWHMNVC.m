@@ -7,9 +7,9 @@ function [HWHMX,MLOC,indout] = FWHMNVC(input,theta,con)
     temp.indthet1 = [0,0]; % Initialise the variable
       %----------------------------------------------------------------------
     % find the first incidence of non maximum
-        temp.indthet1(1) = find(temp.testline ~= temp.N1 ,1,'first'); 
+        temp.indthet1(1) = find(temp.testline <= 0.99 ,1,'first'); 
         % find last after final peak (simpler)
-        temp.indthet1(2) =  find(temp.testline <= 0 ,1,'first');
+        temp.indthet1(2) =  find(temp.testline <= 1e-2 ,1,'first');
     %------------------------------------------------------    
    
     if temp.indthet1(1) == 1 && temp.indthet1(2) == size(input,2)
