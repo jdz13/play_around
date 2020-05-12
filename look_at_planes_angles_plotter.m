@@ -1,7 +1,7 @@
 ICS.CLIT_TICKLER = find (keepers.NVC >= 0.5, 1, 'last');
 ICS.kweef = find(inputStr.MxB(ICS.pm,:,ICS.L) == inputStr.Bset(1,1,ICS.pm,1,ICS.L));
 
-h = figure(103); clf; subplot(2,2,1); set(h,'WindowStyle','docked')
+h = figure(105); clf; subplot(2,2,1); set(h,'WindowStyle','docked')
 plot(rad2deg(inputStr.varst.theta(ICS.pind)), keepers.NVC)
 xlabel 'Angle [degrees]'; ylabel 'NVC'; title 'Normalsed area in ''On''/''Off'' state'
 hold on; plot(rad2deg(inputStr.varst.theta(ICS.pind(ICS.CLIT_TICKLER))), keepers.NVC(ICS.CLIT_TICKLER), 'ko','MarkerSize',10) 
@@ -23,7 +23,7 @@ xlabel 'Y [mm]'; ylabel 'Z [mm]'; title 'Field profile at sample [T]'
 
 
 
-l = figure(104); clf; set(l,'WindowStyle','docked'); subplot(2,2,1);
+l = figure(106); clf; set(l,'WindowStyle','docked'); subplot(2,2,1);
 imagesc(inputStr.varst.Yin*1000, inputStr.varst.Zin*1000, keepers.Bx(:,:,ICS.CLIT_TICKLER))
 xlabel 'Y [mm]'; ylabel 'Z [mm]'; title 'B_x [T]'; colorbar
 
