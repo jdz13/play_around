@@ -14,7 +14,7 @@ for i = 1:length(ist.varst.KRV)
     for j = 1:length(ist.varst.PM)
         for k = 1:length(ist.varst.RES)
             for l = 1:length(ist.varst.Lengths)
-                plotter(i,j,k,l) = nnz(ist.SWres(i,:,j, k, l));%>thrsh);
+                plotter(i,j,k,l) = nnz(ist.SWres(i,:,j, k, l)>thrsh);
             end 
         end 
     end 
