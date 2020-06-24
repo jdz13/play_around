@@ -20,26 +20,30 @@ ICS.fign = 111;
 h = figure(ICS.fign); clf; 
 plt = inputStr0.SWres(ICS.KRVn, :, ICS.PMn, ICS.StartB, ICS.Ln);
 plt(plt==0) = [];
-semilogy(plt,'--x'); hold on
+plot(plt*1e4,'--x'); hold on
 plt = inputStr2p5.SWres(ICS.KRVn, :, ICS.PMn, ICS.StartB, ICS.Ln);
 plt(plt==0) = [];
-semilogy(plt,'--x');
+plot(plt*1e4,'--x');
 plt = inputStr5.SWres(ICS.KRVn, :, ICS.PMn, ICS.StartB, ICS.Ln);
 plt(plt==0) = [];
-semilogy(plt,'--x');
+plot(plt*1e4,'--x');
 plt = inputStr10.SWres(ICS.KRVn, :, ICS.PMn, ICS.StartB, ICS.Ln);
 plt(plt==0) = [];
-semilogy(plt,'--x');
+plot(plt*1e4,'--x');
 plt = inputStr20.SWres(ICS.KRVn, :, ICS.PMn, ICS.StartB, ICS.Ln);
 plt(plt==0) = [];
-semilogy(plt,'--x');
+plot(plt*1e4,'--x');
 plt = inputStrBin.SWres(ICS.KRVn, :, ICS.PMn, ICS.StartB, ICS.Ln);
 plt(plt==0) = [];
-plot(plt,'--o');
+plot(plt*1e4,'--o');
 
-xlabel 'Channel number';
-ylabel 'Field corresponding to optimal channel [T]'
+xlabel 'Number of available channels';
+ylabel 'Field corresponding to optimal channel [kOe]'
 legend ('Sigmoidal - 0%', 'Sigmoidal - 2.5%', 'Sigmoidal - 5%', 'Sigmoidal - 10%', 'Sigmoidal - 20%', 'Binary logic - old code')
 title 'Showing how sigmoidal breadth affects figure of merit'
 
-clear PMn Ln inputStrBin inputStr0 inputStr5 inputStr10 inputStr20 fign h ICS plt 
+clear PMn Ln inputStrBin inputStr0 inputStr5 inputStr10 inputStr20 inputStr2p5 fign h ICS plt 
+
+
+ylabel 'Field corresponding to optimal channel [Oe]'
+ylim ([0,300])

@@ -23,7 +23,7 @@ ax = gca; trial = linspace(ax.YLim(1),ax.YLim(2),length(ist1.varst.Lengths)+1);
 trial = trial - (trial(2)-trial(1))/2;    trial(1) = [];
 yticks(trial);    yticklabels((fliplr(ist1.varst.Lengths)*100));
 
-trial = linspace(ax.XLim(1),ax.XLim(2),length(ist1.varst.PM)+1);
+trial = linspace(ax.XLim(1),ax.XLlength(ist1.varst.PM)+1);
 trial = trial - (trial(2)-trial(1))/2;    trial(1) = [];
 xticks(trial);    xticklabels(((ist1.varst.PM)*100));
 xlabel 'PM size [cm]'; ylabel 'Lengths [cm]'; colorbar;

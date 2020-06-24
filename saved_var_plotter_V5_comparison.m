@@ -1,4 +1,4 @@
-function [] = saved_var_plotter_V5_comparison (ist,figno,MxB)
+function [plotter] = saved_var_plotter_V5_comparison (ist,figno,MxB)
 % ist is the input structure, designed from the new function
 % should only now need that input and what figure you would like and it
 % will sort the rest. 
@@ -36,9 +36,9 @@ end
 
 KRVno = 1;
 
-figure(figno); clf;
+% figure(figno); clf;
     for jj = 1:length(ist.varst.RES)
-        subplot(nox,noy,jj); 
+%         subplot(nox,noy,jj); 
         imagesc(ist.varst.PM.*100, ist.varst.Lengths.*100, flipud(squeeze(plotter(KRVno,:,jj,:))'));
         xlabel 'PM size [cm]'; ylabel 'Lengths [cm]'; title (['Start field = ', num2str(ist.varst.RES(jj)),'T'])
         caxis([min(plotter,[],'all'),max(plotter,[],'all')]); colorbar
