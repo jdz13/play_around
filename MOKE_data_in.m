@@ -108,9 +108,9 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
     xlabel 'Field [Oe]'
     ylabel 'Normalised Kerr rotation'
     legendCell(1:2:(2*length(Tpt) - 1)) = cellstr(num2str(Tpt', 'T_P_t = %-g [s] '));
-    legendCell(2:2:(2*length(Tpt))) = cellstr(num2str(Tpt', 'fitted curve for T_P_t = %-g [s] '));
+    legendCell(2:2:(2*length(Tpt))) = cellstr(num2str(Tpt', 'fit, T_P_t = %-g [s] '));
     legend (legendCell, 'Location', 'Southeast')
-
+    thesis_fig_color_sorter(figno, Tpt, 'double')
     
     % convert platinum thickness from seconds to thickness 
     Ptcal = 0.053; % nm/s
@@ -120,7 +120,7 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
     Data_str.Pt_nm = Pt_nm;  
     
     % Look at plotting/extracting information from our curves
-    figure(figno + 1);
+    figure(figno + 1); clf
     
     % prepare the data for fitting the polynomial curve
     [xData, yData] = prepareCurveData(Pt_nm, Data_str.c );
@@ -132,11 +132,12 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
 
     % Fit model to data.
     [fitresult, gof] = fit( xData, yData, ft );
-    subplot(1,2,2); plot( fitresult, '-', xData, yData, 'x--' );
+    subplot(1,2,2); plot( fitresult, 'r-', xData, yData, 'rx--' );
     title 'Comparing c values'; xlabel 'Platinum thickness T_P_t [nm]'; ylabel 'c [Oe]'
     hold on
     fstring = evalc('fitresult');
     fstring(1:13) = [];
+    thesis_fig_color_sorter(figno+1, 3:4, 'single')
     
     yL=get(gca,'YLim'); 
     xL=get(gca,'XLim'); 
@@ -166,6 +167,7 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
     xlabel ' Field [Oe]' 
     legendCell = cellstr(num2str(Tpt', 'T_P_t = %-g [s] '));
     legend (legendCell, 'Location', 'Southeast')
+    thesis_fig_color_sorter(figno+2, Tpt, 'single')
     
     Data_str.dfdat = dfdat;
     

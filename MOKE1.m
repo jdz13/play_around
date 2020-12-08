@@ -20,7 +20,7 @@ SP8315 = readmatrix(fileID);
 fileID =('C:\Users\JDZ\Documents\MOKE\DEC 2019\Ge Particles\SP8316_10s_repro.txt');
 SP8316 = readmatrix(fileID); 
 
-clear fileID
+clear fileID plotr
 
 ind = [300, 820];
 

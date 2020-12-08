@@ -23,7 +23,7 @@
 %% Exponential fit plus independent DC shift
 
         % Set up fittype and options. Define the eq. for a sigmoid here.
-        ft = fittype( 'a*exp(x./-b)-400', 'independent', 'x', 'dependent', 'y' );
+        ft = fittype( 'a*exp(x./-b)-350', 'independent', 'x', 'dependent', 'y' );
         opts = fitoptions( 'Method', 'NonlinearLeastSquares' );
         opts.Display = 'Off';
         opts.StartPoint = [1e4 1/6];  

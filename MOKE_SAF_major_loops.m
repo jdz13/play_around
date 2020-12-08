@@ -12,7 +12,7 @@ function [ ] = MOKE_SAF_major_loops(figno,Tpt)
     tic
 
 % convert platinum thickness from seconds to thickness 
-Ptcal = 0.053; % nm/s
+Ptcal = 0.0703; % nm/s
 Pt_nm = Tpt * Ptcal;
 
 % how much you need the signal to change to define a new section. Will try
@@ -58,6 +58,8 @@ for p = 1:length(zz)-2 % 3 as first two are always directories.
         a(round(0.5*size(data1,1))), (1+pc)*a(j(3)); (1-pc)*a(j(3)), (1-pc)*a(j(end)); (1+pc)*a(j(end)), a(size(data1,1))];
 
     t = 1;
+    
+    P_ind = zeros(size(P_val,1),size(P_val,2));
 
     for pp = 1:size(P_val,1)
         for gg = 1:size(P_val,2)
@@ -65,11 +67,11 @@ for p = 1:length(zz)-2 % 3 as first two are always directories.
             pol = (P_val(pp,2) - P_val(pp,1))/abs((P_val(pp,2) - P_val(pp,1)));
 
             if pol == -1
-                Pr = find(data1(t:end,1) < P_val(pp,gg),1,'first');
-                P_ind(pp,gg) = t + Pr;
+                Pr = find(a(t:end) <= P_val(pp,gg),1,'first');
+                P_ind(pp,gg) = t + Pr - 1;
             elseif pol == 1
-                Pr = find(data1(t:end,1) < P_val(pp,gg),1,'last');
-                P_ind(pp,gg) = t + Pr;
+                Pr = find(a(t:end) >= P_val(pp,gg),1,'first');
+                P_ind(pp,gg) = t + Pr - 1;
             end
 
             t = P_ind(pp,gg);
@@ -102,7 +104,7 @@ for p = 1:length(zz)-2 % 3 as first two are always directories.
         sfactor = abs(1/(diff([mean([Sec(1).average, Sec(6).average]),mean([Sec(3).average, Sec(4).average])])));
 
         % Shift the data to centre noisebases around [0,1]
-        newnormy = (newydata.*sfactor) - (sfactor.*mean([Sec(3).average, Sec(4).average]));
+        newnormy = (newydata.*sfactor) - (sfactor.*mean([Sec(3).average, Sec(4).average]))+1;
         figure(figno);
         plot(data1(:,1), newnormy,'-'); hold on;
           
