@@ -1,11 +1,10 @@
 % Chapter 5 thesis figure generators
 
-%%
-% Comparison of Mumax and Caciagli sample boundaries. 
+%% COMPARISON OF MUMAX AND CACIAGLI SAMPLE BOUNDARIES.
 
 h1 = openfig('keep1.fig','reuse'); ax1 = gca;
 h2 = openfig('keep2.fig','reuse'); ax2 = gca;
-h3 = figure; %create new figure
+h11 = figure; %create new figure
 s1 = subplot(2,1,1); %create and get handle to the subplot axes
 s2 = subplot(2,1,2);
 fig1 = get(ax1,'children'); %get handle to all the children in the figure
@@ -18,7 +17,7 @@ xlabel 'Distance (x) [m]'; ylabel 'Distance (y) [m]'
 title 'Field profile - Mumax'; colorbar; axis equal
 subplot(2,1,2)
 xlabel 'Distance (x) [m]'; ylabel 'Distance (y) [m]'
-title 'Field profile - Mumax'; colorbar; axis equal
+title 'Field profile - Caciagli'; colorbar; axis equal
 
 set(s1, 'clim', [-0.65,0.65]); set(s1,'fontsize', 11)
 set(s1, 'xlim', [-0.015,0.015]); set(s1, 'ylim', [-0.015,0.015])
@@ -31,5 +30,119 @@ close ([h1 h2])
 clear s1 s2 ax1 ax2 h1 h2 h3 fig1 fig2
 
 
-%%
+%% IDEAL PARTICLE SET IMAGE (USED IN CH IV BUT ALSO INTO CH V)
 
+x = linspace(0,6000,6001);
+y1 = zeros (size(x));y2 = zeros (size(x));y3 = zeros (size(x));y4 = zeros (size(x));y5 = zeros (size(x));
+y1(1000) = 1; y2(2000) = 1; y3(3000) = 1; y4(4000) = 1; y5(5000) = 1;
+h7 = figure;
+plot(x,y1,x,y2,x,y3,x,y4,x,y5)
+ylim([0,1.2])
+% title 'Ideal channel system'
+xlabel 'Field'
+ylabel 'Signal'
+legend ('Channel 1', 'Channel 2', 'Channel 3', 'Channel 4', 'Channel 5', 'Location','northwest','NumColumns',3)
+thesis_fig_gen(h7.Number); clear y1 y2 y3 y4 y5 x
+set(gca, 'ytick',[0,1],'yticklabel',{'low';'high'});
+set(gca, 'xtick',[1000,2000,3000,4000,5000],'xticklabel',{'H_J_1';'H_J_2';'H_J_3';'H_J_4';'H_J_5'});
+
+%% COMPARISON ON THE EFFECTS OF START FIELD ON FWHM AND CHANNEL VALUE
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV21p2.mat')
+
+trial.fwhm = squeeze(rad2deg(SaveVar21p2.FWHMres(4,:,1,:,3)))';
+trial.SWres3 = squeeze(SaveVar21p2.SWres(4,:,1,:,3))';
+
+h3 = figure;
+
+for mm = 1:size(SaveVar21p1.SWres,4)
+temp = nonzeros(trial.fwhm(mm,:));
+plot(nonzeros(trial.SWres3(mm,1:length(temp))),temp,'+:')
+hold on
+end 
+clear mm 
+
+xlabel 'Field value of channel [Oe]'
+ylabel 'FWHM [deg]'
+legend('Start field 0.4 [T]', 'Start field 0.3 [T]', ...
+    'Start field 0.2 [T]', 'Location', 'Southeast')
+title 'FWHM characteristics with respect to field'
+thesis_fig_gen(h3.Number)
+
+
+%% STATIC VS DYNAMIC MEASUREMENT 
+
+
+ise = evalin( 'base', 'exist(''tester1'',''var'') == 1' );
+isee = evalin( 'base', 'exist(''tester2'',''var'') == 1' );
+    if ise && isee 
+    else
+
+        % Set variable space
+        theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+        KRV = 5; % Key ratio values, how strict of a condition do we want 
+        RES = 0.4; % Start field values. 
+        pm_cl = 2.*1e-2; % Magnet outer diameters.
+        s_rad = 1e-3; % define the sample radius (where the particles will actually be
+        con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+        Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+        Zin = Yin(1:26); % Probe plane points in Z 
+        Lengths = 2.*1e-2; % Magnet lengths
+
+        %Save outputs
+        [tester1] = search_tool_Caciagli_single_7p2(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+        [tester2] = search_tool_Caciagli_single_7p2p1_allatonce(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+
+    end
+% get plotting
+h6  = figure; 
+s1 = subplot(2,1,1);
+for mm = 1:size(tester2.masterNVC,1)
+plot(tester2.SWres(mm).*cos((tester2.varst.theta(2:end))), smooth(diff(tester2.masterNVC(mm,:)),1000), '-')
+hold on
+end 
+clear mm 
+xlabel 'Field [T]'; ylabel (compose("Smoothed, differentiated \nnormalised area"))
+set(gca,'YTickLabel',[]); thesis_fig_gen(h6.Number)
+title 'Static measurement'
+
+s2 = subplot(2,1,2);
+for mm = 1:size(tester1.masterNVC,1)
+plot(tester1.SWres(mm).*cos((tester1.varst.theta(2:end))), smooth(diff(tester1.masterNVC(mm,:)),1000), '-')
+hold on
+end 
+clear mm 
+xlabel 'Field [T]'; ylabel (compose("Smoothed, differentiated \nnormalised area"))
+set(gca,'YTickLabel',[]); thesis_fig_gen(h6.Number)
+title 'Dynamic measurement'
+clear s1 s2 h6 theta KRV Lengths pm_cl RES s_rad con Yin Zin theta ise isee
+
+%% PLOT NVC DATA FOR SINGLE RUN (ALREADY RUN)
+
+h4  = figure; 
+
+for mm = 1:size(tester1.masterNVC,1)
+plot(tester1.SWres(mm).*cos((tester1.varst.theta)), tester1.masterNVC(mm,:), '-')
+hold on
+end 
+clear mm 
+
+xlabel 'Field [T]'
+ylabel (compose("Normalised sample area\nabove switching field"))
+thesis_fig_gen(h4.Number)
+
+%% PLOT SMOOTHED DIFFERENTIAL DATA FOR SINGLE RUN (ALREADY RUN)
+
+h5  = figure; 
+
+for mm = 1:size(tester1.masterNVC,1)
+plot(tester1.SWres(mm).*cos((tester1.varst.theta(2:end))), smooth(diff(tester1.masterNVC(mm,:)),700), '-')
+hold on
+end 
+clear mm 
+
+xlabel 'Field [T]'
+% ylabel 'Channel response'
+ylabel (compose("Smoothed, differentiated \nnormalised area"))
+set(gca,'YTickLabel',[]);
+thesis_fig_gen(h5.Number)

@@ -140,9 +140,9 @@ PCdif = (testmat - testy.Bx(:,:,num)')./testmat.*100;
 
 figure(4); 
 subplot(1,3,1); imagesc(UnitX.Mdl_dtl.purelinex,UnitX.Mdl_dtl.pureliney, testmat);
-title 'Linear combination'; xlabel 'X'; ylabel 'Y'; colorbar
+title 'Linear combination'; xlabel 'X'; ylabel 'Y'; colorbar; caxis([-0.85,0.65])
 subplot(1,3,2); imagesc(UnitX.Mdl_dtl.purelinex,UnitX.Mdl_dtl.pureliney, testy.Bx(:,:,num)');
-title 'Mumax'; xlabel 'X'; ylabel 'Y'; colorbar
+title 'Mumax'; xlabel 'X'; ylabel 'Y'; colorbar; caxis([-0.85,0.65]); polarmap
 
 subplot(1,3,3); imagesc(UnitX.Mdl_dtl.purelinex, UnitX.Mdl_dtl.pureliney, PCdif)
 title 'Plotting % difference'; xlabel 'X'; ylabel 'Y';

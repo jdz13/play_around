@@ -1,6 +1,6 @@
-% cd ('C:\Users\JDZ\Documents\MATLAB\GIT\stray-field-CMC')
+cd ('C:\Users\JDZ\Documents\MATLAB\GIT\stray-field-CMC')
 
-% [zz] = fol_data_ext_function();
+[zz] = fol_data_ext_function();
 
 no = 3;
 
