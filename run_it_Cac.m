@@ -21,5 +21,5 @@ Lengths = linspace(2,4.5,6).*1e-2; % Magnet lengths
 
 
 %Save outputs
-[SaveVar21p1] = search_tool_7p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar21p1.timer = toc; SaveVar21p1.comments = "testing again for final thesis results, simplified code (7p1) with no sigmoid. Initial tests.";
+[SaveVar21p2] = search_tool_7p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar21p2.timer = toc; SaveVar21p2.comments = "testing again for final thesis results, simplified code (7p1) with no sigmoid. Initial tests.";
