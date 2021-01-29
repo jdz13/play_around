@@ -1,5 +1,8 @@
 function [] = fourcorners (inputStr, KRV, StartB, pm, L, startfigno)
+%% code to output the profiles at extremities. 
+% Produces graphs like those found in Dot Meetings (May 07th). 
 
+%%
      ICS.StartB = StartB;
      ICS.KRV = KRV;
 

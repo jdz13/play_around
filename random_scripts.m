@@ -1,5 +1,14 @@
 %%
 
+[Xunit] = Mumax_data_extractor();
+[Yunit] = Mumax_data_extractor();
+[X23] = Mumax_data_extractor();
+[X137] = Mumax_data_extractor();
+
+Mdl_dtl = Xunit.Mdl_dtl;
+
+%%
+
 D_prac = 10e-2; N_probe = 10001; M = 1e6; pm_cl = [2,3,4]*1e-2;
 
 [MxB, SaveVar1p1.probe_line] = MxBProbeMulti(M,pm_cl, pm_cl,D_prac,N_probe);
@@ -55,7 +64,7 @@ Mdl_dtl.purelinez = linspace(-Mdl_dtl.extents(3)+Mdl_dtl.gridsize(3)/2,Mdl_dtl.e
 
 
 %%
-
+Bobj = X23;
  % looking at the main plots to compare mumax and caciagli paper data. 
 n = num; 
 
@@ -74,16 +83,16 @@ xlabel 'X'; ylabel 'Y'; title 'Zcomponent'; colorbar
 
 figure(5); clf;
 subplot(1,3,1)
-imagesc(xline, yline, Bobj.BXx(:,:,n)'); polarmap
+imagesc(xline, yline, Bobj.Bx(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Xcomponent - Mumax'; colorbar
 
 subplot(1,3,2)
-imagesc(xline, yline, Bobj.BXy(:,:,n)'); polarmap
+imagesc(xline, yline, Bobj.By(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Ycomponent'; colorbar
 
 subplot(1,3,3)
 
-imagesc(xline, yline, Bobj.BXz(:,:,n)'); polarmap
+imagesc(xline, yline, Bobj.Bz(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Zcomponent'; colorbar
 
 figure(6); clf;
@@ -91,7 +100,7 @@ subplot(1,2,1)
 quiver(X,Y, Bcart(:,:,1),Bcart(:,:,2))
 xlabel 'X'; ylabel 'Y'; title 'Caciagli'; colorbar
 subplot(1,2,2)
-quiver(X,Y, Bobj.BXx(:,:,n)', Bobj.BXy(:,:,n)')
+quiver(X,Y, Bobj.Bx(:,:,n)', Bobj.By(:,:,n)')
 xlabel 'X'; ylabel 'Y'; title 'Mumax'; colorbar
 
 Btot = sqrt(Bcart(:,:,1).^2 + Bcart(:,:,2).^2 + Bcart(:,:,3).^2);
@@ -103,51 +112,51 @@ Btot = sqrt(Bcart(:,:,1).^2 + Bcart(:,:,2).^2 + Bcart(:,:,3).^2);
 
 figure(142)
 subplot(4,3,1)
-imagesc(xline, yline, Xunit.BXx(:,:,n)'); polarmap
+imagesc(xline, yline, Xunit.Bx(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Xcomponent - Xunit'; colorbar
 
 subplot(4,3,2)
-imagesc(xline, yline, Xunit.BXy(:,:,n)'); polarmap
+imagesc(xline, yline, Xunit.By(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Ycomponent'; colorbar
 
 subplot(4,3,3)
-imagesc(xline, yline, Xunit.BXz(:,:,n)'); polarmap
+imagesc(xline, yline, Xunit.Bz(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Zcomponent'; colorbar
 
 subplot(4,3,4)
-imagesc(xline, yline, X23.BXx(:,:,n)'); polarmap
+imagesc(xline, yline, X23.Bx(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Xcomponent - X23'; colorbar
 
 subplot(4,3,5)
-imagesc(xline, yline, X23.BXy(:,:,n)'); polarmap
+imagesc(xline, yline, X23.By(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Ycomponent'; colorbar
 
 subplot(4,3,6)
-imagesc(xline, yline, X23.BXz(:,:,n)'); polarmap
+imagesc(xline, yline, X23.Bz(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Zcomponent'; colorbar
 
 subplot(4,3,7)
-imagesc(xline, yline, Yunit.BXx(:,:,n)'); polarmap
+imagesc(xline, yline, Yunit.Bx(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Xcomponent - Yunit'; colorbar
 
 subplot(4,3,8)
-imagesc(xline, yline, Yunit.BXy(:,:,n)'); polarmap
+imagesc(xline, yline, Yunit.By(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Ycomponent'; colorbar
 
 subplot(4,3,9)
-imagesc(xline, yline, Yunit.BXz(:,:,n)'); polarmap
+imagesc(xline, yline, Yunit.Bz(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Zcomponent'; colorbar
 
 subplot(4,3,10)
-imagesc(xline, yline, X137.BXx(:,:,n)'); polarmap
+imagesc(xline, yline, X137.Bx(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Xcomponent - X137'; colorbar
 
 subplot(4,3,11)
-imagesc(xline, yline, X137.BXy(:,:,n)'); polarmap
+imagesc(xline, yline, X137.By(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Ycomponent'; colorbar
 
 subplot(4,3,12)
-imagesc(xline, yline, X137.BXz(:,:,n)'); polarmap
+imagesc(xline, yline, X137.Bz(:,:,n)'); polarmap
 xlabel 'X'; ylabel 'Y'; title 'Zcomponent'; colorbar
 figure(124)
 imagesc(xline, yline, Btot); polarmap;
@@ -159,7 +168,7 @@ xlabel 'X'; ylabel 'Y'; title 'Btotal'
 
 num = 50;
 
-phiM = (23);
+phiM = (0);
 
 % Based on what was in here before, it looks like this was in the wrong
 % direction (negative sign). Adjust if this is true.
@@ -236,16 +245,16 @@ toc
 
 phiM = 0; Bobj = Xunit;
 
-n = num;
+n = num; val = 1;
 
-testmat = (Bcart(:,:,1,1).*cos(phiM) + Bcart(:,:,1,2).*sin(phiM));
+testmat = (Bcart(:,:,1,1).*cos(deg2rad(phiM)) + Bcart(:,:,1,2).*sin(deg2rad(phiM)));
 
-PCdif = (testmat - Bobj.BXx(:,:,n)')./testmat.*100;
+PCdif = (testmat - Bobj.Bx(:,:,n)')./testmat.*100;
 
 figure(3); 
 subplot(3,3,1); imagesc(xline,yline, testmat);
 title 'Linear combination'; xlabel 'X'; ylabel 'Y'; colorbar
-subplot(3,3,2); imagesc(xline,yline, Bobj.BXx(:,:,n)');
+subplot(3,3,2); imagesc(xline,yline, Bobj.Bx(:,:,n)');
 title 'Mumax - \phi_M = 0'; xlabel 'X'; ylabel 'Y'; colorbar
 
 subplot(3,3,3); imagesc(xline, yline, PCdif)
@@ -258,13 +267,13 @@ phiM = 23; Bobj = X23;
 
 n = num;
 
-testmat = (Bcart(:,:,1,1).*cos(phiM) + Bcart(:,:,1,2).*sin(phiM));
+testmat = (Bcart(:,:,1,1).*cos(deg2rad(phiM)) + Bcart(:,:,1,2).*sin(deg2rad(phiM)));
 
-PCdif = (testmat - Bobj.BXx(:,:,n)')./testmat.*100;
+PCdif = (testmat - Bobj.Bx(:,:,n)')./testmat.*100;
 
 subplot(3,3,4); imagesc(xline,yline, testmat);
 title 'Linear combination'; xlabel 'X'; ylabel 'Y'; colorbar
-subplot(3,3,5); imagesc(xline,yline, Bobj.BXx(:,:,n)');
+subplot(3,3,5); imagesc(xline,yline, Bobj.Bx(:,:,n)');
 title 'Mumax - \phi_M = 23'; xlabel 'X'; ylabel 'Y'; colorbar
 
 subplot(3,3,6); imagesc(xline, yline, PCdif)
@@ -277,13 +286,13 @@ phiM = 137; Bobj = X137;
 
 n = num;
 
-testmat = (Bcart(:,:,1,1).*cos(phiM) + Bcart(:,:,1,2).*sin(phiM));
+testmat = (Bcart(:,:,1,1).*cos(deg2rad(phiM)) + Bcart(:,:,1,2).*sin(deg2rad(phiM)));
 
-PCdif = (testmat - Bobj.BXx(:,:,n)')./testmat.*100;
+PCdif = (testmat - Bobj.Bx(:,:,n)')./testmat.*100;
 
 subplot(3,3,7); imagesc(xline,yline, testmat);
 title 'Linear combination'; xlabel 'X'; ylabel 'Y'; colorbar
-subplot(3,3,8); imagesc(xline,yline, Bobj.BXx(:,:,n)');
+subplot(3,3,8); imagesc(xline,yline, Bobj.Bx(:,:,n)');
 title 'Mumax - \phi_M = 137'; xlabel 'X'; ylabel 'Y'; colorbar
 
 subplot(3,3,9); imagesc(xline, yline, PCdif)

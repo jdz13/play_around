@@ -85,7 +85,7 @@ yt = yL(2) - 0.33*(diff(yL));
 text(xt,yt, fstring)
 xlabel 'Platinum thickness - t_P_t [nm]'
 ylabel 'J/t_C_o_F_e_B [Oe\cdotnm]'
-title 'J vs T_P_t - Ge Particles'
+title 'J vs t_P_t - Ge Particles'
 
 legend ('off')
 yL=get(gca,'YLim');
@@ -121,7 +121,7 @@ yt = yL(2) - 0.33*(diff(yL));
 text(xt,yt, fstring)
 xlabel 'Platinum thickness - t_P_t [nm]'
 ylabel 'J/t_C_o_F_e_B [Oe\cdotnm]'
-title 'J vs T_P_t - Si Films'
+title 'J vs t_P_t - Si Films'
 legend('off')
 
 yL=get(gca,'YLim');
@@ -157,7 +157,7 @@ yt = yL(2) - 0.33*(diff(yL));
 text(xt,yt, fstring)
 xlabel 'Platinum thickness - t_P_t [nm]'
 ylabel 'J/t_C_o_F_e_B [Oe\cdotnm]'
-title 'J vs T_P_t - Si Particles'
+title 'J vs t_P_t - Si Particles'
 legend('off')
 
 yL=get(gca,'YLim');
@@ -183,7 +183,7 @@ plot(SiP.fit,'b-')
 xlim([0.2,0.75])
 
 ylabel 'J*t_C_o_F_e_B [Oe\cdotnm]'
-title 'J vs T_P_t'
+title 'J vs t_P_t'
 
 yL=get(gca,'YLim');
 
@@ -214,7 +214,7 @@ plot(GeP.fit,'k-')
 xlim([0.2,0.75])
 
 ylabel 'J*t_C_o_F_e_B [Oe\cdotnm]'
-title 'J vs T_P_t'
+title 'J vs t_P_t'
 
 
 yL=get(gca,'YLim');
@@ -253,3 +253,10 @@ title 'Comparison of t_d values'
 ylim([0.5,4])
 xlabel 't_d [nm]'
 legend('Si films' , 'Ge particles', 'Si particles')
+
+thesis_fig_gen(7:12)
+figure(12); subplot(1,2,1); 
+figure(48); subplot(1,2,2); figure(51); subplot(1,2,2); figure(45); subplot(1,2,2); 
+thesis_fig_gen([12,48,45,51]);
+
+clear xL yL yt yData xt xdata PtCal opts Ms IST c1 c2 c3 CoFeBt figno fstring ft 

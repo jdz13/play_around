@@ -146,3 +146,33 @@ xlabel 'Field [T]'
 ylabel (compose("Smoothed, differentiated \nnormalised area"))
 set(gca,'YTickLabel',[]);
 thesis_fig_gen(h5.Number)
+
+%% Akoun validation code
+
+% datafile C:\Users\JDZ\Documents\MuMax\V3
+
+path =  'C:\Users\JDZ\Documents\MATLAB\GIT\stray-field-CMC';
+oldFolder = cd (path);
+box_input_test
+cd(oldFolder);
+h = gcf;thesis_fig_gen(h.Number);subplot(3,1,3);thesis_fig_gen(h.Number); 
+clear path oldFolder h;
+
+%% Caciagli - Mumax validation, cylinders including angles
+
+% select the data for 0, 23, 67 degrees respectively. folder here >>
+%
+% >>  C:\Users\JDZ\Documents\MuMax\thesis stuff\Cylinder_angular_tests.out
+%
+
+validation_Cac_Mumax
+
+%% Akoun - Mumax validation
+
+% folder name >> C:\Users\JDZ\Documents\MuMax\Particle_Jake_V6_thesis.out\
+% file name >> Particle_Jake_V6_thesis.mat
+difference_plots_Mumax_Akoun
+
+
+%%
+

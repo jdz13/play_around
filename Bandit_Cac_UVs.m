@@ -45,8 +45,8 @@ for n_axi = 1:2
     end 
 end 
 
-Xunitx = Bcart(:,:,1,1);
-Yunitx = Bcart(:,:,1,2);
+Xunitx = Bcart(:,:,1,1); % X component for a X unit vector
+Yunitx = Bcart(:,:,1,2); % X component for a Y unit vector.
 
 end
 

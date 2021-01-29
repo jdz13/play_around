@@ -1,5 +1,7 @@
 function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
 
+    format bank 
+    
     % fetch the data folder.
     path = uigetdir; % Let the user select the folder that they want to convert.
     oldFolder = cd (path); % Change directory and remember the old one to go back to.
@@ -103,22 +105,22 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
     Data_str.Moke_data = Moke_data;
     Data_str.a = a;
     Data_str.c = c;
-      
-    % give the plot some labels.
-    xlabel 'Field [Oe]'
-    ylabel 'Normalised Kerr rotation'
-    legendCell(1:2:(2*length(Tpt) - 1)) = cellstr(num2str(Tpt', 'T_P_t = %-g [s] '));
-    legendCell(2:2:(2*length(Tpt))) = cellstr(num2str(Tpt', 'fit, T_P_t = %-g [s] '));
-    legend (legendCell, 'Location', 'Southeast')
-    thesis_fig_color_sorter(figno, Tpt, 'double')
-    
+     
     % convert platinum thickness from seconds to thickness 
     Ptcal = 0.053; % nm/s
     Pt_nm = Tpt * Ptcal;
         
     Data_str.Tpt = Tpt;
     Data_str.Pt_nm = Pt_nm;  
-    
+      
+    % give the plot some labels.
+    xlabel 'Field [Oe]'
+    ylabel 'Normalised Kerr rotation'
+    legendCell(1:2:(2*length(Pt_nm) - 1)) = cellstr(num2str(Pt_nm', 't_P_t = %-.2f [nm] '));
+    legendCell(2:2:(2*length(Pt_nm))) = cellstr(num2str(Pt_nm', 'fit, t_P_t = %-.2f [nm] '));
+    legend (legendCell, 'Location', 'Southeast')
+    thesis_fig_color_sorter(figno, Tpt, 'double')
+   
     % Look at plotting/extracting information from our curves
     figure(figno + 1); clf
     
@@ -133,7 +135,7 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
     % Fit model to data.
     [fitresult, gof] = fit( xData, yData, ft );
     subplot(1,2,2); plot( fitresult, 'r-', xData, yData, 'rx--' );
-    title 'Comparing c values'; xlabel 'Platinum thickness T_P_t [nm]'; ylabel 'c [Oe]'
+    title 'Comparing c values'; xlabel 'Platinum thickness t_P_t [nm]'; ylabel 'c [Oe]'
     hold on
     fstring = evalc('fitresult');
     fstring(1:13) = [];
@@ -151,7 +153,7 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
     fit_results(2).polyfit = gof;
     
     subplot(1,2,1); plot (Pt_nm, Data_str.a, 'x--'); 
-    title 'Comparing a values'; xlabel 'Platinum thickness T_P_t [nm]'; ylabel 'a [Oe^-^1]'
+    title 'Comparing a values'; xlabel 'Platinum thickness t_P_t [nm]'; ylabel 'a [Oe^-^1]'
     hold on
     
     % look at differentiated signal 
@@ -165,7 +167,7 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
     title 'Differentiated signal'
     ylabel 'Differentiated normalised Kerr rotation'
     xlabel ' Field [Oe]' 
-    legendCell = cellstr(num2str(Tpt', 'T_P_t = %-g [s] '));
+    legendCell = cellstr(num2str(Pt_nm', 't_P_t = %-.2f [nm] '));
     legend (legendCell, 'Location', 'Southeast')
     thesis_fig_color_sorter(figno+2, Tpt, 'single')
     
@@ -176,4 +178,6 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
     cd (oldFolder) % Change back to the old directory. As not to confuse everyone. 
     toc
    
+    format short
+    
 end 

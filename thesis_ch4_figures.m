@@ -99,5 +99,33 @@ axis(ax,[-750,750,-750,750])
 
 clear h1 h11 h12 h13 ax ax1 ax2 ax3 ax4 ax5 ax6 h11 s1 s2 s3 s4 s5 s6 fig1 fig2 fig3 fig4 fig5 fig6
 
-%%
+%% Transitions for series and J vs T_Pt plotting
 
+% C:\Users\JDZ\Documents\MOKE\2019 NOV\Films redo
+[SiF, SiFfitting] = MOKE_data_in(50, [200,800], [3:10]);
+thesis_fig_gen(50:52)
+figure(50); xlim([-1000, 10300]); ylim([-0.05,1.05])
+set(gcf, 'Position',  [100, 100, 540, 500]); title 'P-AP (H_4) transition - Si films'
+figure(52); xlim([-1000, 7000]); ylim([-0.55,0.05])
+
+% C:\Users\JDZ\Documents\MOKE\DEC 2019\New folder
+[SiP, SiPfitting] = MOKE_data_in(47, [300,820], [3,5:9]);
+thesis_fig_gen(47:49)
+figure(47); xlim([-1000, 9000]); ylim([-0.05,1.05])
+set(gcf, 'Position',  [100, 100, 540, 450]); title 'P-AP (H_4) transition - Si Particles'
+figure(49); xlim([-1000, 6000]); ylim([-0.9,0.05])
+
+% C:\Users\JDZ\Documents\MOKE\DEC 2019\Ge particles redo
+[GeP, GePfitting] = MOKE_data_in(44, [300,820], [4:10]);
+thesis_fig_gen(44:47)
+figure(44); xlim([-1000, 6700]); ylim([-0.05,1.05])
+set(gcf, 'Position',  [100, 100, 540, 450]); title 'P-AP (H_4) transition - Ge Particles'
+figure(46); xlim([-1000, 6500]); ylim([-0.35,0.05])
+
+J_vs_TPt_plotting
+
+%% plotter for all single sample measurements, major and minor. 
+
+thesis_MOKE_single_SP8313_plotter
+
+%%

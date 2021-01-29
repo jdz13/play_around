@@ -1,5 +1,6 @@
-cd ('C:\Users\JDZ\Documents\MATLAB\GIT\stray-field-CMC')
+oldfol = cd ('C:\Users\JDZ\Documents\MATLAB\GIT\stray-field-CMC');
 
+% folder >> %really not sure what I've done here... has to be a vsm one
 [zz] = fol_data_ext_function();
 
 no = 3;
@@ -120,4 +121,4 @@ title 'H_C analysis - Single CoFeB layers'
 
 thesis_fig_gen([4,5])
 
-% cd ('C:\Users\JDZ\Documents\MATLAB\GIT\play_around')
+cd (oldfol)
