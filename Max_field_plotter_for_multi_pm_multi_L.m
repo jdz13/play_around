@@ -1,8 +1,8 @@
 % looking at Dot's field fall off given different L and pm_cl values
 
-    figno = 8;
-    pm_cl = [2,3,4].*1e-2;
-    L = [2,3,4].*1e-2;
+    figno = 9;
+    pm_cl = [2,6,10].*1e-2;
+    L = [2,6,10].*1e-2;
 
     D_prac = 10e-2; N_probe = 101; M = 1e6;
 
@@ -23,7 +23,7 @@
             for kk = 1:size(MxB,3)
 
 
-                loglog((probe_line(jj,:) - pm_cl(jj)/2).*100, MxB(jj,:,kk).*1e4, col{jj})
+                semilogy((probe_line(jj,:) - pm_cl(jj)/2).*100, MxB(jj,:,kk).*1e4, col{jj})
                 if jj == 1 && kk == 1, hold on, end
                 xlabel 'Distance from magnet surface [cm]'
                 ylabel 'Maximum field on axis [Oe]'
