@@ -557,5 +557,46 @@ Lengths = linspace(2,4.5,6).*1e-2; % Magnet lengths
 
 
 %Save outputs
-[SaveVar21p1] = search_tool_7p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar21p1.timer = toc; SaveVar21p1.comments = "testing again for final thesis results, simplified code (7p1) with no sigmoid. Initial tests.";
+[SaveVar21p2] = search_tool_7p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar21p2.timer = toc; SaveVar21p2.comments = "testing again for final thesis results, simplified code (7p1) with no sigmoid. Initial tests.";
+
+
+%% Run it. Script for controlling entry variables into the new Caciagli code, ready for analysis.
+
+% clear
+%% random addition, for more detail (might as well run overnight!)
+tic 
+Yin200 = Md200.pureliney; Zin200 = Md200.purelinez;
+Xin200 = Md200.purelinex;
+[BOD200] = new3Dbanditunitvector(Xin200,Yin200,Zin200,L./2,R./2,M);
+[BIB200] = new3Dbanditunitvector(Xin200,Yin200,Zin200,L./2,IB./2,M);
+Xu200 = BOD200(:,:,:,1,1) - BIB200(:,:,:,1,1); 
+Yu200 = BOD200(:,:,:,1,2) - BIB200(:,:,:,1,2);
+toc
+%%
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = [5]; % Key ratio values, how strict of a condition do we want 
+RES = [0.4]; % Start field values. 
+
+pm_cl = linspace(2,10,81).*1e-2; % Magnet outer diameters.
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+Lengths = 4e-2; % Magnet lengths
+
+
+%Save outputs
+[SaveVar22p1] = search_tool_7p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar22p1.timer = toc; SaveVar22p1.comments = "Initial magnet OD scan, 81 point linescan";
+
+Lengths = linspace(2,10,81).*1e-2; % Magnet lengths
+pm_cl = 4e-2; % Magnet outer diameters.
+[SaveVar22p2] = search_tool_7p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar22p2.timer = toc; SaveVar22p2.comments = "Initial magnet length scan, 81 point linescan";
