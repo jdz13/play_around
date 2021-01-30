@@ -174,3 +174,25 @@ yyaxis left; ylabel 'Mean fields [T]'
 yyaxis right; ylabel 'Percentage difference'; hold on;
 yy = ((plt11 - plt21)./plt21); semilogy(xlab(ind), yy(ind).*100)
 legend('Mumax','Caciagli', 'Percentage difference', 'Location', 'SouthWest'); 
+
+%%
+
+%%
+
+plt1 = zeros(1,size(Xunit.Bz,2));
+plt2 = zeros(1,size(Xunitxnew,2));
+plt11 = plt1; plt21 = plt2;
+
+for cnt = 1:length(plt1)
+    
+    plt1(cnt) = max(max((Xunit.Bz(:,:,cnt))));
+    plt2(cnt) = max(max((Xunitxnew(:,:,cnt))));
+    
+    plt11(cnt) = mean(mean((Xunit.Bz(:,:,cnt))));
+    plt21(cnt) = mean(mean((Xunitxnew(:,:,cnt))));
+    
+end
+
+figure
+semilogy(Zin, plt1,Zin, plt2)
+legend('Mumax','Caciagli', 'Location', 'West')
