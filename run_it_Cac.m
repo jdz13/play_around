@@ -33,9 +33,17 @@ SaveVar22p2.timer = toc; SaveVar22p2.comments = "Initial magnet length scan, 81 
 
 %%
 tic
+RES = 0.4;
 Lengths = 4e-2; % Magnet lengths
 pm_cl = 4e-2; % Magnet outer diameters.
-s_rad = linspace(0.05,1,21).*1e-3;
-[SaveVar22p2] = search_tool_7p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar22p2.timer = toc; SaveVar22p2.comments = "Initial sample radius scan, 51 point linescan";
-
+s_rad = linspace(0.25,1,31).*1e-3;
+[SaveVar22p3] = search_tool_7p3_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar22p3.timer = toc; SaveVar22p3.comments = "Initial sample radius scan, 31 point linescan. Using new tool adapted for function, will need a validation test.";
+%%
+tic
+Lengths = 4e-2; % Magnet lengths
+pm_cl = 4e-2; % Magnet outer diameters.
+s_rad = 1e-3;
+RES = linspace(0.6,0.1,51); % Start field values. 
+[SaveVar22p4] = search_tool_7p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar22p4.timer = toc; SaveVar22p4.comments = "Start field scan, 51 point linescan";

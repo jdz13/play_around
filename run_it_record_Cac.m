@@ -600,3 +600,9 @@ Lengths = linspace(2,10,81).*1e-2; % Magnet lengths
 pm_cl = 4e-2; % Magnet outer diameters.
 [SaveVar22p2] = search_tool_7p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
 SaveVar22p2.timer = toc; SaveVar22p2.comments = "Initial magnet length scan, 81 point linescan";
+tic
+Lengths = 4e-2; % Magnet lengths
+pm_cl = 4e-2; % Magnet outer diameters.
+s_rad = linspace(0.25,1,31).*1e-3;
+[SaveVar22p2] = search_tool_7p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar22p2.timer = toc; SaveVar22p2.comments = "Initial sample radius scan, 31 point linescan";
