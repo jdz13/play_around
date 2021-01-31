@@ -122,9 +122,80 @@ semilogy(xlab200(ind200), df(ind200))
 legend ('Mumax','Caciagli', 'Percentage difference', 'Location','South')
 
 %%
+ind = [23,67];
+ls1 = zeros(1,200); 
+ls2 = zeros(1,200);
+for cnt = 1:200
+    ls1(cnt) = BOD200(ind(1), ind(2),cnt,1,1);
+    ls2(cnt) = Cyl200.Bz(ind(1), ind(2),cnt);
+end
+pdls = (ls1-ls2)./ls2.*100;
+ll = figure;
+plot(Md200.purelinez, ls1, '-', Md200.purelinez, ls2,'--'); % yyaxis left;
+xlabel 'Z position [m]'; ylabel 'B_x [T]' 
+% yyaxis right; hold on; plot(Md200.purelinez, pdls); ylabel 'Percentage difference (%)';
+legend ('Caciagli','Mumax', 'Location','North'); tt = (['average difference : ', num2str(mean(pdls)), '%']);
+text(-0.009,0,tt); thesis_fig_gen(ll.Number)
+%%
+
+ind = [6,17]; ls1 = zeros(1,50); ls2 = zeros(1,50);
+for cnt = 1:50
+    ls1(cnt) = BOD50(ind(1), ind(2),cnt,1,1);
+    ls2(cnt) = Cyl50.Bz(ind(1), ind(2),cnt);
+end
+pdls = (ls1-ls2)./ls2.*100;
+ll = figure; subplot(1,3,1)
+plot(Md50.purelinez, ls1, '-', Md50.purelinez, ls2,'--'); % yyaxis left;
+xlabel 'Z position [m]'; ylabel 'B_x [T]' 
+% yyaxis right; hold on; plot(Md200.purelinez, pdls); ylabel 'Percentage difference (%)';
+legend ('Caciagli','Mumax', 'Location','North'); tt = compose(['average difference : \n     ', num2str(mean(pdls)), '%']);
+text(-0.01,0,tt); title '(50)^3 cell resolution'; thesis_fig_gen(ll.Number)
+
+
+ind = [12,34]; ls1 = zeros(1,100); ls2 = zeros(1,100); subplot(1,3,2)
+for cnt = 1:100
+    ls1(cnt) = BOD100(ind(1), ind(2),cnt,1,1);
+    ls2(cnt) = Cyl100.Bz(ind(1), ind(2),cnt);
+end
+pdls = (ls1-ls2)./ls2.*100;
+plot(Md100.purelinez, ls1, '-', Md100.purelinez, ls2,'--'); % yyaxis left;
+xlabel 'Z position [m]'; ylabel 'B_x [T]' 
+% yyaxis right; hold on; plot(Md200.purelinez, pdls); ylabel 'Percentage difference (%)';
+legend ('Caciagli','Mumax', 'Location','North'); tt = compose(['average difference : \n     ', num2str(mean(pdls)), '%']);
+text(-0.01,0,tt); title '(100)^3 cell resolution'; thesis_fig_gen(ll.Number)
+
+
+ind = [23,67]; ls1 = zeros(1,200); ls2 = zeros(1,200); subplot(1,3,3)
+for cnt = 1:200
+    ls1(cnt) = BOD200(ind(1), ind(2),cnt,1,1);
+    ls2(cnt) = Cyl200.Bz(ind(1), ind(2),cnt);
+end
+pdls = (ls1-ls2)./ls2.*100;
+plot(Md200.purelinez, ls1, '-', Md200.purelinez, ls2,'--'); % yyaxis left;
+xlabel 'Z position [m]'; ylabel 'B_x [T]' 
+% yyaxis right; hold on; plot(Md200.purelinez, pdls); ylabel 'Percentage difference (%)';
+legend ('Caciagli','Mumax', 'Location','North'); tt = compose(['average difference : \n     ', num2str(mean(pdls)), '%']);
+text(-0.01,0,tt); title '(200)^3 cell resolution'; thesis_fig_gen(ll.Number)
+
+
+set(ll,'Position',[100 250 1100 400])
+
+%%
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+%%
 
 
 

@@ -117,7 +117,7 @@ set(gca,'YTickLabel',[]); thesis_fig_gen(h6.Number)
 title 'Dynamic measurement'
 clear s1 s2 h6 theta KRV Lengths pm_cl RES s_rad con Yin Zin theta ise isee
 
-%% PLOT NVC DATA FOR SINGLE RUN (ALREADY RUN)
+%% PLOT NVC DATA FOR SINGLE RUN (ALREADY RUN ABOVE)
 
 h4  = figure; 
 
@@ -131,7 +131,7 @@ xlabel 'Field [T]'
 ylabel (compose("Normalised sample area\nabove switching field"))
 thesis_fig_gen(h4.Number)
 
-%% PLOT SMOOTHED DIFFERENTIAL DATA FOR SINGLE RUN (ALREADY RUN)
+%% PLOT SMOOTHED DIFFERENTIAL DATA FOR SINGLE RUN (ALREADY RUN ABOVE)
 
 h5  = figure; 
 
@@ -176,7 +176,7 @@ difference_plots_Mumax_Akoun
 
 %% graph plotter for SV22p1. Shows max possible channels for a linescan in OD
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p1.mat')
+% load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p1.mat')
 ist = SaveVar22p1;
 plt1 = zeros(1, size(ist.varst.PM,2));
 
@@ -193,14 +193,14 @@ xlabel 'OD [mm]'
 ylabel 'Number of possible channels'
 
 jj = gca; 
-tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]']);
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nStart field = ', num2str(ist.varst.RES), ' [T]']);
 text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
 thesis_fig_gen(j.Number)
 
 clear tt j jj kk lp ist
 %% graph plotter for SV22p2. Shows max possible channels for a linescan in L
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p2.mat')
+% load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p2.mat')
 ist = SaveVar22p2;
 plt1 = zeros(1, size(ist.varst.Lengths,2));
 
@@ -217,10 +217,36 @@ xlabel 'L [mm]'
 ylabel 'Number of possible channels'
 
 jj = gca; 
-tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]']);
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nStart field = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
+thesis_fig_gen(j.Number)
+
+clear tt j jj kk lp ist
+
+%% graph plotter for SV22p4. Shows max possible channels for a linescan in Start field
+
+% load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p4.mat')
+ist = SaveVar22p4;
+plt1 = zeros(1, size(ist.varst.Lengths,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+xs = ist.varst.RES;
+j = figure; 
+plot(xs, plt1)
+xlabel 'Start Field [T]'
+ylabel 'Number of possible channels'
+
+jj = gca; 
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]']);
 text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
 thesis_fig_gen(j.Number)
 
 clear tt j jj kk lp ist
 
 %%
+

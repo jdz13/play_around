@@ -25,4 +25,4 @@ Lengths = 4.5.*1e-2; % Magnet lengths
 tester2.timer = toc; tester2.comments = "seeing what happens for single values";
 
 [tester4] = search_tool_Caciagli_single_7p2p1_allatonce(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-tester3.timer = toc; tester3.comments = "seeing what happens for single values all at once";
+tester4.timer = toc; tester4.comments = "seeing what happens for single values all at once";
