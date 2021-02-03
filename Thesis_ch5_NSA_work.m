@@ -56,11 +56,11 @@ control = sum(sum(particle_loc));
 
 ff = figure;
 subplot(2,1,1)
-imagesc(Yin, Zin,  Xunitx); title 'B(p_0,y,z)'
-ylabel 'Z [m]'; xlabel 'Y [m]';  colorbar; thesis_fig_gen(ff.Number);
+imagesc(Yin, Zin,  Xunitx'); title 'B(p_0,y,z)'
+xlabel 'Z [m]'; ylabel 'Y [m]';  colorbar; thesis_fig_gen(ff.Number);
 axis equal; axis([-1e-3,1e-3,-1e-3,0]); subplot(2,1,2)
-imagesc(Yin, Zin, particle_loc1); title 'Sample area'
-ylabel 'Z [m]'; xlabel 'Y [m]'; colorbar; thesis_fig_gen(ff.Number)
+imagesc(Yin, Zin, particle_loc1'); title 'Sample area'
+xlabel 'Z [m]'; ylabel 'Y [m]'; colorbar; thesis_fig_gen(ff.Number)
 axis equal; axis([-1e-3,1e-3,-1e-3,0]); clear ff
 
 %%
@@ -87,3 +87,60 @@ xlabel 'Z [m]'; ylabel 'Y [m]';  colorbar; thesis_fig_gen(h5.Number);
 axis equal; axis([-1e-3,1e-3,-1e-3,0]); 
 clear xx yy h5 t1 t2 t3 t4 Bxnew CM BZM
 
+%%
+
+%% PLOT for dynamic measurement 
+
+h4  = figure; 
+subplot(2,1,1)
+for mm = 1:size(tester6.masterNVC,1)
+plot(tester6.SWres(mm).*cos((tester6.varst.theta)), tester6.masterNVC(mm,:), '-')
+hold on
+end
+xlabel (compose('Field [T]\n'))
+ylabel (compose("Normalised sample area\nabove switching field"))
+thesis_fig_gen(h4.Number)
+subplot(2,1,2)
+for mm = 1:size(tester6.masterNVC,1)
+plot(tester6.SWres(mm).*cos((tester6.varst.theta(2:end))), smooth(diff(tester6.masterNVC(mm,:)),700), '-')
+hold on
+end 
+
+xlabel 'Field [T]'; set(gca,'YTickLabel',[]);
+ylabel (compose("Smoothed, differentiated \nnormalised area"))
+thesis_fig_gen(h4.Number)
+clear mm h4
+%% PLOT for all at once measurement 
+
+h5  = figure; 
+
+subplot(2,1,1)
+for mm = 1:size(tester7.masterNVC,1)
+plot(tester7.SWres(mm).*cos((tester7.varst.theta)), tester7.masterNVC(mm,:), '-')
+hold on
+end 
+xlabel (compose('Field [T]\n'))
+ylabel (compose("Normalised sample area\nabove switching field"))
+thesis_fig_gen(h5.Number)
+subplot(2,1,2)
+for mm = 1:size(tester7.masterNVC,1)
+plot(tester7.SWres(mm).*cos((tester7.varst.theta(2:end))), smooth(diff(tester7.masterNVC(mm,:)),700), '-')
+hold on
+end 
+
+xlabel 'Field [T]'; set(gca,'YTickLabel',[]);
+ylabel (compose("Smoothed, differentiated \nnormalised area"))
+thesis_fig_gen(h5.Number); axis([0,0.4, -1.5e-3,0])
+clear mm h5
+
+%%
+
+kk = figure;
+plot(0:13,tester6.SWres(1:14),'b-+',0:3,tester7.SWres(1:4),'r-+')
+legend ('Dynamic measurement results','Static measurement results', 'Location' , 'Northeast')
+xlabel 'Channel number (n)'
+ylabel 'B_n [T]'
+axis([0,15,0,0.4])
+thesis_fig_gen(kk.Number)
+
+clear kk

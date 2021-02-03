@@ -250,3 +250,66 @@ clear tt j jj kk lp ist
 
 %%
 
+%% graph plotter for SV22p6. Shows max possible channels for a linescan in Start field
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p6.mat')
+ist = SaveVar22p6;
+plt1 = zeros(1, size(ist.varst.s_rad,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+xs = ist.varst.s_rad;
+j = figure; 
+plot(xs, plt1)
+
+ist = SaveVar22p3;
+plt1 = zeros(1, size(ist.varst.s_rad,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+hold on
+xs = ist.varst.s_rad;
+plot(xs, plt1)
+
+xlabel 'Sample radius [mm]'
+ylabel 'Number of possible channels'
+
+jj = gca; 
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nID = 6 [mm]\n\nStart field = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
+legend('5100 point resolution','1300 point resolution', 'Location', 'Southeast')
+thesis_fig_gen(j.Number)
+
+clear tt j jj kk lp ist
+
+%% Static vs dynamic idea 
+
+x = 0:20;
+b_0 = 0.4;
+TH = deg2rad(12.5);
+MK = deg2rad(20);
+
+y1 = b_0.*cos(TH+MK).^x;
+y2 = b_0.*cos((x.*TH)+MK);
+y2(1) = b_0;
+kk = figure;
+plot(x,y1,'b-+',x(1:7),y2(1:7),'r-+')
+legend ({['Dynamic' newline 'B_n = B_0cos^n(\theta_J+\theta)'],...
+    ['Static' newline 'B_0 = B_0' newline 'B_n = B_0cos(n(\theta_J+\theta))' 
+    ]}, 'Location' , 'Northeast')
+xlabel 'Channel number (n)'
+ylabel 'B_n [T]'
+axis([0,20,0,0.4])
+thesis_fig_gen(kk.Number)
+
+clear x b_0 kk y1 y2 TH 
+
+%%
