@@ -265,7 +265,7 @@ end
 xs = ist.varst.s_rad;
 j = figure; 
 plot(xs, plt1)
-
+%%
 ist = SaveVar22p3;
 plt1 = zeros(1, size(ist.varst.s_rad,2));
 
@@ -312,4 +312,75 @@ thesis_fig_gen(kk.Number)
 
 clear x b_0 kk y1 y2 TH 
 
+%% section 5.5 plots - Linescan OD explanation
+
+% load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p1.mat')
+
+% Right, so we;re trying to extract the P(B_0) for different magnet
+% diameters. 
+
+%holder so I don't have to type it out each time.
+ist =SaveVar22p1;
+
+% Start with defining the OD array. 
+OD = ist.varst.PM;
+
+% Now the trickier bit, extracting p(B_0). The field value will be found in
+% the definitions.
+B0 = ist.varst.RES;
+
+% Correlate this to the MxB probe array, for each magnet OD.
+PB0 = zeros(1,size(OD,2));
+for cnt = 1:size(OD,2)
+    PB0(cnt) = ist.probe_line(cnt,find(ist.MxB(cnt,:) >= B0, 1, 'last'))-(OD(cnt)/2);
+end 
+
+theta_s = atan(ist.varst.s_rad./(PB0+OD/2));
+
+ff = figure;
+plot(OD.*1e3,PB0.*1e3)
+yyaxis left; ylabel 'p(B_0,OD) [mm]'; hold on
+yyaxis right; plot(OD.*1e3,rad2deg(theta_s));
+ylabel '\theta_s [deg]'; xlabel 'OD [mm]'
+h1 = legend ('$p(B_0,OD$)','$\theta_s = tan^{-1}(\frac{s_{rad}}{(p(B_0,OD)+(OD/2)}$)');
+set(h1 ,'Interpreter','latex'); set(h1 ,'Location','East                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        '); set(h1 ,'Fontsize',14)
+thesis_fig_gen(ff.Number)
+
+%% section 5.5 plots - Linescan L explanation
+
+% load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p2.mat')
+
+% Right, so we;re trying to extract the P(B_0) for different magnet
+% diameters. 
+
+%holder so I don't have to type it out each time.
+ist =SaveVar22p2;
+
+% Start with defining the OD array. 
+L = ist.varst.Lengths;
+OD = 4e-2;
+
+% Now the trickier bit, extracting p(B_0). The field value will be found in
+% the definitions.
+B0 = ist.varst.RES;
+
+% Correlate this to the MxB probe array, for each magnet OD.
+PB0 = zeros(1,size(L,2));
+for cnt = 1:size(L,2)
+    PB0(cnt) = ist.probe_line(1,find(ist.MxB(1,:,cnt) >= B0, 1, 'last'))-(OD/2);
+end 
+
+theta_s = atan(ist.varst.s_rad./(PB0+OD/2));
+
+ff = figure;
+plot(L.*1e3,PB0.*1e3)
+yyaxis left; ylabel 'p(B_0,L) [mm]'; hold on
+yyaxis right; plot(L.*1e3,rad2deg(theta_s));
+ylabel '\theta_s [deg]'; xlabel 'L [mm]'
+h1 = legend ('$p(B_0,L$)','$\theta_s = tan^{-1}(\frac{s_{rad}}{(p(B_0,OD)+(OD/2)}$)');
+set(h1 ,'Interpreter','latex'); set(h1 ,'Location','East'); set(h1 ,'Fontsize',14)
+thesis_fig_gen(ff.Number)
+
 %%
+
+

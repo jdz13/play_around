@@ -31,9 +31,9 @@ function[Data_str, fit_results] = MOKE_data_in(figno, ind, Tpt)
         % read the file 
         data1 = readmatrix(filename); 
         % extract the field values
-        B_mat(:,p) = data1(:,end-1);
+        B_mat(1:size(data1,1),p) = data1(:,end-1);
         % extract the kerr rotation (non normalised)
-        Moke_data(:,p) = data1(:,end);
+        Moke_data(1:size(data1,1),p) = data1(:,end);
         
         % take the data which is relevant (denoted by function input 'ind'
         % This would normally be the first switch range.

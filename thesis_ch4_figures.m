@@ -42,7 +42,39 @@ lsline
 
 thesis_fig_gen([h2.Number, h1.Number])
 
-clear t_CoFeB H_k H_c Ms Hk_t h1 h2
+clear H_k H_c Ms Hk_t h1 h2
+
+% additional data and changes to make the new plot. 
+SP7816 = [102.1,103.3,103.3,103.3,96.9,106.9,105.1,93.4,106.2,101.0];
+SP7817 = [83.3,84.4,81.1,84.6,88.8,84.5,92.4,90.8,91.4,87.9];
+SP7818 = [68.8,68.1,67.8,73.6,74.2,66.9,71.9,71.9,71.9,76.4];
+SP7819 = [59.6,61.6,63.2,58.4,62.7,60.6,60.0,60.2,60.4,60.3];
+
+S6 = mean(SP7816);
+S7 = mean(SP7817);
+S8 = mean(SP7818);
+S9 = mean(SP7819);
+P1 = [S6 S7 S8 S9];
+
+Sd6 = std(SP7816);
+Sd7 = std(SP7817);
+Sd8 = std(SP7818);
+Sd9 = std(SP7819);
+P2 = [Sd6 Sd7 Sd8 Sd9];
+
+h3 = figure;
+plot(t_CoFeB, P1,'+b'); axis([0.6,1.4,55,110])
+hold on; lsline
+errorbar(t_CoFeB, P1,P2,'+b')
+xlabel 't_C_o_F_e_B [nm]'
+ylabel 'H_C [Oe]'
+
+% title 'H_C analysis - Single CoFeB layers'
+
+thesis_fig_gen(h3.Number)
+
+
+clear t_CoFeB h3 S6 S7 S8 S9 Sd6 Sd7 Sd9 Sd8 h3
 
 %% SW Astroid plotting 
 
