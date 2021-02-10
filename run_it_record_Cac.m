@@ -657,3 +657,152 @@ pm_cl = 4e-2; % Magnet outer diameters.
 s_rad = linspace(0.25,1,61).*1e-3;
 [SaveVar22p6] = search_tool_7p3_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
 SaveVar22p6.timer = toc; SaveVar22p6.comments = "2nd sample radius scan, 61 point linescan. double resolution. Using new tool adapted for function, will need a validation test.";
+%% Run it. Script for controlling entry variables into the new Caciagli code, ready for analysis.
+
+% clear
+%%
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = [5]; % Key ratio values, how strict of a condition do we want 
+RES = [0.4]; % Start field values. 
+
+pm_cl = linspace(2,10,21).*1e-2; % Magnet outer diameters.
+Lengths = pm_cl; % Magnet lengths
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar22p7] = search_tool_7p3_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar22p7.timer = toc; SaveVar22p7.comments = "2D OD and L scan. Increased resolution to 21 values, half cm separation. 441 iterations, should take ~11hrs";
+
+%% Run it. Script for controlling entry variables into the new Caciagli code, ready for analysis.
+
+% clear
+%%
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = [5]; % Key ratio values, how strict of a condition do we want 
+RES = [0.4]; % Start field values. 
+
+pm_cl = linspace(2e-2, 10e-2, 81); % Magnet outer diameters.
+Lengths = 4e-2; % Magnet lengths
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+sigmoid_pc = 5; 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar23p1] = search_tool_7p4_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, sigmoid_pc);
+SaveVar23p1.timer = toc; SaveVar23p1.comments = "Starting the non-idealised results chapter. Running the same OD scan as previously, but with the 5% sigmoid";
+
+%% Run it. Script for controlling entry variables into the new Caciagli code, ready for analysis.
+
+% clear
+%%
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = [5]; % Key ratio values, how strict of a condition do we want 
+RES = [0.4]; % Start field values. 
+
+Lengths = linspace(2e-2, 10e-2, 81); % Magnet outer diameters.
+pm_cl = 4e-2; % Magnet lengths
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+sigmoid_pc = 5; 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar23p2] = search_tool_7p4_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, sigmoid_pc);
+SaveVar23p2.timer = toc; SaveVar23p2.comments = "Starting the non-idealised results chapter. Running the same L scan as previously, but with the 5% sigmoid";
+
+%% Run it. Script for controlling entry variables into the new Caciagli code, ready for analysis.
+
+% clear
+%%
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = [5]; % Key ratio values, how strict of a condition do we want 
+RES = [0.4]; % Start field values. 
+
+Lengths = 4e-2; % Magnet outer diameters.
+pm_cl = 4e-2; % Magnet lengths
+
+s_rad = linspace(0.25,1,31).*1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+sigmoid_pc = 5; 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar23p3] = search_tool_7p4_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, sigmoid_pc);
+SaveVar23p3.timer = toc; SaveVar23p3.comments = "Starting the non-idealised results chapter. Running the same s_rad scan as previously, but with the 5% sigmoid";
+
+%% Run it. Script for controlling entry variables into the new Caciagli code, ready for analysis.
+
+% clear
+%%
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = 5; % Key ratio values, how strict of a condition do we want 
+RES = linspace(0.6,0.1,51); % Start field values. 
+
+Lengths = 4e-2; % Magnet outer diameters.
+pm_cl = 4e-2; % Magnet lengths
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+sigmoid_pc = 5; 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar23p4] = search_tool_7p4_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, sigmoid_pc);
+SaveVar23p4.timer = toc; SaveVar23p4.comments = "Starting the non-idealised results chapter. Running the same start field scan as previously, but with the 5% sigmoid";
+
+%% Run it. Script for controlling entry variables into the new Caciagli code, ready for analysis.
+
+% clear
+%%
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = 5; % Key ratio values, how strict of a condition do we want 
+RES = 0.4; % Start field values. 
+
+pm_cl = linspace(2,10,21).*1e-2; % Magnet outer diameters.
+Lengths = pm_cl; % Magnet lengths
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+sigmoid_pc = 5; 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar23p5] = search_tool_7p4_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, sigmoid_pc);
+SaveVar23p5.timer = toc; SaveVar23p5.comments = "same 2D scan as in idealised model but with the 5% sigmoid";
+
