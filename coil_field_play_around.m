@@ -40,8 +40,9 @@ for kk = 1:size(xline,2)
         end
     end 
 end
-[HxAkoun, HyAkoun, HzAkoun] = multiply(Msat*mu0/4/pi,HxAkoun, HyAkoun, HzAkoun);
+[~, ~, HzAkoun] = multiply(Msat*mu0/4/pi,HxAkoun, HyAkoun, HzAkoun);
 
+clear kk jj pp
 %%
 
 R_coil = 2.5e-3;
@@ -102,13 +103,150 @@ ylabel 'Average field [T]'; xlabel 'Distance from the sample [m]'
 vline(1e-3); thesis_fig_gen(t.Number); clear t
 
 %%
-n = 100;
+n = 100; MsatC = 1e6; 
 sr = 1e-3; dx = sqrt(pi*(sr^2)/n);
 x = linspace(-sr,sr,ceil(2*sr/dx)); y = x;
-[Mask] = plane_mask(x, y,sr); sum(Mask,'all')
+[Mask] = plane_mask(x, y,sr); N = sum(Mask,'all');
+magDp = [2e-5, 2e-5, 2e-9]; 
+As = pi*(sr^2); Ap1 = (magDp(1))^2; ApN = Ap1*N;
+Mdil = MsatC * ApN / As;
+
+
+xline = linspace(-2.5e-3,2.5e-3,251);
+yline = xline;
+zline = logspace(-6,-2,100);
+
+HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
+HyAkoun = HxAkoun; HzAkoun = HxAkoun;
+magD = [(pi^0.5)*sr, (pi^0.5)*sr, 2e-9]; 
+Msat = Mdil; mu0 = 4*pi*1e-7;
+tic
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for pp = 1:size(zline,2)
+            [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)] = Jannsen(xline(kk),yline(jj),zline(pp),magD);
+        end
+    end 
+end
+[~, ~, HzAkoun_Momd] = multiply(Msat*mu0/4/pi,HxAkoun, HyAkoun, HzAkoun);
+toc
+clear HzAkoun HyAkoun HzAkoun kk jj pp
+%%
+HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
+HyAkoun = HxAkoun; HzAkoun = HxAkoun; HzAkoun_sum = HxAkoun;
+tic
+n = 0;
+for aa = 1:length(x)
+    for bb = 1:length(y)
+        if Mask(aa,bb) == 1
+            n = n+1;            
+            xlinetemp = xline+x(aa);
+            ylinetemp = yline+y(bb);
+
+            for kk = 1:size(xline,2)
+                for jj = 1:size(yline,2)
+                    for pp = 1:size(zline,2)
+                        [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)] = Jannsen(xline(kk),yline(jj),zline(pp),magDp);
+                    end
+                end
+            end 
+            HzAkoun_sum = HzAkoun_sum + HzAkoun;
+        end 
+    end
+end
+[~, ~, HzAkoun_sum] = multiply(Msat*mu0/4/pi,HxAkoun, HyAkoun, HzAkoun_sum);
+
+toc
+clear kk jj bb aa
+
+%%
+B_av_Momd = zeros(1,length(zline));
+B_av_sum = zeros(1,length(zline));
+for kk = 1:length(zline)
+    B_av_Momd(kk) = mean(HzAkoun_Momd(:,:,kk),'all');
+    B_av_sum(kk) = mean(HzAkoun_sum(:,:,kk),'all');
+end 
+
+kk = figure;
+loglog(zline,B_av_Momd,'b--', zline, B_av_sum,'r--');
+xlabel 'Distance from sample [m]'; ylabel 'Average field [T]'
+legend ('Obtained by moment dilution', 'Obtained by multiple particles')
+thesis_fig_gen(kk.Number);
+
 %%
 % f = 20; %[Hz]
 % EMF = -2*pi*f*phi*diff(tester2.masterNVC(19,:))./(tester2.varst.theta(2) - tester2.varst.theta(1));
 % 
 % figure; plot(tester2.varst.theta(2:end),EMF); 
+%%
+
+n = 100; MsatC = 1e6; 
+sr = 1e-3; dx = sqrt(pi*(sr^2)/n);
+x = linspace(-sr,sr,ceil(2*sr/dx)); y = x;
+[Mask] = plane_mask(x, y,sr); N = sum(Mask,'all');
+magDp = [2e-5, 2e-5, 2e-9]; 
+As = pi*(sr^2); Ap1 = (magDp(1))^2; ApN = Ap1*N;
+Mdil = MsatC * ApN / As;
+
+
+xline = linspace(-2.5e-3,2.5e-3,251);
+yline = xline;
+zline = logspace(-6,-2,100);
+
+HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
+HyAkoun = HxAkoun; HzAkoun = HxAkoun;
+magD = [2*sr, 2*sr, 2e-9]; 
+Msat = Mdil; mu0 = 4*pi*1e-7;
+tic
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for pp = 1:size(zline,2)
+            [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)] = Jannsen(xline(kk),yline(jj),zline(pp),magD);
+        end
+    end 
+end
+[~, ~, HzAkoun_Momd] = multiply(Msat*mu0/4/pi,HxAkoun, HyAkoun, HzAkoun);
+toc
+clear HzAkoun HyAkoun HzAkoun kk jj pp
+%%
+HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
+HyAkoun = HxAkoun; HzAkoun = HxAkoun; HzAkoun_sum = HxAkoun;
+tic
+n = 0;
+for aa = 1:length(x)
+    for bb = 1:length(y)
+        if Mask(aa,bb) == 1
+            n = n+1;            
+            xlinetemp = xline+x(aa);
+            ylinetemp = yline+y(bb);
+
+            for kk = 1:size(xline,2)
+                for jj = 1:size(yline,2)
+                    for pp = 1:size(zline,2)
+                        [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)] = Jannsen(xline(kk),yline(jj),zline(pp),magDp);
+                    end
+                end
+            end 
+            HzAkoun_sum = HzAkoun_sum + HzAkoun;
+        end 
+    end
+end
+[~, ~, HzAkoun_sum] = multiply(Msat*mu0/4/pi,HxAkoun, HyAkoun, HzAkoun_sum);
+
+toc
+clear kk jj bb aa
+
+%%
+B_av_Momd = zeros(1,length(zline));
+B_av_sum = zeros(1,length(zline));
+for kk = 1:length(zline)
+    B_av_Momd(kk) = mean(HzAkoun_Momd(:,:,kk),'all');
+    B_av_sum(kk) = mean(HzAkoun_sum(:,:,kk),'all');
+end 
+
+kk = figure;
+loglog(zline,B_av_Momd,'b--', zline, B_av_sum,'r--');
+xlabel 'Distance from sample [m]'; ylabel 'Average field [T]'
+legend ('Obtained by moment dilution', 'Obtained by multiple particles')
+thesis_fig_gen(kk.Number);
 
