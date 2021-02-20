@@ -103,7 +103,7 @@ ylabel 'Average field [T]'; xlabel 'Distance from the sample [m]'
 vline(1e-3); thesis_fig_gen(t.Number); clear t
 
 %%
-n = 100; MsatC = 1e6; 
+n = 1000; MsatC = 1e6; 
 sr = 1e-3; dx = sqrt(pi*(sr^2)/n);
 x = linspace(-sr,sr,ceil(2*sr/dx)); y = x;
 [Mask] = plane_mask(x, y,sr); N = sum(Mask,'all');
@@ -178,14 +178,15 @@ thesis_fig_gen(kk.Number);
 % EMF = -2*pi*f*phi*diff(tester2.masterNVC(19,:))./(tester2.varst.theta(2) - tester2.varst.theta(1));
 % 
 % figure; plot(tester2.varst.theta(2:end),EMF); 
-%%
 
-n = 100; MsatC = 1e6; 
-sr = 1e-3; dx = sqrt(pi*(sr^2)/n);
-x = linspace(-sr,sr,ceil(2*sr/dx)); y = x;
-[Mask] = plane_mask(x, y,sr); N = sum(Mask,'all');
+%% second attempt, with a square section of 100 particles.
+
+n = 1000; MsatC = 1e6; 
+sr = 1e-3; dx = round(sqrt(n));
+x = linspace(-sr,sr,dx); y = x;
+
 magDp = [2e-5, 2e-5, 2e-9]; 
-As = pi*(sr^2); Ap1 = (magDp(1))^2; ApN = Ap1*N;
+As = 4*(sr^2); Ap1 = (magDp(1))^2; ApN = Ap1*n;
 Mdil = MsatC * ApN / As;
 
 
@@ -208,14 +209,13 @@ end
 [~, ~, HzAkoun_Momd] = multiply(Msat*mu0/4/pi,HxAkoun, HyAkoun, HzAkoun);
 toc
 clear HzAkoun HyAkoun HzAkoun kk jj pp
-%%
+
 HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
 HyAkoun = HxAkoun; HzAkoun = HxAkoun; HzAkoun_sum = HxAkoun;
 tic
 n = 0;
 for aa = 1:length(x)
     for bb = 1:length(y)
-        if Mask(aa,bb) == 1
             n = n+1;            
             xlinetemp = xline+x(aa);
             ylinetemp = yline+y(bb);
@@ -228,7 +228,7 @@ for aa = 1:length(x)
                 end
             end 
             HzAkoun_sum = HzAkoun_sum + HzAkoun;
-        end 
+         
     end
 end
 [~, ~, HzAkoun_sum] = multiply(Msat*mu0/4/pi,HxAkoun, HyAkoun, HzAkoun_sum);
@@ -236,7 +236,7 @@ end
 toc
 clear kk jj bb aa
 
-%%
+
 B_av_Momd = zeros(1,length(zline));
 B_av_sum = zeros(1,length(zline));
 for kk = 1:length(zline)
@@ -249,4 +249,41 @@ loglog(zline,B_av_Momd,'b--', zline, B_av_sum,'r--');
 xlabel 'Distance from sample [m]'; ylabel 'Average field [T]'
 legend ('Obtained by moment dilution', 'Obtained by multiple particles')
 thesis_fig_gen(kk.Number);
+
+%%
+R_coil = linspace(1e-4,2.5e-3,241);
+
+phi = zeros(length(R_coil),length(zline));ncell = phi; bsum = phi; 
+Bav = phi; dA = phi; B_av = zeros(1,length(zline));
+
+for kk = 1:length(zline)
+    
+    B_av(kk) = mean(HzAkoun_sum(:,:,kk),'all');
+    
+    for jj = 1:length(R_coil)
+        
+        [Mask] = plane_mask(xline, yline,R_coil(jj));
+        ncell(jj,kk) = sum(Mask, 'all');
+        breal = HzAkoun_sum(:,:,kk).*Mask;
+        bsum(jj,kk) = sum(breal,'all');
+        Bav(jj,kk) = bsum(jj,kk)/ncell(jj,kk);
+        dA(jj,kk) = pi*(R_coil(jj)^2);
+        phi(jj,kk) = Bav(jj,kk)*dA(jj,kk);
+        
+    end
+end
+clear kk jj
+
+[X,Y] = meshgrid(zline,R_coil);
+kk = figure; 
+h = pcolor(X, Y.*1e3, phi);
+h.EdgeColor = 'none';
+% set(gca,'Yscale','log','YDir','normal','YTick',[0.1,1]);
+set(gca,'Xscale','log','XDir','normal','XTick',[1e-6,1e-5,1e-4,1e-3,1e-2,1e-1,1]);
+ylabel 'R_c_o_i_l [mm]'; xlabel 'Sample - Coil distance [m]'
+c = colorbar;set(gca,'ColorScale','log'); c.Ruler.TickLabelFormat='%g [Wb]';
+set(get(c,'label'),'string','Flux captured by a search coil [Wb]'); 
+thesis_fig_gen(kk.Number); clear  kk h
+
+%%
 

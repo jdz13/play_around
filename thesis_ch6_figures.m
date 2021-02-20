@@ -181,3 +181,23 @@ thesis_fig_gen(jj.Number)
 clear jj kk pp
 
 %%
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV23p5.mat')
+
+ist = SaveVar23p5;
+plotter = zeros(length(ist.varst.Lengths),length(ist.varst.PM));
+for ff = 1:length(ist.varst.Lengths)
+    for gg = 1:length(ist.varst.PM)
+        
+        plotter(ff,gg) = nnz(ist.SWres(1,:,gg,1,ff))-1;
+        
+    end 
+end
+
+ff = figure; 
+imagesc(ist.varst.Lengths.*100,ist.varst.PM.*100,plotter') 
+xlabel 'L [cm]'; ylabel 'OD [cm]'; colorbar
+title 'Number of possible channels'; thesis_fig_gen(ff.Number);
+
+%%
+
