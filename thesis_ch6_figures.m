@@ -182,8 +182,6 @@ clear jj kk pp
 
 %%
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV23p5.mat')
 
 ist = SaveVar23p5;
@@ -203,9 +201,6 @@ title 'Number of possible channels'; thesis_fig_gen(ff.Number);
 
 %%
 
-=======
-=======
->>>>>>> refs/remotes/origin/master
 x = linspace(0, 90,181);
 y = cosd(x);
 h1 = figure; subplot(1,2,1); plot(x,y)
@@ -260,11 +255,3 @@ set(h,'Ytick', [0,0.3,0.5,0.7,1])
 annotation('arrow',[0.59,0.48],[0.85,0.85])
 annotation('arrow',[0.48,0.59],[0.85,0.85])
 text (17.2,0.82,'FWHM')
-
-
-<<<<<<< HEAD
-%%
->>>>>>> 36dd8f2c88d50a79b62a05998dba0f17cb935a6c
-=======
-%%
->>>>>>> refs/remotes/origin/master
