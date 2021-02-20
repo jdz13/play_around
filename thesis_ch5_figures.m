@@ -117,6 +117,8 @@ set(gca,'YTickLabel',[]); thesis_fig_gen(h6.Number)
 title 'Dynamic measurement'
 clear s1 s2 h6 theta KRV Lengths pm_cl RES s_rad con Yin Zin theta ise isee
 
+
+
 %% PLOT NVC DATA FOR SINGLE RUN (ALREADY RUN ABOVE)
 
 h4  = figure; 
@@ -264,8 +266,9 @@ end
 
 xs = ist.varst.s_rad;
 j = figure; 
-plot(xs, plt1)
-%%
+plot(xs.*1e3, plt1)
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p3.mat')
 ist = SaveVar22p3;
 plt1 = zeros(1, size(ist.varst.s_rad,2));
 
@@ -277,7 +280,7 @@ end
 
 hold on
 xs = ist.varst.s_rad;
-plot(xs, plt1)
+plot(xs.*1e3, plt1)
 
 xlabel 'Sample radius [mm]'
 ylabel 'Number of possible channels'
@@ -285,7 +288,7 @@ ylabel 'Number of possible channels'
 jj = gca; 
 tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nID = 6 [mm]\n\nStart field = ', num2str(ist.varst.RES), ' [T]']);
 text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
-legend('5100 point resolution','1300 point resolution', 'Location', 'Southeast')
+legend('~8000 point resolution','~2000 point resolution', 'Location', 'Southeast')
 thesis_fig_gen(j.Number)
 
 clear tt j jj kk lp ist
@@ -381,6 +384,202 @@ h1 = legend ('$p(B_0,L$)','$\theta_s = tan^{-1}(\frac{s_{rad}}{(p(B_0,OD)+(OD/2)
 set(h1 ,'Interpreter','latex'); set(h1 ,'Location','East'); set(h1 ,'Fontsize',14)
 thesis_fig_gen(ff.Number)
 
+
+%% STATIC VS DYNAMIC MEASUREMENT 
+
+
+ise = evalin( 'base', 'exist(''tester1'',''var'') == 1' );
+isee = evalin( 'base', 'exist(''tester2'',''var'') == 1' );
+    if ise && isee 
+    else
+
+        % Set variable space
+        theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+        KRV = 5; % Key ratio values, how strict of a condition do we want 
+        RES = 0.4; % Start field values. 
+        pm_cl = 4.*1e-2; % Magnet outer diameters.
+        s_rad = 1e-3; % define the sample radius (where the particles will actually be
+        con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+        Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+        Zin = Yin(1:26); % Probe plane points in Z 
+        Lengths = 4.*1e-2; % Magnet lengths
+
+        %Save outputs
+        [tester1] = search_tool_Caciagli_single_7p2(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+        [tester2] = search_tool_Caciagli_single_7p2p1_allatonce(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+    end 
+
+plt1 = nonzeros(tester1.SWres);
+x1 = 0:length(plt1)-2;
+plt2 = nonzeros(tester2.SWres);
+x2 = 0:length(plt2)-2;        
+
+        
+x = 0:20;
+b_0 = 0.4;
+TH = deg2rad(20);
+MK = deg2rad(12);
+
+y1 = b_0.*cos(TH+MK).^x;
+y2 = b_0.*cos((x.*TH)+MK);
+y2(1) = b_0;
+kk = figure;
+plot(x1, plt1(1:end-1),'b+:',x2, plt2(1:end-1),'r+:',x,y1,'b:o',x(1:7),y2(1:7),'r:o')
+legend ({'Method 2 results', 'Method 1 results',...
+    'B_n = B_0cos^n(\theta_J+\theta_F)','B_n = B_0cos(n\theta_J+\theta_F)'...
+    }, 'Location' , 'Northeast')
+xlabel 'Channel number (n)'
+ylabel 'B_n [T]'
+axis([0,20,0,0.42])
+thesis_fig_gen(kk.Number)
+
+clear x b_0 kk y1 y2 TH 
+
+
 %%
 
 
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p1.mat')
+
+ist = SaveVar22p1;
+
+kk = figure;
+
+ind = [6,31,56,66,76];
+
+for pp = 1:5
+    
+   plt1 = nonzeros(squeeze(ist.SWres(1,:,ind(pp))));
+   semilogy(0:length(plt1)-2,plt1(1:end-1)'),'+:'; hold on 
+    
+end
+
+xlabel 'Channel number (n)'
+ylabel 'Channel field (B_n)'
+
+legendCell = cellstr(num2str(ist.varst.PM(ind)', 'OD = %-g [mm]')); 
+legend(legendCell, 'Location', 'Southeast')
+thesis_fig_gen(kk.Number)
+
+clear pp kk ist plt1 legendCell
+
+%%
+
+tic
+theta = linspace(0,pi/2,90001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+KRV = 5; % Key ratio values, how strict of a condition do we want 
+RES = linspace(0.6,0.42,19); % Start field values. 
+pm_cl = 6.*1e-2; % Magnet outer diameters.
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+Lengths = 2.*1e-2; % Magnet lengths
+D_prac = 10e-2; % maximum working distance for magnet surface-sample [m]
+N_probe = 10001; % distance probe points in z, defining resolution 
+M = 1e6; % Msat of magnet used for drive field [A/m]
+IB = 6e-3; % Inner bore of the drive magnet [m]
+% Find the maximum field (theta = 0) at each z probe point, for each set of
+% magnet parameters (L,OD)
+[MxB, probe_line] = MxBProbeMulti_V2(M,pm_cl, Lengths,D_prac,N_probe, IB); 
+% Initialisation parameter, to set a large number for max channels (to
+% fill)
+ntestmax = 100;masterNVC = zeros(ntestmax, length(theta));
+% Initialise all of the working variables. Will have sizes defined by input
+% sizes (as they simply cache previous results)
+SWres = zeros(size(KRV,2),ntestmax,length(pm_cl),length(RES),length(Lengths)); 
+SHo = SWres; FWHMres = SWres; ind1res = SWres; ind2res = SWres; Bset = SWres; MLOCa = SWres;
+% Figure out where the sample sits within the probe plane, to convolute
+% with the moment. 
+[particle_loc1] = plane_mask(Yin,Zin,s_rad);
+% Completed for positive half only, so flip and add to array (skip middle)
+particle_loc = [particle_loc1, fliplr(particle_loc1(:, 1:(size(particle_loc1,2)-1)))];
+% create a control variable - total cells within the sample area (all 'on')
+control = sum(sum(particle_loc));
+% Make sure the first switching field used is the initialiser value (for
+% all)
+for gg = 1:length(RES)
+    SWres(:,1,:,gg,:,:) = RES(gg);
+end
+% Now looking for the main logic. Will be looping over all values, so multi
+% level loop here (make sure you're being careful in indexing). 
+    for Lcount = 1:length(Lengths)
+        L = Lengths(Lcount);
+        for rescount = 1:length(RES)
+            res = RES(rescount);
+            for pmcount = 1:length(pm_cl)
+                PM = pm_cl(pmcount);
+                for  count2 = 1:size(KRV,2)
+                    % Define the initial conditions
+                    SH0 = res; % start slightly higher than the switch value. This will be what is looked for as the first 'max' field value at theta = 0.
+                    swinit = 0.4; % What's the max channel value?
+                    count = 1; % counter variable to index with
+                    tmps = [0,1]; % reassign temporary variable each iteration of the loop 
+                    %------------------------------------------------------
+                    % moved from the loop to only run once (all values)
+                    pzcut =  find(MxB(pmcount,:,Lcount) >= SH0, 1, 'last');
+                    [XunitX,YunitX] = Bandit_Cac_UVs(probe_line(pmcount,pzcut),...
+                        Yin,Zin,L./2,PM./2,M);
+                    % Now we need to take the internal bore and subtract
+                    % this to get the proper field values.
+                    [IBx, IBy] = Bandit_Cac_UVs(probe_line(pmcount,pzcut),...
+                        Yin,Zin,L./2,IB./2,M);
+                    % Create the real unit vectors, subtractions of the
+                    % magnet with the internal bore.
+                    Xunitx = XunitX - IBx; Yunitx = YunitX - IBy;
+                    % Initialise the variables you're going to want 
+                        NVC = zeros(2,length(theta)); % Normalised volume comparison
+                        FWHMX = [0,0]; MLOC = [0,0]; % Full width half max and Maxima location
+                        for pull = 1:length(theta) 
+                           % Use rotation matricies to find the Z component 
+                           Bxnew = Xunitx.*cos(theta(pull)) + Yunitx.*sin(theta(pull)); 
+                           new.Bxnew = Bxnew;
+                           % Use this data to flip the field about the
+                           % symmetry axis. Allows for 2x faster code.
+                           new.newBxnew = zeros(size(new.Bxnew,1), (2*size(new.Bxnew,2))-1);
+                           new.newBxnew(1:size(new.Bxnew,1), 1:size(new.Bxnew,2)) = new.Bxnew;
+                           new.temp = fliplr(new.Bxnew); new.temp(:,1) = [];
+                           new.newBxnew(:, size(new.Bxnew,2)+1: (2*size(new.Bxnew,2))-1) = new.temp;
+                           % feed this back into the old variable 
+                           Bxnew = new.newBxnew;
+                           %Find out how much of this areas is above or below the threshold
+                           BZM = (Bxnew >= swinit) - (Bxnew <= -swinit);
+                           % Correlate with where the particles actually are in the world
+                            CM = BZM .* particle_loc;
+                           % Find a qualitative number for how much is 'on'
+                           vc = sum(sum(CM));
+                           % Compare this to how many are in the sample space 
+                           NVC(1,pull) = vc./control;
+                        end
+                        masterNVC(count,:) = NVC(1,:);
+                        [FWHMX(1),MLOC(1),indout] = FWHMNVC(NVC(1,:),theta,con);
+                        SWnextpos = MLOC(1)+(KRV(count2)*FWHMX(1));  
+                        SWnext = swinit*cos(SWnextpos);
+                        SWres(count2,count+1,pmcount,rescount,Lcount) = SWnext;
+                        FWHMres(count2,count,pmcount,rescount,Lcount) = FWHMX(1); % if +1 not needed then can use FWHMres(:,1,:,:) = [];
+                        ind1res(count2,count,pmcount,rescount,Lcount)= indout(1);
+                        ind2res(count2,count,pmcount,rescount,Lcount) = indout(2);
+                        Bset(count2,count,pmcount,rescount,Lcount) = MxB(pmcount,pzcut,Lcount);
+                        SHo(count2,count,pmcount,rescount,Lcount) = SH0;
+                        MLOCa(count2,count,pmcount,rescount,Lcount) = MLOC(1);
+                        % manipulate the results to run the next leg
+                        tmps(1) = swinit; 
+                            if SWnextpos >= pi/2
+                                 tmps(2) = 0;
+                            else
+                                tmps(2) = SWnext;
+                            end
+                        SH0 = (tmps(1)+tmps(2))/2;  swinit = tmps(2); count = count +1;
+                        disp (['count = ', num2str(count),', range = ', num2str(tmps)])
+                end
+            end
+        end 
+    end 
+    g = figure; plot(RES, squeeze(rad2deg(FWHMres(1,1,1,:))),'+');ga = gca;
+    g1 = lsline(ga);set(g1,'LineStyle', ':'); xlabel 'B_s_t_a_r_t [T]'; 
+    ylabel 'FWHM [deg]';    yyaxis right ; hold on 
+    plot(RES, squeeze(rad2deg(MLOCa(1,1,1,:)))); ylabel '\theta_J [deg]'
+    legend ('FWHM vs B_s_t_a_r_t','fit, to guide the eye',...
+        '\theta_J vs B_s_t_a_r_t', 'Location', 'Southeast')
+    thesis_fig_gen(g.Number)
+    

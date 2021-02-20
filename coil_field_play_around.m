@@ -251,6 +251,7 @@ legend ('Obtained by moment dilution', 'Obtained by multiple particles')
 thesis_fig_gen(kk.Number);
 
 %%
+<<<<<<< HEAD
 R_coil = linspace(1e-4,2.5e-3,241);
 
 phi = zeros(length(R_coil),length(zline));ncell = phi; bsum = phi; 
@@ -287,3 +288,85 @@ thesis_fig_gen(kk.Number); clear  kk h
 
 %%
 
+=======
+
+%%
+
+%%
+
+xline = linspace(-2.5e-3,2.5e-3,251);
+yline = xline;
+zline = logspace(-6,-2,100);
+HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
+HyAkoun = HxAkoun; HzAkoun = HxAkoun;
+tic
+n = 0;
+
+Msat = 1e6; mu0 = 4*pi*1e-7;
+
+magD = [4e-3, 2e-3, 2e-9]; 
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for pp = 1:size(zline,2)
+            [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)] = Jannsen(xline(kk),yline(jj),zline(pp),magD);
+        end
+    end
+end 
+
+HzAkoun_big = HzAkoun*Msat*mu0/4/pi./10000;
+
+magD = [4e-5, 2e-5, 2e-9]; 
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for pp = 1:size(zline,2)
+            [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)] = Jannsen(xline(kk),yline(jj),zline(pp),magD);
+        end
+    end
+end 
+HzAkoun1 = HzAkoun.*Msat*mu0/4/pi;       
+toc
+
+magD = [2e-5, 2e-5, 2e-9]; 
+xline = xline - (magD(1)/2);
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for pp = 1:size(zline,2)
+            [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)] = Jannsen(xline(kk),yline(jj),zline(pp),magD);
+        end
+    end
+end 
+HzAkoun_sum = HzAkoun;
+
+xline = xline + (magD(1));
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for pp = 1:size(zline,2)
+            [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)] = Jannsen(xline(kk),yline(jj),zline(pp),magD);
+        end
+    end
+end 
+HzAkoun_sum = HzAkoun_sum+HzAkoun;
+HzAkoun_sum = HzAkoun_sum.*Msat*mu0/4/pi;
+
+clear kk jj bb aa
+
+B_av_1 = zeros(1,length(zline));
+B_av_2 = zeros(1,length(zline));
+B_av_3 = B_av_2;
+for kk = 1:length(zline)
+    B_av_1(kk) = mean(HzAkoun_sum(:,:,kk),'all');
+    B_av_2(kk) = mean(HzAkoun1(:,:,kk),'all');
+    B_av_3(kk) = mean(HzAkoun_big(:,:,kk),'all');
+end 
+
+
+h1 = figure;
+plot(zline, B_av_1, 'b+:', zline, B_av_2, 'r', zline, B_av_3, 'go--')
+xlabel 'Distance from sample [m]'; ylabel 'Average field [T]'
+dif = (B_av_2 - B_av_1)./B_av_2;
+dif2 = (B_av_2 - B_av_3)./B_av_2;
+hold on; yyaxis right 
+plot(zline, dif*100, ':+', zline, dif2*100, ':x'); ylabel '% difference'
+legend ('(1) Two particles of (20\mum)^2', '(2) Single particle (40x20\mum)','(3) Big particle (4000x2000\mum)','Percentage difference (1)-(2)','Percentage difference (3)-(2)')
+thesis_fig_gen(h1.Number)
+>>>>>>> 36dd8f2c88d50a79b62a05998dba0f17cb935a6c

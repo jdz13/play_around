@@ -10,6 +10,8 @@ function [HWHMX,MLOC,indout] = FWHMNVC(input,theta,con)
         temp.indthet1(1) = find(temp.testline <= 0.99 ,1,'first'); 
         % find last after final peak (simpler)
         temp.indthet1(2) =  find(temp.testline <= 1e-2 ,1,'first');
+        
+        temp.ind_half = find(temp.testline <= 0.5 ,1,'first');
     %------------------------------------------------------    
    
     if temp.indthet1(1) == 1 && temp.indthet1(2) == size(input,2)
@@ -37,6 +39,6 @@ function [HWHMX,MLOC,indout] = FWHMNVC(input,theta,con)
         
     indout = temp.indthet1;
 
-    MLOC = theta(round(sum(temp.indthet1)/2));
+    MLOC = theta(temp.ind_half);
 end
 

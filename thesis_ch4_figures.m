@@ -122,14 +122,15 @@ ax.YAxisLocation = 'origin'; set(ax ,'Layer', 'Top'); polarmap
 xlabel 'B_|_| [Oe]'; ylabel 'B_\perp [Oe]'; title 'a)'; axis equal; 
 axis(ax,[-750,750,-750,750])
 h13 = figure; %create new figure
-s4 = gca; fig4 = get(ax4,'children'); %get handle to all the children in the figure
+s4 = gca; fig4 = get(ax4,'children'); %get handle to all the children 
 copyobj(fig4,s4); %copy children to new parent axes i.e. the subplot axes
 colorbar; ax = gca; ax.XAxisLocation = 'origin'; set(s4, 'Xlim', s4.YLim); 
 ax.YAxisLocation = 'origin'; set(ax ,'Layer', 'Top'); polarmap
 xlabel 'B_|_| [Oe]'; ylabel 'B_\perp [Oe]'; title 'b)'; axis equal; 
 axis(ax,[-750,750,-750,750])
 
-clear h1 h11 h12 h13 ax ax1 ax2 ax3 ax4 ax5 ax6 h11 s1 s2 s3 s4 s5 s6 fig1 fig2 fig3 fig4 fig5 fig6
+clear h1 h11 h12 h13 ax ax1 ax2 ax3 ax4 ax5 ax6 h11 s1 s2 s3 s4 s5 ...
+    s6 fig1 fig2 fig3 fig4 fig5 fig6
 
 %% Transitions for series and J vs T_Pt plotting
 
@@ -160,4 +161,149 @@ J_vs_TPt_plotting
 
 thesis_MOKE_single_SP8313_plotter
 
+%% interaction energy plotter 
+
+xline = linspace(-5e-5,5e-5,251);
+yline = xline;
+zline = logspace(-8,-6,100);
+HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
+HyAkoun = HxAkoun; HzAkoun = HxAkoun; tic; 
+Msat = 1e6; mu0 = 4*pi*1e-7;
+magD = [2e-5, 2e-5, 2e-9]; 
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for pp = 1:size(zline,2)
+            [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)]...
+                = Jannsen(xline(kk),yline(jj),zline(pp),magD);
+        end
+    end
+end 
+
+HzAkoun_interaction = HzAkoun*Msat*mu0/4/pi;
+HzAvInt = zeros(1,size(zline,2));
+HzMaxInt = zeros(1,size(zline,2));
+
+for pp = 1:size(zline,2)
+    HzAvInt(pp) = mean(HzAkoun_interaction(:,:,pp), 'all');
+    HzMaxInt(pp) = max(HzAkoun_interaction(:,:,pp),[], 'all');
+end 
+
+pp = figure(); loglog(zline, HzAvInt); ylabel 'Mean field in XY plane [T]'
+yyaxis right; loglog(zline, HzMaxInt)
+ylabel 'Max field in XY plane [T]'; xlabel 'Distance from particle [m]'
+legend('Mean field in XY plane','Max field in XY plane', ...
+    'Location', 'Southwest'); thesis_fig_gen(pp.Number)
+
+%% plotting the high res rotational switches.
+
+roational_high_res_switches.m
+% data folder first
+% C:\Users\JDZ\Documents\Thesis\Data\SP8313_rotational_switching_as\Si particles High res V2
+% data folder second
+% C:\Users\JDZ\Documents\Thesis\Data\SP8313_rotational_switching_as\SP8313_rotational_switching_as
+
+%% IP - OOP comparison 
+
+xline = linspace(-5e-5,5e-5,251);
+yline = xline;
+zline = logspace(-8,-6,100);
+HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
+HyAkoun = HxAkoun; HzAkoun = HxAkoun; tic; 
+Msat = 1e6; mu0 = 4*pi*1e-7;
+magD = [2e-5, 2e-5, 2e-9]; 
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for pp = 1:size(zline,2)
+            [HxAkoun(kk,jj,pp), HyAkoun(kk,jj,pp), HzAkoun(kk,jj,pp)]...
+                = Jannsen(xline(kk),yline(jj),zline(pp),magD);
+        end
+    end
+end 
+
+HzAkoun_OOP = HzAkoun*Msat*mu0/4/pi;
+HzAvOOP = zeros(1,size(zline,2));
+HzMaxOOP = zeros(1,size(zline,2));
+
+for pp = 1:size(zline,2)
+    HzAvOOP(pp) = mean(HzAkoun_OOP(:,:,pp), 'all');
+    HzMaxOOP(pp) = max(abs(HzAkoun_OOP(:,:,pp)),[], 'all');
+end 
+
+
+pp = figure();
+subplot(1,2,1);
+loglog(zline, HzAvOOP); ylabel 'Mean field in XY plane [T]'
+yyaxis right; loglog(zline, HzMaxOOP)
+ylabel 'Max field in XY plane [T]'; xlabel 'Distance from particle [m]'
+legend('Mean field in XY plane - OOP','Max field in XY plane - OOP', ...
+          'Location', 'Southwest')
+thesis_fig_gen(pp.Number)
+
+
+xline = linspace(-5e-5,5e-5,251);
+yline = xline;
+zline = 0;
+xzline = logspace(-8,-6,100);
+HxAkoun = zeros(size(xline,2), size(yline,2), size(xzline,2));
+HyAkoun = HxAkoun; HzAkoun = HxAkoun; tic; 
+Msat = 1e6; mu0 = 4*pi*1e-7;
+magD = [2e-9, 2e-5, 2e-5]; 
+for kk = 1:size(xline,2)
+    for jj = 1:size(yline,2)
+        for ppk = 1:size(xzline,2)
+            xinput = xline + xzline(ppk) + 5e-5;
+            [HxAkoun(kk,jj,ppk), HyAkoun(kk,jj,ppk), HzAkoun(kk,jj,ppk)]...
+                = Jannsen(xinput(ppk),yline(jj),zline,magD);
+        end
+    end
+end 
+
+HzAkoun_xzlineIP = HzAkoun*Msat*mu0/4/pi;
+HzAvIP = zeros(1,size(xzline,2));
+HzMaxIP = zeros(1,size(xzline,2));
+
+for ppk = 1:size(xzline,2)
+    HzAvIP(ppk) = mean(HzAkoun_IP(:,:,ppk), 'all');
+    HzMaxIP(ppk) = max(abs(HzAkoun_IP(:,:,ppk)),[], 'all');
+end 
+
+subplot(1,2,2);
+loglog(xzline, abs(HzAvIP)); ylabel 'Mean field in XY plane [T]';
+yyaxis right; loglog(xzline, HzMaxIP)
+ylabel 'Max field in XY plane [T]'; xlabel 'Distance from particle [m]'
+legend('Mean field in XY plane - IP','Max field in XY plane - IP', ...
+    'Location', 'Southwest')
+thesis_fig_gen(pp.Number)
+
+
+%% Plotting the field components for 1.05*-0.4T max field
+
+
+uu = figure; subplot(1,3,1);
+imagesc(Yin.*1e3, Zin.*1e3, squeeze(Bcart(:,1,:,1,1))); xlabel 'Y [mm]'; 
+ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+title 'B_x from M_x'; thesis_fig_gen(uu.Number); axis equal; 
+axis([-1,1,-1,1]); subplot(1,3,3);
+imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,2,1)).*1e3);xlabel 'Y [mm]';
+ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [mT]';
+title 'B_z from M_x'; thesis_fig_gen(uu.Number); axis equal; 
+axis([-1,1,-1,1]); subplot(1,3,2);
+imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,3,1)).*1e3);xlabel 'Y [mm]'; 
+ylabel 'Z [mm]';c = colorbar;c.Ruler.TickLabelFormat='%g [mT]';axis equal;
+title 'B_y from M_x'; thesis_fig_gen(uu.Number); axis([-1,1,-1,1]);  
+
+uu1 = figure; subplot(1,3,1);
+imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,1,2))*1e3);xlabel 'Y [mm]'; 
+ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [mT]';
+title 'B_x from M_z'; thesis_fig_gen(uu1.Number); axis equal; 
+axis([-1,1,-1,1]); subplot(1,3,3);
+imagesc(Yin.*1e3, Zin.*1e3, squeeze(Bcart(:,1,:,2,2))); xlabel 'Y [mm]'; 
+ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+title 'B_z from M_z'; thesis_fig_gen(uu1.Number); axis equal; 
+axis([-1,1,-1,1]); subplot(1,3,2);
+imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,3,2)).*1e3);xlabel 'Y [mm]';
+ylabel 'Z [mm]';c= colorbar; c.Ruler.TickLabelFormat='%g [mT]';axis equal;
+title 'B_y from M_z'; thesis_fig_gen(uu1.Number); axis([-1,1,-1,1]); 
+
 %%
+
