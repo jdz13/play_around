@@ -195,6 +195,32 @@ for ff = 1:length(ist.varst.Lengths)
 end
 
 ff = figure; 
-imagesc(ist.varst.Lengths.*100,ist.varst.PM.*100,plotter') 
+imagesc(ist.varst.Lengths.*100,(ist.varst.PM).*100,(plotter')) 
 xlabel 'L [cm]'; ylabel 'OD [cm]'; colorbar
+set(gca,'YDir','normal')
 title 'Number of possible channels'; thesis_fig_gen(ff.Number);
+
+%%
+
+
+h = figure; 
+plot(0:13,tester6.SWres(1:14),'b--+',0:3,tester7.SWres(1:4),'r--+');
+hold on 
+x = 0:20;
+b_0 = 0.4;
+TH = deg2rad(20);
+MK = deg2rad(12);
+
+y1 = b_0.*cos(TH+MK).^x;
+y2 = b_0.*cos((x.*TH)+MK);
+y2(1) = b_0;
+
+plot(x,y1,'b--o',x(1:7),y2(1:7),'r--o')
+axis([0,20,0,0.4])
+legend ({' Dynamic - simulation results',' Static - simulation results', [ ' B_n = B_0cos^n(\theta_J+\theta_F)'],...
+    [' B_0 = B_0 , B_n = B_0cos(n(\theta_J+\theta_F))' 
+    ]}, 'Location' , 'Northeast')
+xlabel 'Channel number (n)'
+ylabel 'B_n [T]'
+% set(h, 'WindowStyle', 'docked');
+thesis_fig_gen(h.Number)

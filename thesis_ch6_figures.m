@@ -181,3 +181,61 @@ thesis_fig_gen(jj.Number)
 clear jj kk pp
 
 %%
+
+x = linspace(0, 90,181);
+y = cosd(x);
+h1 = figure; subplot(1,2,1); plot(x,y)
+vline(30)
+vline(50)
+hline(cosd(30))
+hline(cosd(50))
+hline(mean([cosd(50), cosd(30)]))
+h = gca; 
+set(h,'Ytick', [0,cosd(50), mean([cosd(50), cosd(30)]), cosd(30),1])
+set(h, 'YTickLabel',{'0','B_n_+_1','B_s_t_a_r_t_,_n_+_1','B_n','B_0'})
+ylabel 'B_x'; xlabel '\theta_M'
+set(h,'Xtick', [0,30,50,90])
+set(h, 'XTickLabel',{'0','\theta_J','\theta_F+\theta_J','\pi/2'})
+thesis_fig_gen(h1.Number)
+
+tic
+
+% defining input space
+theta = linspace(0,pi/2,9001); % define the angular resolution....
+% Only up to 90 degrees, symmetry conditions help after.
+KRV = 5; % Key ratio values, how strict of a condition do we want 
+RES = 0.4; % Start field values. 
+Lengths = 4e-2; % Magnet lengths
+pm_cl = 4e-2; % Magnet outer diameters.
+s_rad = 1e-3; % define  sample radius (where the particles actually are)
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+D_prac = 10e-2; % maximum working distance for magnet surface-sample [m]
+N_probe = 10001; % distance probe points in z, defining resolution 
+M = 1e6; % Msat of magnet used for drive field [A/m]
+IB = 6e-3; % Inner bore of the drive magnet [m]
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+%Save outputs
+[tester6] = search_tool_Caciagli_single_7p2(KRV,RES,pm_cl,Lengths,theta,...
+    Yin,Zin,s_rad,con);
+tester6.timer = toc; tester6.comments = "tester for figure 5.15 and 5.16";
+
+[tester7] = search_tool_Caciagli_single_7p2p1_allatonce(KRV,RES,pm_cl,...
+    Lengths,theta,Yin,Zin,s_rad,con);
+tester7.timer = toc; tester7.comments = "eq for tester 6";
+subplot(1,2,2)
+plot(rad2deg(tester6.varst.theta), tester6.masterNVC(1,:),'b'); hold on
+plot(rad2deg(tester6.varst.theta(1784)), tester6.masterNVC(1,1784),'ro')
+xlabel '\theta_M'; ylabel 'NSA'
+h = gca; xlim([10,25])
+hline([0.3,0.5,0.7])
+vline([16.63,17.83,18.97])
+set(h,'Xtick', [16.63,17.83,18.97])
+set(h, 'XTickLabel',{'\theta_0_._7','\theta_J','\theta_0_._3'})
+set(h,'Ytick', [0,0.3,0.5,0.7,1])
+annotation('arrow',[0.59,0.48],[0.85,0.85])
+annotation('arrow',[0.48,0.59],[0.85,0.85])
+text (17.2,0.82,'FWHM')
+
+
+%%
