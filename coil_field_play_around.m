@@ -251,8 +251,7 @@ legend ('Obtained by moment dilution', 'Obtained by multiple particles')
 thesis_fig_gen(kk.Number);
 
 %%
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 R_coil = linspace(1e-4,2.5e-3,241);
 
 phi = zeros(length(R_coil),length(zline));ncell = phi; bsum = phi; 
@@ -286,12 +285,6 @@ ylabel 'R_c_o_i_l [mm]'; xlabel 'Sample - Coil distance [m]'
 c = colorbar;set(gca,'ColorScale','log'); c.Ruler.TickLabelFormat='%g [Wb]';
 set(get(c,'label'),'string','Flux captured by a search coil [Wb]'); 
 thesis_fig_gen(kk.Number); clear  kk h
-
-%%
-
-=======
-=======
->>>>>>> refs/remotes/origin/master
 
 %%
 
@@ -371,9 +364,4 @@ dif2 = (B_av_2 - B_av_3)./B_av_2;
 hold on; yyaxis right 
 plot(zline, dif*100, ':+', zline, dif2*100, ':x'); ylabel '% difference'
 legend ('(1) Two particles of (20\mum)^2', '(2) Single particle (40x20\mum)','(3) Big particle (4000x2000\mum)','Percentage difference (1)-(2)','Percentage difference (3)-(2)')
-<<<<<<< HEAD
-thesis_fig_gen(h1.Number)
->>>>>>> 36dd8f2c88d50a79b62a05998dba0f17cb935a6c
-=======
-thesis_fig_gen(h1.Number)
->>>>>>> refs/remotes/origin/master
+
