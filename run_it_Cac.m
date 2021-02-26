@@ -131,5 +131,128 @@ filename = 'matlab_SV25p4.mat';
 save(filename, 'SaveVar25p4')
 cd(oldfolder);
 % ------------------------------------------------------------------------
+%%
+Yin = linspace(-1e-3, 1e-3,101); % Probe plane points in Y 
+Zin = Yin(1:51);
+KRV = 10;
+RES = 0.4;
+Lengths = 4e-2; % Magnet lengths
+pm_cl = 4e-2; % Magnet outer diameters.
+s_rad = linspace(0.25,1,31).*1e-3;
+[SaveVar24p5] = search_tool_8p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar24p5.timer = toc; SaveVar24p5.comments = "2nd sample radius scan, 31 point linescan. double resolution.";
 
+[oldfolder] = cd(folpath);
+filename = 'matlab_SV24p5.mat';
+save(filename, 'SaveVar24p5')
+cd(oldfolder);
 
+%%
+
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = 5; % Key ratio values, how strict of a condition do we want 
+RES = 0.4; % Start field values. 
+
+pm_cl = linspace(2,10,21).*1e-2; % Magnet outer diameters.
+Lengths = pm_cl; % Magnet lengths
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+sigmoid_pc = 5; 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar24p6] = search_tool_8p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar24p6.timer = toc; SaveVar24p6.comments = "same 2D scan as used before but new model";
+
+[oldfolder] = cd(folpath);
+filename = 'matlab_SV24p6.mat';
+save(filename, 'SaveVar24p6')
+cd(oldfolder);
+
+%%
+Yin = linspace(-1e-3, 1e-3,101); % Probe plane points in Y 
+Zin = Yin(1:51);
+KRV = 10;
+RES = 0.4;
+Lengths = 4e-2; % Magnet lengths
+pm_cl = 4e-2; % Magnet outer diameters.
+s_rad = linspace(0.25,1,31).*1e-3;
+[SaveVar25p5] = search_tool_8p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, sigmoid_pc);
+SaveVar25p5.timer = toc; SaveVar25p5.comments = "2nd sample radius scan, 31 point linescan. double resolution.";
+
+[oldfolder] = cd(folpath);
+filename = 'matlab_SV25p5.mat';
+save(filename, 'SaveVar25p5')
+cd(oldfolder);
+
+%%
+
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = 5; % Key ratio values, how strict of a condition do we want 
+RES = 0.4; % Start field values. 
+
+pm_cl = linspace(2,10,21).*1e-2; % Magnet outer diameters.
+Lengths = pm_cl; % Magnet lengths
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+sigmoid_pc = 5; 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar25p6] = search_tool_8p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, sigmoid_pc);
+SaveVar25p6.timer = toc; SaveVar25p6.comments = "same 2D scan as used before but new model";
+
+[oldfolder] = cd(folpath);
+filename = 'matlab_SV25p6.mat';
+save(filename, 'SaveVar25p6')
+cd(oldfolder);
+
+%%
+tic
+
+theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
+
+KRV = linspace(3,35,33); % Key ratio values, how strict of a condition do we want 
+RES = 0.4; % Start field values. 
+
+pm_cl = 6e-2; % Magnet outer diameters.
+Lengths = 2e-2; % Magnet lengths
+
+s_rad = 1e-3; % define the sample radius (where the particles will actually be
+con = 0.7; % condition to be applied to FWHM - 0.7 = 70/30 condition. 
+sigmoid_pc = 5; 
+
+Yin = linspace(-1e-3, 1e-3,51); % Probe plane points in Y 
+Zin = Yin(1:26); % Probe plane points in Z 
+
+tic
+[SaveVar24p7] = search_tool_8p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+SaveVar24p7.timer = toc; SaveVar24p7.comments = "KRV linescan - 33 values - 3 to 35";
+
+[oldfolder] = cd(folpath);
+filename = 'matlab_SV24p7.mat';
+save(filename, 'SaveVar24p7')
+cd(oldfolder);
+
+tic
+[SaveVar25p7] = search_tool_8p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con, sigmoid_pc);
+SaveVar25p7.timer = toc; SaveVar25p7.comments = "KRV linescan - 33 values - 3 to 35";
+
+[oldfolder] = cd(folpath);
+filename = 'matlab_SV25p7.mat';
+save(filename, 'SaveVar25p7')
+cd(oldfolder);
+
+%%
