@@ -13,6 +13,7 @@ function [newnormy, waGrad, sfactor] = MOKE_norm_WA_tool(ist,ist2,fitresult)
     % start/end points to look over each section. Needs to be more than one
     % to guarentee not including the tails of the slopes. 2 is accurate.
     fac = 2;
+
     % find where the indicies are that correspond to fac*% away. 
     ind(2) = find(ist2 <= ((1-(fac*pcs)/100) * fitresult.c), 1, 'first');
     ind(1) = find(ist2 <= ((1+(fac*pcs)/100) * fitresult.c), 1, 'first');

@@ -48,14 +48,16 @@ set(gca, 'xtick',[1000,2000,3000,4000,5000],'xticklabel',{'H_J_1';'H_J_2';'H_J_3
 
 %% COMPARISON ON THE EFFECTS OF START FIELD ON FWHM AND CHANNEL VALUE
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV21p2.mat')
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p3.mat')
 
-trial.fwhm = squeeze(rad2deg(SaveVar21p2.FWHMres(4,:,1,:,3)))';
-trial.SWres3 = squeeze(SaveVar21p2.SWres(4,:,1,:,3))';
+ist = SaveVar24p3;
+
+trial.fwhm = squeeze(rad2deg(ist.FWHMres(4,:,1,:,3)))';
+trial.SWres3 = squeeze(ist.SWres(4,:,1,:,3))';
 
 h3 = figure;
 
-for mm = 1:size(SaveVar21p1.SWres,4)
+for mm = 1:size(ist.SWres,4)
 temp = nonzeros(trial.fwhm(mm,:));
 plot(nonzeros(trial.SWres3(mm,1:length(temp))),temp,'+:')
 hold on
@@ -63,10 +65,10 @@ end
 clear mm 
 
 xlabel 'Field value of channel [Oe]'
-ylabel 'FWHM [deg]'
+ylabel 'W_0_._3_-_0_._7 [deg]'
 legend('Start field 0.4 [T]', 'Start field 0.3 [T]', ...
     'Start field 0.2 [T]', 'Location', 'Southeast')
-title 'FWHM characteristics with respect to field'
+% title 'FWHM characteristics with respect to field'
 thesis_fig_gen(h3.Number)
 
 
@@ -179,7 +181,7 @@ difference_plots_Mumax_Akoun
 %% graph plotter for SV22p1. Shows max possible channels for a linescan in OD
 
 % load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p1.mat')
-ist = SaveVar22p1;
+ist = SaveVar24p1;
 plt1 = zeros(1, size(ist.varst.PM,2));
 
 lp = squeeze(ist.SWres);
@@ -203,7 +205,7 @@ clear tt j jj kk lp ist
 %% graph plotter for SV22p2. Shows max possible channels for a linescan in L
 
 % load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p2.mat')
-ist = SaveVar22p2;
+ist = SaveVar24p2;
 plt1 = zeros(1, size(ist.varst.Lengths,2));
 
 lp = squeeze(ist.SWres);
@@ -228,7 +230,7 @@ clear tt j jj kk lp ist
 %% graph plotter for SV22p4. Shows max possible channels for a linescan in Start field
 
 % load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p4.mat')
-ist = SaveVar22p4;
+ist = SaveVar24p4;
 plt1 = zeros(1, size(ist.varst.Lengths,2));
 
 lp = squeeze(ist.SWres);
@@ -255,7 +257,7 @@ clear tt j jj kk lp ist
 %% graph plotter for SV22p6. Shows max possible channels for a linescan in Start field
 
 load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p6.mat')
-ist = SaveVar22p6;
+ist = SaveVar24p3;
 plt1 = zeros(1, size(ist.varst.s_rad,2));
 
 lp = squeeze(ist.SWres);
@@ -266,10 +268,10 @@ end
 
 xs = ist.varst.s_rad;
 j = figure; 
-plot(xs.*1e3, plt1)
+plot(xs(5:end).*1e3, plt1(5:end))
 
 load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV22p3.mat')
-ist = SaveVar22p3;
+ist = SaveVar24p5;
 plt1 = zeros(1, size(ist.varst.s_rad,2));
 
 lp = squeeze(ist.SWres);
@@ -280,7 +282,7 @@ end
 
 hold on
 xs = ist.varst.s_rad;
-plot(xs.*1e3, plt1)
+plot(xs(5:end).*1e3, plt1(5:end))
 
 xlabel 'Sample radius [mm]'
 ylabel 'Number of possible channels'
@@ -323,7 +325,7 @@ clear x b_0 kk y1 y2 TH
 % diameters. 
 
 %holder so I don't have to type it out each time.
-ist =SaveVar22p1;
+ist =SaveVar24p1;
 
 % Start with defining the OD array. 
 OD = ist.varst.PM;
@@ -357,7 +359,7 @@ thesis_fig_gen(ff.Number)
 % diameters. 
 
 %holder so I don't have to type it out each time.
-ist =SaveVar22p2;
+ist =SaveVar24p2;
 
 % Start with defining the OD array. 
 L = ist.varst.Lengths;
@@ -388,14 +390,14 @@ thesis_fig_gen(ff.Number)
 %% STATIC VS DYNAMIC MEASUREMENT 
 
 
-ise = evalin( 'base', 'exist(''tester1'',''var'') == 1' );
-isee = evalin( 'base', 'exist(''tester2'',''var'') == 1' );
+ise = evalin( 'base', 'exist(''testerA'',''var'') == 1' );
+isee = evalin( 'base', 'exist(''testerB'',''var'') == 1' );
     if ise && isee 
     else
 
         % Set variable space
         theta = linspace(0,pi/2,9001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
-        KRV = 5; % Key ratio values, how strict of a condition do we want 
+        KRV = 10; % Key ratio values, how strict of a condition do we want 
         RES = 0.4; % Start field values. 
         pm_cl = 4.*1e-2; % Magnet outer diameters.
         s_rad = 1e-3; % define the sample radius (where the particles will actually be
@@ -405,25 +407,25 @@ isee = evalin( 'base', 'exist(''tester2'',''var'') == 1' );
         Lengths = 4.*1e-2; % Magnet lengths
 
         %Save outputs
-        [tester1] = search_tool_Caciagli_single_7p2(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-        [tester2] = search_tool_Caciagli_single_7p2p1_allatonce(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+        [testerA] = search_tool_Caciagli_single_8p1(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+        [testerB] = search_tool_Caciagli_single_8p1p1_allatonce(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
     end 
 
-plt1 = nonzeros(tester1.SWres);
+plt1 = nonzeros(testerA.SWres);
 x1 = 0:length(plt1)-2;
-plt2 = nonzeros(tester2.SWres);
+plt2 = nonzeros(testerB.SWres);
 x2 = 0:length(plt2)-2;        
 
         
 x = 0:20;
 b_0 = 0.4;
-TH = deg2rad(20);
-MK = deg2rad(12);
+TH = deg2rad(22);
+MK = deg2rad(19);
 
 y1 = b_0.*cos(TH+MK).^x;
 y2 = b_0.*cos((x.*TH)+MK);
 y2(1) = b_0;
-kk = figure;
+% kk = figure;
 plot(x1, plt1(1:end-1),'b+:',x2, plt2(1:end-1),'r+:',x,y1,'b:o',x(1:7),y2(1:7),'r:o')
 legend ({'Method 2 results', 'Method 1 results',...
     'B_n = B_0cos^n(\theta_J+\theta_F)','B_n = B_0cos(n\theta_J+\theta_F)'...
@@ -431,7 +433,7 @@ legend ({'Method 2 results', 'Method 1 results',...
 xlabel 'Channel number (n)'
 ylabel 'B_n [T]'
 axis([0,20,0,0.42])
-thesis_fig_gen(kk.Number)
+% thesis_fig_gen(kk.Number)
 
 clear x b_0 kk y1 y2 TH 
 
@@ -467,7 +469,7 @@ clear pp kk ist plt1 legendCell
 
 tic
 theta = linspace(0,pi/2,90001); % define the angular resolution. Only up to 90 degrees, symmetry conditions help after.
-KRV = 5; % Key ratio values, how strict of a condition do we want 
+KRV = 10; % Key ratio values, how strict of a condition do we want 
 RES = linspace(0.6,0.42,19); % Start field values. 
 pm_cl = 6.*1e-2; % Magnet outer diameters.
 s_rad = 1e-3; % define the sample radius (where the particles will actually be
@@ -554,7 +556,8 @@ end
                         masterNVC(count,:) = NVC(1,:);
                         [FWHMX(1),MLOC(1),indout] = FWHMNVC(NVC(1,:),theta,con);
                         SWnextpos = MLOC(1)+(KRV(count2)*FWHMX(1));  
-                        SWnext = swinit*cos(SWnextpos);
+                        Bxnew = Xunitx.*cos(SWnextpos) + Yunitx.*sin(SWnextpos);                                             
+                        SWnext = median(Bxnew,'all');
                         SWres(count2,count+1,pmcount,rescount,Lcount) = SWnext;
                         FWHMres(count2,count,pmcount,rescount,Lcount) = FWHMX(1); % if +1 not needed then can use FWHMres(:,1,:,:) = [];
                         ind1res(count2,count,pmcount,rescount,Lcount)= indout(1);
@@ -563,23 +566,64 @@ end
                         SHo(count2,count,pmcount,rescount,Lcount) = SH0;
                         MLOCa(count2,count,pmcount,rescount,Lcount) = MLOC(1);
                         % manipulate the results to run the next leg
-                        tmps(1) = swinit; 
-                            if SWnextpos >= pi/2
-                                 tmps(2) = 0;
+                            if swinit - SWnext < 5e-3
+                                SWnext = swinit;
+                                while SWnext > MxB(pmcount,size(MxB,2),Lcount)
+                                    SWnext = SWnext - 5e-3;
+                                    SWres(count2,count+1,pmcount,rescount,Lcount) = SWnext;
+                                    count = count+1;
+                                end
+                                tmps(2) = 0;
                             else
-                                tmps(2) = SWnext;
-                            end
-                        SH0 = (tmps(1)+tmps(2))/2;  swinit = tmps(2); count = count +1;
-                        disp (['count = ', num2str(count),', range = ', num2str(tmps)])
+                                tmps(1) = swinit; 
+                                    if SWnextpos >= pi/2
+                                         tmps(2) = 0;
+                                    else
+                                        tmps(2) = SWnext;
+                                    end
+                                SH0 = (tmps(1)+tmps(2))/2;
+                                swinit = tmps(2); 
+                                count = count +1; 
+                            end    
+                            disp (['count = ', num2str(count),', range = ', num2str(tmps)])
                 end
             end
         end 
     end 
     g = figure; plot(RES, squeeze(rad2deg(FWHMres(1,1,1,:))),'+');ga = gca;
     g1 = lsline(ga);set(g1,'LineStyle', ':'); xlabel 'B_s_t_a_r_t [T]'; 
-    ylabel 'FWHM [deg]';    yyaxis right ; hold on 
-    plot(RES, squeeze(rad2deg(MLOCa(1,1,1,:)))); ylabel '\theta_J [deg]'
-    legend ('FWHM vs B_s_t_a_r_t','fit, to guide the eye',...
-        '\theta_J vs B_s_t_a_r_t', 'Location', 'Southeast')
+    ylabel 'W_0_._3_-_0_._7 [deg]';    yyaxis right ; hold on 
+    plot(RES, squeeze(rad2deg(MLOCa(1,1,1,:)))); ylabel '\theta_0 [deg]'
+    legend ('W_0_._3_-_0_._7 vs B_s_t_a_r_t','fit, to guide the eye',...
+        '\theta_0 vs B_s_t_a_r_t', 'Location', 'Southeast')
     thesis_fig_gen(g.Number)
     
+%% Plotting the field components for 1.05*-0.4T max field
+% not sure what this was doing but it was in the Ch4 plotter... 
+% Also needs data.
+
+uu = figure; subplot(1,3,1);
+imagesc(Yin.*1e3, Zin.*1e3, squeeze(Bcart(:,1,:,1,1))); xlabel 'Y [mm]'; 
+ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+title 'B_x from M_x'; thesis_fig_gen(uu.Number); axis equal; 
+axis([-1,1,-1,1]); subplot(1,3,3);
+imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,2,1)).*1e3);xlabel 'Y [mm]';
+ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [mT]';
+title 'B_z from M_x'; thesis_fig_gen(uu.Number); axis equal; 
+axis([-1,1,-1,1]); subplot(1,3,2);
+imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,3,1)).*1e3);xlabel 'Y [mm]'; 
+ylabel 'Z [mm]';c = colorbar;c.Ruler.TickLabelFormat='%g [mT]';axis equal;
+title 'B_y from M_x'; thesis_fig_gen(uu.Number); axis([-1,1,-1,1]);  
+
+uu1 = figure; subplot(1,3,1);
+imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,1,2))*1e3);xlabel 'Y [mm]'; 
+ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [mT]';
+title 'B_x from M_z'; thesis_fig_gen(uu1.Number); axis equal; 
+axis([-1,1,-1,1]); subplot(1,3,3);
+imagesc(Yin.*1e3, Zin.*1e3, squeeze(Bcart(:,1,:,2,2))); xlabel 'Y [mm]'; 
+ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+title 'B_z from M_z'; thesis_fig_gen(uu1.Number); axis equal; 
+axis([-1,1,-1,1]); subplot(1,3,2);
+imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,3,2)).*1e3);xlabel 'Y [mm]';
+ylabel 'Z [mm]';c= colorbar; c.Ruler.TickLabelFormat='%g [mT]';axis equal;
+title 'B_y from M_z'; thesis_fig_gen(uu1.Number); axis([-1,1,-1,1]); 

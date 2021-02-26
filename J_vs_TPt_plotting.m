@@ -1,5 +1,5 @@
 
-PtCal = 0.0703; %[nm/s]
+PtCal = 0.072; %[nm/s]
 CoFeBt = 1; % [nm]
 Ms = 1e6; % [A/m]
 
@@ -18,7 +18,7 @@ ft = fittype( 'a*exp(x./-b)', 'independent', 'x', 'dependent', 'y' );
 
 %%
 
-PtCal = 0.0703; %[nm/s]
+PtCal = 0.072; %[nm/s]
 CoFeBt = 1; % [nm]
 Ms = 1e6; % [A/m]
 
@@ -38,7 +38,7 @@ ft = fittype( 'a*exp(x./-b)', 'independent', 'x', 'dependent', 'y' );
 
 %%
 
-PtCal = 0.0703; %[nm/s]
+PtCal = 0.072; %[nm/s]
 CoFeBt = 1; % [nm]
 Ms = 1e6; % [A/m]
 
@@ -84,14 +84,14 @@ yt = yL(2) - 0.33*(diff(yL));
 
 text(xt,yt, fstring)
 xlabel 'Platinum thickness - t_P_t [nm]'
-ylabel 'J/t_C_o_F_e_B [Oe\cdotnm]'
+ylabel 'H_J [Oe]'
 title 'J vs t_P_t - Ge Particles'
 
 legend ('off')
 yL=get(gca,'YLim');
 yyaxis right 
 ylim(yL.* Ms .* CoFeBt .* 1e-7 .*1e-3)
-ylabel 'J [erg/cm^-^2]'
+ylabel 'J [Jm^-^2]'
 xlabel 'Platinum thickness - t_P_t [nm]'
 
 %%
@@ -120,14 +120,14 @@ yt = yL(2) - 0.33*(diff(yL));
 
 text(xt,yt, fstring)
 xlabel 'Platinum thickness - t_P_t [nm]'
-ylabel 'J/t_C_o_F_e_B [Oe\cdotnm]'
+ylabel 'H_J [Oe]'
 title 'J vs t_P_t - Si Films'
 legend('off')
 
 yL=get(gca,'YLim');
 yyaxis right 
 ylim(yL.* Ms .* CoFeBt .* 1e-7 .*1e-3)
-ylabel 'J [erg/cm^-^2]'
+ylabel 'J [Jm^-^2]'
 xlabel 'Platinum thickness - t_P_t [nm]'
 
 %%
@@ -156,14 +156,14 @@ yt = yL(2) - 0.33*(diff(yL));
 
 text(xt,yt, fstring)
 xlabel 'Platinum thickness - t_P_t [nm]'
-ylabel 'J/t_C_o_F_e_B [Oe\cdotnm]'
+ylabel 'H_J [Oe]'
 title 'J vs t_P_t - Si Particles'
 legend('off')
 
 yL=get(gca,'YLim');
 yyaxis right 
 ylim(yL.* Ms .* CoFeBt .* 1e-7 .*1e-3)
-ylabel 'J [erg/cm^-^2]'
+ylabel 'J [Jm^-^2]'
 xlabel 'Platinum thickness - t_P_t [nm]'
 
 %%
@@ -182,7 +182,7 @@ plot(SiP.fit,'b-')
 
 xlim([0.2,0.75])
 
-ylabel 'J*t_C_o_F_e_B [Oe\cdotnm]'
+ylabel 'H_J [Oe]'
 title 'J vs t_P_t'
 
 yL=get(gca,'YLim');
@@ -195,7 +195,7 @@ errorbar(GeP.TPtnm, abs(GeP.J.*CoFeBt), ones(size (GeP.TPtnm)).*PtCal.*0.5, ones
 plot(GeP.fit,'k-')
 
 ylim(yL.* Ms .* CoFeBt .* 1e-7 .*1e-3)
-ylabel 'J [erg/cm^-^2]'
+ylabel 'J [Jm^-^2]'
 xlabel 'Platinum thickness - t_P_t [nm]'
 
 legend ('Si films', '', 'Ge particles', '','Si particles','')
@@ -213,7 +213,7 @@ plot(GeP.fit,'k-')
 
 xlim([0.2,0.75])
 
-ylabel 'J*t_C_o_F_e_B [Oe\cdotnm]'
+ylabel 'H_J [Oe]'
 title 'J vs t_P_t'
 
 
@@ -227,7 +227,7 @@ errorbar(GeP.TPtnm, abs(GeP.J.*CoFeBt), ones(size (GeP.TPtnm)).*PtCal.*0.5, ones
 plot(GeP.fit,'k-')
 
 ylim(yL.* Ms .* CoFeBt .* 1e-7 .*1e-3)
-ylabel 'J [erg/cm^-^2]'
+ylabel 'J [Jm^-^2]'
 xlabel 'Platinum thickness - t_P_t [nm]'
 
 legend ('Si films', '', 'Ge particles','')

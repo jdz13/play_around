@@ -27,6 +27,9 @@ masterNVC = zeros(ntestmax, length(theta));
 % sizes (as they simply cache previous results)
 SWres = zeros(size(KRV,2),ntestmax,length(pm_cl),length(RES),length(Lengths)); 
 SHo = SWres; FWHMres = SWres; ind1res = SWres; ind2res = SWres; Bset = SWres; MLOCa = SWres;
+B0p5 = zeros(length(theta), ntestmax);
+B_maxes = zeros(length(theta), ntestmax);
+B_mins = zeros(length(theta), ntestmax);
 
 % Figure out where the sample sits within the probe plane, to convolute
 % with the moment. 
@@ -110,6 +113,10 @@ end
 
                            % feed this back into the old variable 
                            Bxnew = new.newBxnew;
+                           
+                           B0p5(pull,count) = median(Bxnew,'all');
+                           B_maxes(pull,count) = max(Bxnew,[],'all');
+                           B_mins(pull,count) = min(Bxnew,[],'all');
 
                            %Find out how much of this areas is above or below the threshold
                            BZM = (Bxnew >= swinit) - (Bxnew <= -swinit);
@@ -192,5 +199,8 @@ SaveVar.NVC = squeeze(NVC);
 SaveVar.masterNVC = squeeze(masterNVC);
 SaveVar.MLOC = squeeze(MLOCa);
 SaveVar.swinit = squeeze(swinit);
+SaveVar.B0p5 = B0p5;
+SaveVar.B_maxes = B_maxes;
+SaveVar.B_mins = B_mins;
 
 end 

@@ -135,21 +135,21 @@ clear h1 h11 h12 h13 ax ax1 ax2 ax3 ax4 ax5 ax6 h11 s1 s2 s3 s4 s5 ...
 %% Transitions for series and J vs T_Pt plotting
 
 % C:\Users\JDZ\Documents\MOKE\2019 NOV\Films redo
-[SiF, SiFfitting] = MOKE_data_in(50, [200,800], [3:10]);
+[SiF, SiFfitting] = MOKE_data_in2(50, [200,800], [3:10]);
 thesis_fig_gen(50:52)
 figure(50); xlim([-1000, 10300]); ylim([-0.05,1.05])
 set(gcf, 'Position',  [100, 100, 540, 500]); title 'P-AP (H_4) transition - Si films'
 figure(52); xlim([-1000, 7000]); ylim([-0.55,0.05])
 
 % C:\Users\JDZ\Documents\MOKE\DEC 2019\New folder
-[SiP, SiPfitting] = MOKE_data_in(47, [300,820], [3,5:9]);
+[SiP, SiPfitting] = MOKE_data_in2(47, [300,820], [3,5:9]);
 thesis_fig_gen(47:49)
 figure(47); xlim([-1000, 9000]); ylim([-0.05,1.05])
 set(gcf, 'Position',  [100, 100, 540, 450]); title 'P-AP (H_4) transition - Si Particles'
 figure(49); xlim([-1000, 6000]); ylim([-0.9,0.05])
 
 % C:\Users\JDZ\Documents\MOKE\DEC 2019\Ge particles redo
-[GeP, GePfitting] = MOKE_data_in(44, [300,820], [4:10]);
+[GeP, GePfitting] = MOKE_data_in2(44, [300,820], [4:10]);
 thesis_fig_gen(44:47)
 figure(44); xlim([-1000, 6700]); ylim([-0.05,1.05])
 set(gcf, 'Position',  [100, 100, 540, 450]); title 'P-AP (H_4) transition - Ge Particles'
@@ -276,34 +276,160 @@ legend('Mean field in XY plane - IP','Max field in XY plane - IP', ...
 thesis_fig_gen(pp.Number)
 
 
-%% Plotting the field components for 1.05*-0.4T max field
-
-
-uu = figure; subplot(1,3,1);
-imagesc(Yin.*1e3, Zin.*1e3, squeeze(Bcart(:,1,:,1,1))); xlabel 'Y [mm]'; 
-ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
-title 'B_x from M_x'; thesis_fig_gen(uu.Number); axis equal; 
-axis([-1,1,-1,1]); subplot(1,3,3);
-imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,2,1)).*1e3);xlabel 'Y [mm]';
-ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [mT]';
-title 'B_z from M_x'; thesis_fig_gen(uu.Number); axis equal; 
-axis([-1,1,-1,1]); subplot(1,3,2);
-imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,3,1)).*1e3);xlabel 'Y [mm]'; 
-ylabel 'Z [mm]';c = colorbar;c.Ruler.TickLabelFormat='%g [mT]';axis equal;
-title 'B_y from M_x'; thesis_fig_gen(uu.Number); axis([-1,1,-1,1]);  
-
-uu1 = figure; subplot(1,3,1);
-imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,1,2))*1e3);xlabel 'Y [mm]'; 
-ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [mT]';
-title 'B_x from M_z'; thesis_fig_gen(uu1.Number); axis equal; 
-axis([-1,1,-1,1]); subplot(1,3,3);
-imagesc(Yin.*1e3, Zin.*1e3, squeeze(Bcart(:,1,:,2,2))); xlabel 'Y [mm]'; 
-ylabel 'Z [mm]'; c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
-title 'B_z from M_z'; thesis_fig_gen(uu1.Number); axis equal; 
-axis([-1,1,-1,1]); subplot(1,3,2);
-imagesc(Yin.*1e3,Zin.*1e3,squeeze(Bcart(:,1,:,3,2)).*1e3);xlabel 'Y [mm]';
-ylabel 'Z [mm]';c= colorbar; c.Ruler.TickLabelFormat='%g [mT]';axis equal;
-title 'B_y from M_z'; thesis_fig_gen(uu1.Number); axis([-1,1,-1,1]); 
 
 %%
+
+%% Linear high resolution switches - Si particles
+
+% folder path
+% C:\Users\JDZ\Documents\Thesis\Data\SP8313_rotational_switching_as\Si particles linear high res
+[zz1] = fol_data_ext_function();
+
+fac1 = 4e-8;
+fac2 = 7e-8;
+
+AP2Px = zz1(4).data(:,8);
+AP2Py = zz1(4).data(:,11);
+AP2Py = AP2Py + fac2.* AP2Px;
+
+P2APx = zz1(5).data(:,8);
+P2APy = zz1(5).data(:,11);
+P2APy = P2APy + fac1.* P2APx;
+
+gg = figure;
+subplot(2,1,1)
+plot(P2APx(1:floor(length(P2APx)/2)), P2APy(1:floor(length(P2APx)/2)).*1e6)
+xlabel 'Field [Oe]'
+ylabel 'Moment [\muemu]'
+legend ('P-AP, Si particles', 'Location', 'Southeast')
+xlim([700,1600])
+thesis_fig_gen(gg.Number)
+
+subplot(2,1,2)
+plot(AP2Px(1:floor(length(AP2Px)/2)), AP2Py(1:floor(length(AP2Px)/2)).*1e6)
+xlabel 'Field [Oe]'
+ylabel 'Moment [\muemu]'
+legend ('AP-P, Si particles', 'Location', 'Southeast')
+xlim([-2100,-1200])
+thesis_fig_gen(gg.Number)
+
+%% linear switching at high resolution - Si Films
+
+folpath = 'C:\Users\JDZ\Documents\Thesis\Data\SP8313_rotational_switching_as\SP8313_rotational_switching_as\Output';
+filename = 'SP8313_P2AP_checker.txt';
+
+name = [folpath,'\',filename];
+
+formatSpec = '%f %f %f %f %f %f %f %f %f %f %f';
+
+sizeA = [11 Inf];
+fileID = fopen(name,'r');
+letsC = fgets(fileID);
+P2AP_linear = fscanf(fileID,formatSpec,sizeA)';
+fclose('all');
+
+P2AP_linear((floor(size(P2AP_linear,1)/2)+1):end,:) = [];
+P2AP_linear(1,:) = [];
+
+datax = P2AP_linear(:,6);
+datay = P2AP_linear(:,11);
+
+fac = -4e-8;
+datayf = datay + (fac.*datax);
+
+hh = figure; 
+subplot(2,1,1)
+plot(datax,datayf.*1e6)
+xlabel 'Field [Oe]'
+ylabel 'Moment [\muemu]'
+title 'Linear field - P-AP transition, Si Films'
+xlim([800,1100])
+points = [933,983];
+vline(points)
+legend(['Transition over ', num2str(diff(points)), ' [Oe]'], 'Location', 'Northwest')
+thesis_fig_gen(hh.Number)
+
+filename = 'SP8313_AP2P_checkerV2.txt';
+name = [folpath,'\',filename];
+
+fileID = fopen(name,'r');
+letsC = fgets(fileID);
+AP2P_linear = fscanf(fileID,formatSpec,sizeA)';
+fclose('all');
+
+AP2P_linear((floor(size(AP2P_linear,1)/2)+1):end,:) = [];
+
+datax1 = AP2P_linear(:,6);
+datay1 = AP2P_linear(:,11);
+
+fac = 2.4e-7;
+datay1f = datay1 + (fac.*datax1);
+
+subplot(2,1,2)
+plot(datax1,datay1f.*1e6)
+xlabel 'Field [Oe]'
+ylabel 'Moment [\muemu]'
+title 'Linear field - AP-P transition, Si Films'
+xlim([-1450, -1150])
+points = [-1322, -1252];
+vline(points)
+legend(['Transition over ', num2str(diff(points)), ' [Oe]'], 'Location', 'Northwest')
+thesis_fig_gen(hh.Number)
+
+clear hh
+
+
+%% plotting all of the CoFeB single layers on the same plot. 
+
+folpath = 'C:\Users\JDZ\Documents\Thesis\Data\Feb 2021\CoFeB Single layers';
+filename = 'sp7616.txt';
+name = [folpath,'\',filename];
+
+formatSpec = '%f %f';
+sizeA = [2 Inf];
+
+fileID = fopen(name,'r');letsC = fgets(fileID);
+SP7616 = fscanf(fileID,formatSpec,sizeA)'; fclose('all');
+
+filename = 'sp7617.txt'; name = [folpath,'\',filename];
+fileID = fopen(name,'r'); letsC = fgets(fileID);
+SP7617 = fscanf(fileID,formatSpec,sizeA)'; fclose('all');
+
+filename = 'sp7618.txt'; name = [folpath,'\',filename];
+fileID = fopen(name,'r'); letsC = fgets(fileID); 
+SP7618 = fscanf(fileID,formatSpec,sizeA)'; fclose('all');
+
+filename = 'sp7619.txt'; name = [folpath,'\',filename];
+fileID = fopen(name,'r'); letsC = fgets(fileID);
+SP7619 = fscanf(fileID,formatSpec,sizeA)'; fclose('all');
+
+x1 = normalize(SP7616(:,2), 'range', [0 1]);
+x2 = normalize(SP7617(:,2), 'range', [0 1]);
+x3 = normalize(SP7618(:,2), 'range', [0 1]);
+x4 = normalize(SP7619(:,2), 'range', [0 1]);
+
+hh = figure;
+plot(SP7616(:,1),x1,SP7617(:,1),x2, SP7618(:,1),x3, SP7619(:,1),x4);
+xlabel('Field [Oe]')
+ylabel 'Normalised Kerr signal'
+legend ('t_C_o_F_e_B = 0.7 [nm]', 't_C_o_F_e_B = 0.8 [nm]', ...
+    't_C_o_F_e_B = 1.1 [nm]', 't_C_o_F_e_B = 1.3 [nm]', ...
+    'Location' , 'West')
+ylim([-0.02, 1.02])
+hline([1,0])
+thesis_fig_gen(hh.Number)
+
+
+%%
+
+kk = figure; 
+errorbar(mean(SiF.a), 1, (std(SiF.a)) , (std(SiF.a)),  'horizontal', 'rx'); 
+hold on;
+errorbar(mean(SiP.a), 2, (std(SiP.a)) , (std(SiP.a)),  'horizontal', 'kx');
+errorbar(mean(GeP.a), 3, (std(GeP.a)) , (std(GeP.a)),  'horizontal', 'bx');
+ylim([0,4])
+legend('Si films' , 'Ge particles', 'Si particles')
+xlabel 'a [Oe^-^1]'
+title 'Comparison of decay constant'
+thesis_fig_gen(kk.Number)
 
