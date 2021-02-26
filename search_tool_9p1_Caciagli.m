@@ -162,10 +162,10 @@ end
                                     MLOCa(count2,count,pmcount,rescount,Lcount,scount,count3,count4) = MLOC(1);
                                     % manipulate the results to run the next leg
 
-                                    if swinit - SWnext < 5e-3
+                                    if swinit - SWnext < min_separation(count4)
                                         SWnext = swinit;
-                                        while SWnext > MxB(pmcount,size(MxB,2),Lcount,scount,count3,count4)
-                                            SWnext = SWnext - 5e-3;
+                                        while SWnext > MxB(pmcount,size(MxB,2),Lcount,scount)
+                                            SWnext = SWnext - min_separation(count4);
                                             SWres(count2,count+1,pmcount,rescount,Lcount,scount,count3,count4) = SWnext;
                                             count = count+1;
                                         end
@@ -209,6 +209,7 @@ varst.Yin = Yin;
 varst.Zin = Zin;
 varst.s_rad = s_rad;
 varst.Lengths = Lengths;
+varst.min_separation = min_separation;
 
 
 
