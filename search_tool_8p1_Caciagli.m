@@ -82,7 +82,7 @@ end
                         control = sum(sum(particle_loc));
 
 
-                        while abs(tmps(1) - tmps(2)) > 5e-3 && SH0 > MxB(pmcount,size(MxB,2),Lcount) && tmps(2) ~= 0  
+                        while abs(tmps(1) - tmps(2)) > 20e-3 && SH0 > MxB(pmcount,size(MxB,2),Lcount) && tmps(2) ~= 0  
                             % 
                             % Do I need to change this to a physical value for all?
                             % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
