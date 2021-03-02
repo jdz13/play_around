@@ -433,3 +433,175 @@ xlabel 'a [Oe^-^1]'
 title 'Comparison of decay constant'
 thesis_fig_gen(kk.Number)
 
+%%
+
+[zz10] = fol_data_ext_function();
+%datafolder: C:\Users\JDZ\Documents\Thesis\Data\VSM data for statistical stuff
+figure
+subplot(1,3,3)
+fac = 6.5e-9;
+yyt14 =  zz10(6).data(:,11) - zz10(5).data(:,11) ;
+xt14 = zz10(5).data(:,6);
+
+yy14 = yyt14 + (fac.*xt14);
+plot(xt14,yy14.*1e6)
+xlabel 'Field [Oe]'
+ylabel 'Moment [\muema]'
+title 'SP8314'
+
+subplot(1,3,1)
+fac = 1.25e-8;
+yyt12 =  zz10(4).data(:,11) - zz10(3).data(:,11) ;
+xt12 = zz10(4).data(:,6);
+
+yy14 = yyt12 + (fac.*xt12);
+plot(xt12(1:60),yy14(1:60).*1e6)
+xlabel 'Field [Oe]'
+ylabel 'Moment [\muema]'
+title 'SP8312'
+
+
+%% Schematic to show the sigmoid in rotational SAF astroids
+
+gh = figure;
+
+x = -200:200;
+y = zeros(size(x));
+y(1:150) = -1;
+y(300:end) = 1;
+subplot(2,2,1)
+plot(x,y,'r', x,-fliplr(y),'b')
+xlabel 'Field'
+ylabel 'Normalised moment'
+h = gca;set(h,'Ytick', []);set(h,'Xtick', []);
+thesis_fig_gen(gh.Number)
+text(100,0.5,'H_3','Color','red')
+text(-100,-0.5,'H_2','Color','red')
+text(100,0.5,'H_4','Color','blue')
+text(-100,-0.5,'H_5','Color','blue')
+
+x = rad2deg(linspace(0,pi, 901));
+y15= 1500.*cosd(x);
+y5= 400.*cosd(x);
+y10= 1000.*cosd(x);
+mk = [1200,-600];
+
+
+subplot(2,2,2)
+plot((x),y15); ylim([-1600, 1600])
+vline(acosd([-1200,600]./1500),'b:')
+h = gca;set(h,'Ytick', sort([0,mk,-mk,1500]))
+set(h, 'YTickLabel',fliplr({'H_s_e_t','H_3','H_4','0','H_2','H_5'}))
+
+subplot(2,2,3)
+plot((x),y10); ylim([-1600, 1600])
+vline(acosd(600/1000),'b:')
+h = gca;set(h,'Ytick', sort([0,mk,-mk,1000]))
+set(h, 'YTickLabel',fliplr({'H_3','H_s_e_t','H_4','0','H_2','H_5'}))
+
+subplot(2,2,4)
+plot((x),y5); ylim([-1600, 1600])
+h = gca;set(h,'Ytick', sort([0,mk,-mk,400]))
+set(h, 'YTickLabel',fliplr({'H_3','H_4','H_s_e_t','0','H_2','H_5'}))
+
+
+for dd = 2:4
+    subplot(2,2,dd)
+    hline(mk,'r:')
+    hline(-mk,'b:')
+    hline(0,'k-')
+    xlim([0,180])
+    xlabel 'Angle [deg]'
+    ylabel 'B_\perp'
+    thesis_fig_gen(gh.Number)
+end
+
+
+%%
+
+[gtest] = sigmoidal_mem_funct_gen(1700:2300,2000, 5, 2);
+title ''
+xlabel 'B_\perp'
+h = gca;
+set(h,'Xtick', [])
+set(h,'Ytick', [0,0.5,1])
+vline(2000,'r:')
+hline(0.5, 'k:')
+text(2020,0.15,'c','Fontsize',14,'Color','Red')
+thesis_fig_gen(2)
+
+%% FWHM studies on the series.
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter IV\FWHM for series.mat')
+h = figure;
+subplot(2,2,1)
+scatter(mloc_SiF, -FWHM_SiF,'+'); hold on
+scatter(mloc_SiP, -FWHM_SiP,'+')
+scatter(mloc_GeP, -FWHM_GeP,'+')
+xlabel 'H_J [Oe]'
+ylabel 'FWHM [Oe]'
+legend ('Si Films','Si Particles', 'Ge Particles')
+thesis_fig_gen(h.Number)
+
+dSiF = -[diff(mloc_SiF), mloc_SiF(end)-mloc_SiF(end-1)];
+dSiP = -[diff(mloc_SiP), mloc_SiP(end)-mloc_SiP(end-1)];
+dGeP = -[diff(mloc_GeP), mloc_GeP(end)-mloc_GeP(end-1)];
+subplot(2,2,2)
+scatter(mloc_SiF, dSiF,'+'); hold on
+scatter(mloc_SiP, dSiP,'+');
+scatter(mloc_GeP, dGeP,'+');
+xlabel 'H_J [Oe]'
+ylabel 'Separation [Oe]'
+legend ('Si Films','Si Particles', 'Ge Particles')
+thesis_fig_gen(h.Number)
+
+subplot(2,2,3)
+scatter(mloc_SiF, dSiF./-FWHM_SiF,'+'); hold on
+scatter(mloc_SiP, dSiP./-FWHM_SiP,'+'); 
+scatter(mloc_GeP, dGeP./-FWHM_GeP,'+'); 
+xlabel 'H_J [Oe]'
+ylabel 'Ratio of separation to FWHM [Oe]'
+legend ('Si Films','Si Particles', 'Ge Particles')
+thesis_fig_gen(h.Number)
+
+subplot(2,2,4)
+scatter(mloc_SiF, -FWHM_SiF./dSiF,'+'); hold on
+scatter(mloc_SiP, -FWHM_SiP./dSiP,'+'); 
+scatter(mloc_GeP, -FWHM_GeP./dGeP,'+'); 
+xlabel 'H_J [Oe]'
+ylabel 'Ratio of FWHM to separation[Oe]'
+legend ('Si Films','Si Particles', 'Ge Particles')
+thesis_fig_gen(h.Number)
+
+[mean(-FWHM_SiF), mean(-FWHM_SiP), mean(-FWHM_GeP)]
+[mean(dSiF./-FWHM_SiF), mean(dSiP./-FWHM_SiP), mean(dGeP./-FWHM_GeP)]
+% % % 
+% % % ist = SiF;
+% % % isty = ist.dfdat;
+% % % istx = ist.Bnorm;
+% % % 
+% % % fwhmx = zeros(1, size(isty,2));
+% % % mloc = zeros(1, size(isty,2));
+% % % 
+% % % for gp = 1:size(isty,2)
+% % %     data = isty(:,gp);
+% % %     % Find the half max value.
+% % %     halfMax = (min(data)) / 2;
+% % %     % Find where the data first drops below half the max.
+% % %     index1 = find(data <= halfMax, 1, 'first');
+% % %     % Find where the data last rises above half the max.
+% % %     index2 = find(data <= halfMax, 1, 'last');
+% % %     fwhm = index2-index1 + 1; % FWHM in indexes.
+% % %     % OR, if you have an x vector
+% % %     fwhmx(gp) = istx(index2,gp) - istx(index1,gp);
+% % %    
+% % %     
+% % %     mloc(gp) = istx(find(data == (min(data))),gp);
+% % %     
+% % % end
+% % % 
+
+
+%%
+
+

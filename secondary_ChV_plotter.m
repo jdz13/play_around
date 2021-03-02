@@ -185,9 +185,9 @@ legend ('B_s_t_a_r_t = 0.6 [T]','B_s_t_a_r_t = 0.5 [T]','B_s_t_a_r_t = 0.4 [T]',
 thesis_fig_gen(ff.Number)
 %% Proper 2D scan data 
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p6.mat')
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV27p6.mat')
 
-ist = SaveVar24p6;
+ist = SaveVar27p6;
 plotter = zeros(length(ist.varst.Lengths),length(ist.varst.PM));
 for ff = 1:length(ist.varst.Lengths)
     for gg = 1:length(ist.varst.PM)
@@ -552,3 +552,29 @@ tt = compose(['OD = ', num2str(ist.varst.PM*1e3), ' [mm]\n\nL = ', num2str(ist.v
 text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
 thesis_fig_gen(hh.Number)
 clear hh gg
+
+%%
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV26p1.mat')
+
+ist = SaveVar26p1;
+
+h3 = figure;
+
+plotter = zeros(1, size(ist.SWres,8));
+
+for mm = 1:size(ist.SWres,8)
+
+    plotter(mm) = nnz(ist.SWres(1,:,1,1,1,1,1,mm));
+    
+end 
+% clear mm 
+
+plot(ist.varst.min_separation.*1e4, plotter)
+xlabel 'Minimum separation value [Oe]'
+ylabel 'Number of possible channels'
+jj = gca; 
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), '\n\nL = ', num2str(ist.varst.Lengths*1000),' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nStart field = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
+thesis_fig_gen(h3.Number)
+
+% clear h3 jj tt

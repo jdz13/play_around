@@ -27,6 +27,7 @@ D_prac = 10e-2; % maximum working distance for magnet surface-sample [m]
 N_probe = 10001; % distance probe points in z, defining resolution 
 M = 1e6; % Msat of magnet used for drive field [A/m]
 IB = 6e-3; % Inner bore of the drive magnet [m]
+min_separation = 5e-3;
 
 % Find the maximum field (theta = 0) at each z probe point, for each set of
 % magnet parameters (L,OD)
@@ -82,7 +83,7 @@ end
                         control = sum(sum(particle_loc));
 
 
-                        while abs(tmps(1) - tmps(2)) > 20e-3 && SH0 > MxB(pmcount,size(MxB,2),Lcount) && tmps(2) ~= 0  
+                        while abs(tmps(1) - tmps(2)) > min_separation && SH0 > MxB(pmcount,size(MxB,2),Lcount) && tmps(2) ~= 0  
                             % 
                             % Do I need to change this to a physical value for all?
                             % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
@@ -157,11 +158,11 @@ end
                             MLOCa(count2,count,pmcount,rescount,Lcount,scount) = MLOC(1);
                             % manipulate the results to run the next leg
 
-                            if swinit - SWnext < 5e-3
+                            if swinit - SWnext < min_separation
                                 SWnext = swinit;
                                 while SWnext > MxB(pmcount,size(MxB,2),Lcount)
-                                    SWnext = SWnext - 5e-3;
-                                    SWres(count2,count+1,pmcount,rescount,Lcount) = SWnext;
+                                    SWnext = SWnext - min_separation;
+                                    SWres(count2,count+1,pmcount,rescount,Lcount,scount) = SWnext;
                                     count = count+1;
                                 end
                                 tmps(2) = 0;
