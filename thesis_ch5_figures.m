@@ -344,12 +344,42 @@ theta_s = atan(ist.varst.s_rad./(PB0+OD/2));
 
 ff = figure;
 plot(OD.*1e3,PB0.*1e3)
-yyaxis left; ylabel 'p(B_0,OD) [mm]'; hold on
-yyaxis right; plot(OD.*1e3,rad2deg(theta_s));
-ylabel '\theta_s [deg]'; xlabel 'OD [mm]'
-h1 = legend ('$p(B_0,OD$)','$\theta_s = tan^{-1}(\frac{s_{rad}}{(p(B_0,OD)+(OD/2)}$)');
-set(h1 ,'Interpreter','latex'); set(h1 ,'Location','East                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        '); set(h1 ,'Fontsize',14)
+% yyaxis left; 
+ylabel 'p(B_0,OD) [mm]'; hold on
+% yyaxis right; plot(OD.*1e3,rad2deg(theta_s));
+% ylabel '\theta_s [deg]'; 
+xlabel 'OD [mm]'
+% h1 = legend ('$p(B_0,OD$)','$\theta_s = tan^{-1}(\frac{s_{rad}}{(p(B_0,OD)+(OD/2)}$)');
+% set(h1 ,'Interpreter','latex'); set(h1 ,'Location','East'); set(h1 ,'Fontsize',14)
+legend('p(B_0,OD)','Location', 'Southeast')
 thesis_fig_gen(ff.Number)
+
+er = 1500;
+
+figure;
+semilogy((ist.probe_line(3:er)-0.02).*1e3, ist.MxB(1,3:er,1));hold on
+semilogy((ist.probe_line(3:er)-0.02).*1e3, ist.MxB(1,3:er,21));
+semilogy((ist.probe_line(3:er)-0.02).*1e3, ist.MxB(1,3:er,41));
+semilogy((ist.probe_line(3:er)-0.02).*1e3, ist.MxB(1,3:er,61));
+semilogy((ist.probe_line(3:er)-0.02).*1e3, ist.MxB(1,3:er,81));
+xlabel 'p [mm]'
+ylabel 'B_m_a_x(p) [T]'
+legend ('L = 2 [cm]','L = 4 [cm]','L = 6 [cm]','L = 8 [cm]','L = 10 [cm]')
+
+% create smaller axes in top right, and plot on it
+axes('Position',[.2 .2 .3 .3])
+box on
+
+or = 450;
+er = 650;
+
+semilogy((ist.probe_line(or:er)-0.02).*1e3, ist.MxB(1,or:er,1));hold on
+semilogy((ist.probe_line(or:er)-0.02).*1e3, ist.MxB(1,or:er,21));
+semilogy((ist.probe_line(or:er)-0.02).*1e3, ist.MxB(1,or:er,41));
+semilogy((ist.probe_line(or:er)-0.02).*1e3, ist.MxB(1,or:er,61));
+semilogy((ist.probe_line(or:er)-0.02).*1e3, ist.MxB(1,or:er,81));
+xlim([4.5,6.5])
+hline(0.4)
 
 %% section 5.5 plots - Linescan L explanation
 
@@ -379,11 +409,14 @@ theta_s = atan(ist.varst.s_rad./(PB0+OD/2));
 
 ff = figure;
 plot(L.*1e3,PB0.*1e3)
-yyaxis left; ylabel 'p(B_0,L) [mm]'; hold on
-yyaxis right; plot(L.*1e3,rad2deg(theta_s));
-ylabel '\theta_s [deg]'; xlabel 'L [mm]'
-h1 = legend ('$p(B_0,L$)','$\theta_s = tan^{-1}(\frac{s_{rad}}{(p(B_0,OD)+(OD/2)}$)');
-set(h1 ,'Interpreter','latex'); set(h1 ,'Location','East'); set(h1 ,'Fontsize',14)
+% yyaxis left; 
+ylabel 'p(B_0,L) [mm]'; hold on
+% yyaxis right; plot(L.*1e3,rad2deg(theta_s));
+% ylabel '\theta_s [deg]'; 
+xlabel 'L [mm]'
+% h1 = legend ('$p(B_0,L$)','$\theta_s = tan^{-1}(\frac{s_{rad}}{(p(B_0,OD)+(OD/2)}$)');
+% set(h1 ,'Interpreter','latex'); set(h1 ,'Location','East'); set(h1 ,'Fontsize',14)
+legend('p(B_0,L)','Location', 'Southeast')
 thesis_fig_gen(ff.Number)
 
 
