@@ -160,7 +160,7 @@ end
 
                             if swinit - SWnext < min_separation
                                 SWnext = swinit;
-                                while SWnext > MxB(pmcount,size(MxB,2),Lcount)
+                                while SWnext > MxB(pmcount,size(MxB,2),Lcount) && SWnext > min_separation
                                     SWnext = SWnext - min_separation;
                                     SWres(count2,count+1,pmcount,rescount,Lcount,scount) = SWnext;
                                     count = count+1;
