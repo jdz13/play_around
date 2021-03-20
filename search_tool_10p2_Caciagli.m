@@ -75,7 +75,7 @@ end
                         control = sum(sum(particle_loc));
 
 
-                        while abs(tmps(1) - tmps(2)) > min_separation && SH0 > min_separation && tmps(2) ~= 0  
+                        while abs(tmps(1) - tmps(2)) > min_separation && swinit > min_separation && tmps(2) ~= 0  
                             % 
                             % Do I need to change this to a physical value for all?
                             % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
@@ -124,7 +124,7 @@ end
                                Bxnew = new.newBxnew;
 
                                %Find out how much of this areas is above or below the threshold
-                               BZM = sigmf(Bxnew,[a.*1e4,ist.varst.RES]);
+                               BZM = sigmf(Bxnew,[a.*1e4,swinit]);
                                % Correlate with where the particles actually are in the world
 
                                CM = BZM .* particle_loc;
