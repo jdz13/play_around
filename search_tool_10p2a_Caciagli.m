@@ -140,11 +140,16 @@ end
 
                                 end
 
-                                [FWHMX(1),MLOC(1),indout] = FWHMNVC(NVC(1,:),theta,con);
+                                [FWHMX(1),MLOC(1),indout] = FWHMNVC_sig(NVC(1,:),theta,con);
 
-                                SWnextpos = MLOC(1)+(KRV(count2)*FWHMX(1));  
-                                Bxnew = Xunitx.*cos(SWnextpos) + Yunitx.*sin(SWnextpos);                                             
-                                SWnext = median(Bxnew,'all');
+                                if FWHMX(1) == 0 
+                                    SWnext = 0;
+                                    tmps(2) = 0;
+                                else
+                                    SWnextpos = MLOC(1)+(KRV(count2)*FWHMX(1));  
+                                    Bxnew = Xunitx.*cos(SWnextpos) + Yunitx.*sin(SWnextpos);                                             
+                                    SWnext = median(Bxnew,'all');
+                                end 
 
                                 SWres(count2,count+1,pmcount,rescount,Lcount,scount,acount) = SWnext;
                                 FWHMres(count2,count,pmcount,rescount,Lcount,scount,acount) = FWHMX(1); % if +1 not needed then can use FWHMres(:,1,:,:) = [];
@@ -155,7 +160,7 @@ end
                                 MLOCa(count2,count,pmcount,rescount,Lcount,scount,acount) = MLOC(1);
                                 % manipulate the results to run the next leg
 
-                                if swinit - SWnext < min_separation
+                                if swinit - SWnext < min_separation && tmps(2) ~= 0   
                                     SWnext = swinit;
                                     while SWnext > min_separation
                                         SWnext = SWnext - min_separation;
@@ -163,8 +168,13 @@ end
                                         count = count+1;
                                     end
                                     tmps(2) = 0;
+                                    
+                                elseif FWHMX(1) == 0 
+                                    
+                                    tmps(2) = 0;
+                                
                                 else
-
+                                    
                                     tmps(1) = swinit; 
 
                                         if SWnextpos >= pi/2
