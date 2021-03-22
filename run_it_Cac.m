@@ -22,7 +22,7 @@ Zin = Yin(1:26); % Probe plane points in Z
 a = inf;
 
 tic
-[SaveVar30p8] = search_tool_10p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con,a);
+[SaveVar30p8] = search_tool_10p2a_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con,a);
 SaveVar30p8.timer = toc; SaveVar30p8.comments = "testing the sigmoid decay parameter a = inf. Does this give the ideal results? ";
 
 folpath = 'C:\Users\Jake\Documents\MATLAB';
@@ -35,7 +35,7 @@ cd(oldfolder);
 a = logspace(1e-2,1e3,51);
 
 tic
-[SaveVar30p9] = search_tool_10p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con,a);
+[SaveVar30p9] = search_tool_10p2a_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con,a);
 SaveVar30p9.timer = toc; SaveVar30p9.comments = "testing the sigmoid decay parameter a, does it converge to ideal results? ";
 
 folpath = 'C:\Users\Jake\Documents\MATLAB';
