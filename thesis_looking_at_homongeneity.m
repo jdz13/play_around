@@ -140,15 +140,15 @@ IB = 6e-3;
 %extract data using user inputs
 Yin = linspace(-60e-3, 60e-3,121); % Probe plane points in Y 
 Zin = linspace(-60e-3, 60e-3,121);
-PL1 = 2e-3+R./2; tic
+PL1 = 4.68e-3+R./2; tic
 [ZY2a] = new3Dbanditunitvector(PL1,Yin,Zin,L1./2,R./2,M);
 [ZY2b] = new3Dbanditunitvector(PL1,Yin,Zin,L1./2,IB./2,M);
 ZY2 = ZY2a-ZY2b;
-L2 = 5e-2;PL2 = 2e-3+R./2;
+L2 = 5e-2;PL2 = 6.07e-3+R./2;
 [ZY5a] = new3Dbanditunitvector(PL2,Yin,Zin,L2./2,R./2,M);
 [ZY5b] = new3Dbanditunitvector(PL2,Yin,Zin,L2./2,IB./2,M);
 ZY5 = ZY5a-ZY5b;
-L3 = 10e-2;PL3 = 2e-3+R./2;
+L3 = 10e-2;PL3 = 5.69e-3+R./2;
 [ZY10a] = new3Dbanditunitvector(PL3,Yin,Zin,L3./2,R./2,M);
 [ZY10b] = new3Dbanditunitvector(PL3,Yin,Zin,L3./2,IB./2,M);
 ZY10 = ZY10a-ZY10b;
@@ -171,8 +171,9 @@ subplot(1,3,3); imagesc(Zin.*1e3, Yin.*1e3, ZY10(:,:,1,1,1));colorbar;axis equal
 xlabel 'Y [mm]'; ylabel 'Z [mm]'; axis([-100,100,-100,100]); 
 % caxis([-0.6,0]); 
 thesis_fig_gen(ff.Number)
-
+%%
 hh = figure;
+subplot(1,2,1)
 plot(Yin.*1e3, ZY2(ceil(length(Zin)/2),:,1,1,1))
 hold on 
 plot(Yin.*1e3, ZY5(ceil(length(Zin)/2),:,1,1,1))
@@ -180,14 +181,30 @@ plot(Yin.*1e3, ZY10(ceil(length(Zin)/2),:,1,1,1))
 % plot(Yin.*1e3, ZY18(26,:,1,1,1))
 xlabel 'Y [mm]'
 ylabel 'Field [T]'
-ll = legend ('OD = 40 [mm], L = 20 [mm], p = 2 [mm]', ...
-    'OD = 40 [mm], L = 50 [mm], p = 2 [mm]',...
-    'OD = 40 [mm], L = 100 [mm], p = 2 [mm]');%,...
+ll = legend ('OD = 40 [mm], L = 20 [mm], p = 4.68 [mm]', ...
+    'OD = 40 [mm], L = 50 [mm], p = 6.07 [mm]',...
+    'OD = 40 [mm], L = 100 [mm], p = 5.69 [mm]');%,...
 %     'OD = 40 [mm], L = 180 [mm], p = 2 [mm]');
 thesis_fig_gen(hh.Number)
 xlim([-60,60])
-ylim([-0.1, 0.75])
+ylim([-0.05, 0.55])
 
+subplot(1,2,2)
+plot(Yin.*1e3, ZY2(ceil(length(Zin)/2),:,1,1,1))
+hold on 
+plot(Yin.*1e3, ZY5(ceil(length(Zin)/2),:,1,1,1))
+plot(Yin.*1e3, ZY10(ceil(length(Zin)/2),:,1,1,1))
+% plot(Yin.*1e3, ZY18(26,:,1,1,1))
+xlabel 'Y [mm]'
+ylabel 'Field [T]'
+ll = legend ('OD = 40 [mm], L = 20 [mm], p = 4.68 [mm]', ...
+    'OD = 40 [mm], L = 50 [mm], p = 6.07 [mm]',...
+    'OD = 40 [mm], L = 100 [mm], p = 5.69 [mm]');%,...
+%     'OD = 40 [mm], L = 180 [mm], p = 2 [mm]');
+thesis_fig_gen(hh.Number)
+xlim([-60,60])
+ylim([0.395, 0.403])
+hline(0.4)
 %%
 
 %%
@@ -888,3 +905,212 @@ for tt = [1,41,81]
     thesis_fig_gen(hh.Number)
  
 end 
+
+
+%%
+%%
+%%
+%% Extra ones I found in an untitled editor. 
+%% 
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p2.mat')
+
+ist = SaveVar24p2;
+
+%%
+
+hh = figure;
+for ff = [1,31,81]
+    yy = nonzeros(ist.SWres(1,:,1,1,ff));
+    plot(0:length(yy)-2,yy(1:end-1))
+    hold on
+end 
+xlabel 'Channel number n'
+ylabel 'Channel field [T]'
+legend ('L = 2 [cm]', 'L = 5 [cm]', 'L = 10 [cm]')
+thesis_fig_gen(hh.Number);
+clear hh ff yy
+
+%%
+
+hh = figure;
+plot(ist.varst.Lengths.*1e2, squeeze(ist.MxB(1,end,:)).*1e3)
+xlabel 'L [cm]'
+ylabel 'Field at p = 10 [cm]  -  [mT]'
+thesis_fig_gen(hh.Number);
+clear hh 
+
+%%
+
+hh = figure;
+for ff = [1,31,81]
+    yy = rad2deg(nonzeros(ist.FWHMres(1,:,1,1,ff)));
+    plot(0:length(yy)-1,yy(1:end))
+    hold on
+end 
+xlabel 'Channel number n'
+ylabel 'W_0._.3_-_0_._7 [deg]'
+legend ('L = 2 [cm]', 'L = 5 [cm]', 'L = 10 [cm]')
+thesis_fig_gen(hh.Number);
+clear hh ff yy
+
+%%
+
+%%
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p2.mat')
+ist = SaveVar24p2;
+IB = 6e-3;
+M = 1e6;
+n = 81;
+r = ist.probe_line(find(ist.MxB(1,:,n) > ist.varst.RES.*1.05, 1, 'last'));
+[main] = new3Dbanditunitvector(r,ist.varst.Yin,ist.varst.Yin,ist.varst.Lengths(n)./2,ist.varst.PM./2,M);
+[IBs] = new3Dbanditunitvector(r,ist.varst.Yin,ist.varst.Yin,ist.varst.Lengths(n)./2,IB./2,M);
+
+Xunitx = main(:,:,1,1,1) - IBs(:,:,1,1,1);
+Yunitx = main(:,:,1,1,2) - IBs(:,:,1,1,2);
+
+[particle_loc] = plane_mask(ist.varst.Yin,ist.varst.Yin,ist.varst.s_rad);
+
+k = 3; o = 7;
+hh = figure;
+subplot(k,o,1) 
+imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, Xunitx')
+xlabel 'X [mm]'; ylabel 'Y [mm]'; colorbar; axis equal; axis([-1,1,-1,1])
+title (['B_v_,_z, L = ', num2str(ist.varst.Lengths(n).*1000), ' [mm]'])
+c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+subplot(k,o,o+1) 
+imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, Yunitx')
+xlabel 'X [mm]'; ylabel 'Y [mm]'; colorbar; axis equal; axis([-1,1,-1,1])
+title (['B_u_,_z, L = ', num2str(ist.varst.Lengths(n).*1000), ' [mm]'])
+c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+
+selThet = deg2rad(2*(6:11));
+% initialise the plotting variables
+CM = zeros(length(ist.varst.Yin), length(ist.varst.Yin), length(selThet));
+Bxnew = zeros(length(ist.varst.Yin), length(ist.varst.Yin), length(selThet)+1);
+
+Bxnew(:,:,1) =  Xunitx.*cos(deg2rad(10)) + Yunitx.*sin(deg2rad(10));
+
+for pull = 1:length(selThet)
+    Bxnew(:,:,pull+1) = Xunitx.*cos(selThet(pull)) + Yunitx.*sin(selThet(pull)); 
+    BZM = (Bxnew(:,:,pull+1) >= ist.varst.RES) - (Bxnew(:,:,pull+1) <= -ist.varst.RES);
+    % Correlate with where the particles actually are in the world
+    CM(:,:,pull+1) = BZM .* particle_loc;
+    subplot(k,o,pull+1)
+    imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, Bxnew(:,:,pull+1)')
+    xlabel 'X [mm]'; ylabel 'Y [mm]'; colorbar; axis equal; axis([-1,1,-1,1])
+    title (['B_z at ', num2str(rad2deg(selThet(pull))),' [deg]'])
+    c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+    subplot(k,o,o+1+pull)
+    imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, CM(:,:,pull+1)')
+    xlabel 'X [mm]'; ylabel 'Y [mm]'; colorbar; axis equal; axis([-1,1,-1,1])
+    title (['Area on/off at ', num2str(rad2deg(selThet(pull))),' [deg]'])
+    caxis([0,1]); Df = diff(Bxnew,1,3);    
+    subplot(k,o,(2*o)+1+pull)
+    imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, Df(:,:,pull)'./2.*1000)
+    xlabel 'X [mm]'; ylabel 'Y [mm]';  axis equal; axis([-1,1,-1,1])
+    title (['dB_z/d\theta at ', num2str(rad2deg(selThet(pull))),' [deg]'])
+    c = colorbar; c.Ruler.TickLabelFormat='%g [mT/deg]';
+end
+
+clear main IB IBs k M n o particle_loc pull r selThet c CM BZM BxNew Xunitx Yunitx hh Df Bxnew
+
+%%
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p2.mat')
+ist = SaveVar24p2;
+IB = 6e-3;
+M = 1e6;
+n = 1;
+r = ist.probe_line(find(ist.MxB(1,:,n) > ist.varst.RES.*1.05, 1, 'last'));
+[main] = new3Dbanditunitvector(r,ist.varst.Yin,ist.varst.Yin,ist.varst.Lengths(n)./2,ist.varst.PM./2,M);
+[IBs] = new3Dbanditunitvector(r,ist.varst.Yin,ist.varst.Yin,ist.varst.Lengths(n)./2,IB./2,M);
+
+Xunitx = main(:,:,1,1,1) - IBs(:,:,1,1,1);
+Yunitx = main(:,:,1,1,2) - IBs(:,:,1,1,2);
+
+[particle_loc] = plane_mask(ist.varst.Yin,ist.varst.Yin,ist.varst.s_rad);
+
+k = 3; o = 2;
+hh = figure;
+subplot(k,o,1) 
+imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, Xunitx')
+xlabel 'X [mm]'; ylabel 'Y [mm]'; colorbar; axis equal; axis([-1,1,-1,1])
+title (['B_v_,_z, L = ', num2str(ist.varst.Lengths(n).*1000), ' [mm]'])
+c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+subplot(k,o,o+1) 
+imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, Yunitx')
+xlabel 'X [mm]'; ylabel 'Y [mm]'; colorbar; axis equal; axis([-1,1,-1,1])
+title (['B_u_,_z, L = ', num2str(ist.varst.Lengths(n).*1000), ' [mm]'])
+c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+
+selThet = ist.MLOC(1,1,1,1,n);
+% initialise the plotting variables
+CM = zeros(length(ist.varst.Yin), length(ist.varst.Yin), length(selThet));
+Bxnew = zeros(length(ist.varst.Yin), length(ist.varst.Yin), length(selThet)+1);
+
+Bxnew(:,:,1) =  Xunitx.*cos(selThet-deg2rad(1)) + Yunitx.*sin(selThet-deg2rad(1));
+
+for pull = 1:length(selThet)
+    Bxnew(:,:,pull+1) = Xunitx.*cos(selThet(pull)) + Yunitx.*sin(selThet(pull)); 
+    BZM = (Bxnew(:,:,pull+1) >= ist.varst.RES) - (Bxnew(:,:,pull+1) <= -ist.varst.RES);
+    % Correlate with where the particles actually are in the world
+    CM(:,:,pull+1) = BZM .* particle_loc;
+    subplot(k,o,pull+1)
+    imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, Bxnew(:,:,pull+1)')
+    xlabel 'X [mm]'; ylabel 'Y [mm]'; colorbar; axis equal; axis([-1,1,-1,1])
+    title (['B_z at ', num2str(rad2deg(selThet(pull))),' [deg]'])
+    c = colorbar; c.Ruler.TickLabelFormat='%g [T]';
+    subplot(k,o,o+1+pull)
+    imagesc(ist.varst.Yin.*1e3, ist.varst.Yin.*1e3, CM(:,:,pull+1)')
+    xlabel 'X [mm]'; ylabel 'Y [mm]'; colorbar; axis equal; axis([-1,1,-1,1])
+    title (['Area on/off at ', num2str(rad2deg(selThet(pull))),' [deg]'])
+    caxis([0,1]); Df = diff(Bxnew,1,3);    
+    subplot(k,o,(2*o)+1+pull)
+    plot(ist.varst.Yin.*1e3, Df(:,ceil(length(ist.varst.Yin)./2),pull)'.*1000)
+    xlabel 'X [mm]'; ylabel 'dB_z/d\theta  [mT/deg]';  
+    title (['dB_z/d\theta at ', num2str(rad2deg(selThet(pull))),' [deg]'])
+end
+
+clear main IB IBs k M n o particle_loc pull r selThet c CM BZM BxNew Xunitx Yunitx hh Df Bxnew
+
+
+%%
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p2.mat')
+ist = SaveVar24p2;
+IB = 6e-3;
+M = 1e6;
+nn = [1,31,81];
+hh = figure;
+for n = nn
+
+    r = ist.probe_line(find(ist.MxB(1,:,n) > ist.varst.RES.*1.05, 1, 'last'));
+    [main] = new3Dbanditunitvector(r,ist.varst.Yin,ist.varst.Yin,ist.varst.Lengths(n)./2,ist.varst.PM./2,M);
+    [IBs] = new3Dbanditunitvector(r,ist.varst.Yin,ist.varst.Yin,ist.varst.Lengths(n)./2,IB./2,M);
+
+    Xunitx = main(:,:,1,1,1) - IBs(:,:,1,1,1);
+    Yunitx = main(:,:,1,1,2) - IBs(:,:,1,1,2);
+
+    [particle_loc] = plane_mask(ist.varst.Yin,ist.varst.Yin,ist.varst.s_rad);
+
+    selThet = ist.MLOC(1,1,1,1,n);
+    % initialise the plotting variables
+    CM = zeros(length(ist.varst.Yin), length(ist.varst.Yin), length(selThet));
+    Bxnew = zeros(length(ist.varst.Yin), length(ist.varst.Yin), length(selThet)+1);
+
+    Bxnew(:,:,1) =  Xunitx.*cos(selThet-deg2rad(1)) + Yunitx.*sin(selThet-deg2rad(1));
+    for pull = 1:length(selThet)
+        Bxnew(:,:,pull+1) = Xunitx.*cos(selThet(pull)) + Yunitx.*sin(selThet(pull)); 
+        BZM = (Bxnew(:,:,pull+1) >= ist.varst.RES) - (Bxnew(:,:,pull+1) <= -ist.varst.RES);
+        % Correlate with where the particles actually are in the world
+        CM(:,:,pull+1) = BZM .* particle_loc; Df = diff(Bxnew,1,3);   
+        plot(ist.varst.Yin.*1e3, Df(:,ceil(length(ist.varst.Yin)./2),pull)'.*1000)
+        hold on
+    end
+end 
+        xlabel 'X [mm]'; ylabel 'dB_z/d\theta  [mT/deg]';  
+        title 'dB_z/d\theta for various L'
+        legendCell = cellstr(num2str((ist.varst.Lengths(nn).*100)', 'L = %-g [cm]'));
+        legend(legendCell, 'Location', 'Southeast')
+        thesis_fig_gen(hh.Number)
+% clear main IB IBs k M n o particle_loc pull r selThet c CM BZM nn BxNew Xunitx Yunitx hh Df Bxnew
+
