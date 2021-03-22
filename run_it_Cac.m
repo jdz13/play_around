@@ -31,8 +31,8 @@ filename = 'matlab_SV30p8.mat';
 save(filename, 'SaveVar30p8')
 cd(oldfolder);
 % ------------------------------------------------------------------------
-
-a = logspace(1e-2,1e3,51);
+%%
+a = logspace(-2,3,51);
 
 tic
 [SaveVar30p9] = search_tool_10p2a_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con,a);
