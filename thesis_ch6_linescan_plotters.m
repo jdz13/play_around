@@ -366,23 +366,25 @@ j = figure;
 plot(xs.*1e3, plt1.*1e4)
 xlabel 'OD [mm]'
 ylabel 'Smallest channel separation in the series [Oe]'
-jj = gca;
-tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
-text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
+% jj = gca;
+% tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
+% text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
 
-plt1 = zeros(1, size(ist.varst.PM,2));
+plt11 = zeros(1, size(ist.varst.PM,2));
+plt111 = zeros(1, size(ist.varst.PM,2));
 lp = squeeze(ist.FWHMres);
 
 for kk = 1:size(lp,2)
     tmp = nonzeros(lp(:,kk));
-%     plt1(kk) = rad2deg(mean(abs(tmp(1:end-1))));
-    plt1(kk) = rad2deg(min(abs(tmp(1:end-1))));
+    plt11(kk) = rad2deg(mean(abs(tmp(1:end-1))));
+    plt111(kk) = rad2deg(min(abs(tmp(1:end-1))));
 end 
 
 yyaxis right 
-plot(xs.*1e3, plt1)
-% ylabel 'Average transition width [deg]'
-ylabel 'Minimum transition width [deg]'
+plot(xs.*1e3, plt11, xs.*1e3,plt111)
+ylabel 'Transition width [deg]'
+legend ('Smallest channel separation', 'Mean transition width', ...
+    'Minimum transition width')
 thesis_fig_gen(j.Number)
 % hline(200)
 % clear xs tt j jj kk lp ist tmp df
@@ -404,30 +406,51 @@ end
 xs = ist.varst.Lengths;
 j = figure; 
 plot(xs.*1e3, plt1.*1e4)
-xlabel 'OD [mm]'
+xlabel 'Length [mm]'
 ylabel 'Smallest channel separation in the series [Oe]'
-jj = gca;
-tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
-text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
+% jj = gca;
+% tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
+% text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
 
-plt1 = zeros(1, size(ist.varst.PM,2));
+plt11 = zeros(1, size(ist.varst.PM,2));
+plt111 = zeros(1, size(ist.varst.PM,2));
 lp = squeeze(ist.FWHMres);
 
 for kk = 1:size(lp,2)
     tmp = nonzeros(lp(:,kk));
-    plt1(kk) = rad2deg(mean(abs(tmp(1:end-1))));
-%     plt1(kk) = rad2deg(min(abs(tmp(1:end-1))));
+    plt11(kk) = rad2deg(mean(abs(tmp(1:end-1))));
+    plt111(kk) = rad2deg(min(abs(tmp(1:end-1))));
 end 
 
 yyaxis right 
-plot(xs.*1e3, plt1)
-ylabel 'Average transition width [deg]'
-% ylabel 'Minimum transition width [deg]'
+plot(xs.*1e3, plt11,xs.*1e3, plt111)
+ylabel 'Transition width [deg]'
+legend ('Smallest channel separation', 'Mean transition width', ...
+    'Minimum transition width')
 thesis_fig_gen(j.Number)
 % hline(200)
 % clear xs tt j jj kk lp ist tmp df
 
 %%
+
+%% Evaluating channel widths for different start fields
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter VI\matlab_SV30p5.mat')
+ist = SaveVar30p5;
+in = '+--';
+%%
+ff = figure;
+pt = nonzeros(ist.SWres(1,:,1,1)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,1,1,1)));
+plot(pt(1:length(pt1))', pt1,in); hold on
+pt = nonzeros(ist.SWres(1,:,1,11)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,1,1,11)));
+plot(pt(1:length(pt1))', pt1,in); hold on
+pt = nonzeros(ist.SWres(1,:,1,21)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,1,1,21)));
+plot(pt(1:length(pt1))', pt1,in); hold on
+pt = nonzeros(ist.SWres(1,:,1,31)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,1,1,31)));
+plot(pt(1:length(pt1))', pt1,in); hold on
+xlabel 'Channel field [T]'; ylabel 'W_0_._3_-_0_._7 [deg]'
+legend ('s_r_a_d = 0.25 [mm]','s_r_a_d = 0.5 [mm]','s_r_a_d = 0.75 [mm]','s_r_a_d = 1 [mm]', 'Location', 'Northeast')
+thesis_fig_gen(ff.Number)
 
 %% Evaluating channel widths for different start fields
 
@@ -525,7 +548,7 @@ end
 
 ff = figure; 
 imagesc(ist.varst.Lengths.*100,ist.varst.PM.*100,plotter') 
-xlabel 'L [cm]'; ylabel 'OD [cm]'; colorbar
+xlabel 'L [cm]'; ylabel 'OD [cm]'; colorbar; set(gca,'YDir','normal')
 title 'Number of possible channels'; thesis_fig_gen(ff.Number);
 
 %%
@@ -550,3 +573,62 @@ xlabel 'L [cm]'; ylabel 'OD [cm]'; colorbar
 set(gca,'YDir','normal')
 title 'Number of possible channels'; thesis_fig_gen(ff.Number);
 
+%% KRV data
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter VI\matlab_SV30p7.mat')
+
+ist = SaveVar30p7;
+plotter = zeros(1,length(ist.varst.KRV));
+for ff = 1:length(ist.varst.KRV)
+    
+    plotter(ff) = nnz(ist.SWres(ff,:,1,1,1,1,1))-1;
+    
+end
+
+pp = figure; 
+plot(ist.varst.KRV,plotter) 
+xlabel 'KRV'; ylabel '\eta'; 
+jj = gca;
+tt = compose(['OD = ', num2str(ist.varst.PM*1000),' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
+thesis_fig_gen(pp.Number);
+ 
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV29p7.mat')
+
+ist = SaveVar29p7;
+plotter = zeros(1,length(ist.varst.KRV));
+for ff = 1:length(ist.varst.KRV)
+    
+    plotter(ff) = nnz(ist.SWres(ff,:,1,1,1,1,1))-1;
+    
+end
+
+yyaxis right  
+plot(ist.varst.KRV,plotter) 
+ylabel '\eta'; 
+jj = gca;
+tt = compose(['OD = ', num2str(ist.varst.PM*1000),' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
+legend ('Non-ideal model','Ideal model','Location','Northeast')
+thesis_fig_gen(pp.Number);
+ 
+ %% a data
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter VI\matlab_SV30p11.mat')
+
+ist = SaveVar30p11;
+plotter = zeros(1,length(ist.varst.a));
+for ff = 1:length(ist.varst.a)
+    
+    plotter(ff) = nnz(ist.SWres(1,:,1,1,1,1,ff))-1;
+    
+end
+
+ff = figure; 
+semilogx(ist.varst.a,plotter) 
+xlabel 'a [Oe^-^1]'; ylabel '\eta'; 
+jj = gca;
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000),' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
+thesis_fig_gen(ff.Number);

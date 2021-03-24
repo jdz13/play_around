@@ -5,7 +5,7 @@ function [HWHMX,MLOC,indout] = FWHMNVC_sig(input,theta,con)
    %%     
     temp.N1 = temp.testline(1);% This gives the maximum N value - this physically has to be the case. 
     
-    if temp.testline(end) ~= 0
+    if temp.testline(end) >= eps
         indout = [0,0];
         MLOC = 0;
         HWHMX = 0;

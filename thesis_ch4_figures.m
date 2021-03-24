@@ -29,7 +29,10 @@ h1 = figure;
 plot(t_CoFeB, Hk_t.*1e3,'x')
 xlabel 't_C_o_F_e_B [nm]'
 ylabel 'K_e_f_f\cdott_C_o_F_e_B [mJ\cdotm^-^2]'
+set(gca, 'XAxisLocation', 'origin', 'YAxisLocation', 'origin')
+axis([-0.3,2.4,-0.05,0.5])
 lsline 
+arrow
 % title 'H_K analysis - Single CoFeB layers'
 
 
@@ -163,7 +166,7 @@ thesis_MOKE_single_SP8313_plotter
 
 %% interaction energy plotter 
 
-xline = linspace(-5e-5,5e-5,251);
+xline = linspace(-1e-5,1e-5,251);
 yline = xline;
 zline = logspace(-8,-6,100);
 HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
@@ -188,8 +191,8 @@ for pp = 1:size(zline,2)
     HzMaxInt(pp) = max(HzAkoun_interaction(:,:,pp),[], 'all');
 end 
 
-pp = figure(); loglog(zline, HzAvInt); ylabel 'Mean field in XY plane [T]'
-yyaxis right; loglog(zline, HzMaxInt)
+pp = figure(); yyaxis left; loglog(zline, HzAvInt); 
+ylabel 'Mean field in XY plane [T]'; yyaxis right; loglog(zline, HzMaxInt)
 ylabel 'Max field in XY plane [T]'; xlabel 'Distance from particle [m]'
 legend('Mean field in XY plane','Max field in XY plane', ...
     'Location', 'Southwest'); thesis_fig_gen(pp.Number)

@@ -185,9 +185,9 @@ legend ('B_s_t_a_r_t = 0.6 [T]','B_s_t_a_r_t = 0.5 [T]','B_s_t_a_r_t = 0.4 [T]',
 thesis_fig_gen(ff.Number)
 %% Proper 2D scan data 
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV27p6.mat')
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV29p10.mat')
 
-ist = SaveVar27p6;
+ist = SaveVar29p10;
 plotter = zeros(length(ist.varst.Lengths),length(ist.varst.PM));
 for ff = 1:length(ist.varst.Lengths)
     for gg = 1:length(ist.varst.PM)
@@ -537,8 +537,8 @@ text (17.2,0.82,'FWHM')
 
 %% KRV study plotter
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter VI\matlab_SV25p7.mat')
-ist = SaveVar25p7;
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV29p7.mat')
+ist = SaveVar29p7;
 plotter = zeros(1, length(ist.varst.KRV));
 for gg = 1:length(ist.varst.KRV)
         plotter(gg) = nnz(ist.SWres(gg,:))-1;

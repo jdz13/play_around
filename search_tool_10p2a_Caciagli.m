@@ -143,7 +143,7 @@ end
                                 [FWHMX(1),MLOC(1),indout] = FWHMNVC_sig(NVC(1,:),theta,con);
 
                                 if FWHMX(1) == 0 
-                                    SWnext = 0;
+                                    SWnext = -1;
                                     tmps(2) = 0;
                                 else
                                     SWnextpos = MLOC(1)+(KRV(count2)*FWHMX(1));  

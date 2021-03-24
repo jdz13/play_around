@@ -66,7 +66,10 @@ function [tot, bigstr] = loop_input_moke_options(figno, inmeth)
 
                 [bigstr(p).fitresult1st,bigstr(p).fitresult4th] = modelling_sigmoids_MOKE_multiple(datax1, datay1);
                 [bigstr(p).fitresult2nd,bigstr(p).fitresult3rd] = modelling_sigmoids_MOKE_multiple(datax2, datay2);
-
+                
+                bigstr(p).shift_H3H5 = (bigstr(p).fitresult4th.c + bigstr(p).fitresult2nd.c)/2;
+                bigstr(p).shift_H2H4 = (bigstr(p).fitresult1st.c + bigstr(p).fitresult3st.c)/2;
+                
             end 
 
         additiveM = additiveM + newnormy2;
