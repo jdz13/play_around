@@ -363,5 +363,5 @@ dif = (B_av_2 - B_av_1)./B_av_2;
 dif2 = (B_av_2 - B_av_3)./B_av_2;
 hold on; yyaxis right 
 plot(zline, dif*100, ':+', zline, dif2*100, ':x'); ylabel '% difference'
-legend ('(1) Two particles of (20\mum)^2', '(2) Single particle (40x20\mum)','(3) Big particle (4000x2000\mum)','Percentage difference (1)-(2)','Percentage difference (3)-(2)')
-
+legend ('(1) Two particles of (20\mum)^2', '(2) Single particle (40x20\mum)','(3) Big particle (4000x2000\mum)','Percentage difference (1)-(2)','Percentage difference (3)-(2)','Location', 'East')
+thesis_fig_gen(h1.Number)

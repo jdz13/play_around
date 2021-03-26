@@ -171,7 +171,7 @@ yline = xline;
 zline = logspace(-8,-6,100);
 HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
 HyAkoun = HxAkoun; HzAkoun = HxAkoun; tic; 
-Msat = 1e6; mu0 = 4*pi*1e-7;
+Msat = 1e6; mu_0 = 4*pi*1e-7;
 magD = [2e-5, 2e-5, 2e-9]; 
 for kk = 1:size(xline,2)
     for jj = 1:size(yline,2)
@@ -182,7 +182,7 @@ for kk = 1:size(xline,2)
     end
 end 
 
-HzAkoun_interaction = HzAkoun*Msat*mu0/4/pi;
+HzAkoun_interaction = HzAkoun*Msat*mu_0/4/pi;
 HzAvInt = zeros(1,size(zline,2));
 HzMaxInt = zeros(1,size(zline,2));
 
@@ -212,7 +212,7 @@ yline = xline;
 zline = logspace(-8,-6,100);
 HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
 HyAkoun = HxAkoun; HzAkoun = HxAkoun; tic; 
-Msat = 1e6; mu0 = 4*pi*1e-7;
+Msat = 1e6; mu_0 = 4*pi*1e-7;
 magD = [2e-5, 2e-5, 2e-9]; 
 for kk = 1:size(xline,2)
     for jj = 1:size(yline,2)
@@ -223,7 +223,7 @@ for kk = 1:size(xline,2)
     end
 end 
 
-HzAkoun_OOP = HzAkoun*Msat*mu0/4/pi;
+HzAkoun_OOP = HzAkoun*Msat*mu_0/4/pi;
 HzAvOOP = zeros(1,size(zline,2));
 HzMaxOOP = zeros(1,size(zline,2));
 
@@ -249,7 +249,7 @@ zline = 0;
 xzline = logspace(-8,-6,100);
 HxAkoun = zeros(size(xline,2), size(yline,2), size(xzline,2));
 HyAkoun = HxAkoun; HzAkoun = HxAkoun; tic; 
-Msat = 1e6; mu0 = 4*pi*1e-7;
+Msat = 1e6; mu_0 = 4*pi*1e-7;
 magD = [2e-9, 2e-5, 2e-5]; 
 for kk = 1:size(xline,2)
     for jj = 1:size(yline,2)
@@ -261,7 +261,7 @@ for kk = 1:size(xline,2)
     end
 end 
 
-HzAkoun_xzlineIP = HzAkoun*Msat*mu0/4/pi;
+HzAkoun_xzlineIP = HzAkoun*Msat*mu_0/4/pi;
 HzAvIP = zeros(1,size(xzline,2));
 HzMaxIP = zeros(1,size(xzline,2));
 
@@ -391,7 +391,7 @@ name = [folpath,'\',filename];
 formatSpec = '%f %f';
 sizeA = [2 Inf];
 
-fileID = fopen(name,'r');letsC = fgets(fileID);
+fileID = fopen(name,'r'); letsC = fgets(fileID);
 SP7616 = fscanf(fileID,formatSpec,sizeA)'; fclose('all');
 
 filename = 'sp7617.txt'; name = [folpath,'\',filename];
@@ -428,10 +428,10 @@ thesis_fig_gen(hh.Number)
 kk = figure; 
 errorbar(mean(SiF.a), 1, (std(SiF.a)) , (std(SiF.a)),  'horizontal', 'rx'); 
 hold on;
-errorbar(mean(SiP.a), 2, (std(SiP.a)) , (std(SiP.a)),  'horizontal', 'kx');
-errorbar(mean(GeP.a), 3, (std(GeP.a)) , (std(GeP.a)),  'horizontal', 'bx');
+errorbar(mean(SiP.a), 2, (std(SiP.a)) , (std(SiP.a)),  'horizontal', 'bx');
+errorbar(mean(GeP.a), 3, (std(GeP.a)) , (std(GeP.a)),  'horizontal', 'kx');
 ylim([0,4])
-legend('Si films' , 'Ge particles', 'Si particles')
+legend('Si films' , 'Si particles', 'Ge particles')
 xlabel 'a [Oe^-^1]'
 title 'Comparison of decay constant'
 thesis_fig_gen(kk.Number)
@@ -478,10 +478,10 @@ xlabel 'Field'
 ylabel 'Normalised moment'
 h = gca;set(h,'Ytick', []);set(h,'Xtick', []);
 thesis_fig_gen(gh.Number)
-text(100,0.5,'H_3','Color','red')
-text(-100,-0.5,'H_2','Color','red')
-text(100,0.5,'H_4','Color','blue')
-text(-100,-0.5,'H_5','Color','blue')
+text(100,0.5,'+H_3','Color','red')
+text(-100,-0.5,'-H_2','Color','red')
+text(100,0.5,'+H_2','Color','blue')
+text(-100,-0.5,'-H_3','Color','blue')
 
 x = rad2deg(linspace(0,pi, 901));
 y15= 1500.*cosd(x);
@@ -494,18 +494,18 @@ subplot(2,2,2)
 plot((x),y15); ylim([-1600, 1600])
 vline(acosd([-1200,600]./1500),'b:')
 h = gca;set(h,'Ytick', sort([0,mk,-mk,1500]))
-set(h, 'YTickLabel',fliplr({'H_s_e_t','H_3','H_4','0','H_2','H_5'}))
+set(h, 'YTickLabel',fliplr({'B_s_e_t','\mu_0H_3','\mu_0H_2','0','-\mu_0H_2','-\mu_0H_3'}))
 
 subplot(2,2,3)
 plot((x),y10); ylim([-1600, 1600])
 vline(acosd(600/1000),'b:')
 h = gca;set(h,'Ytick', sort([0,mk,-mk,1000]))
-set(h, 'YTickLabel',fliplr({'H_3','H_s_e_t','H_4','0','H_2','H_5'}))
+set(h, 'YTickLabel',fliplr({'\mu_0H_3','B_s_e_t','\mu_0H_2','0','-\mu_0H_2','-\mu_0H_3'}))
 
 subplot(2,2,4)
 plot((x),y5); ylim([-1600, 1600])
 h = gca;set(h,'Ytick', sort([0,mk,-mk,400]))
-set(h, 'YTickLabel',fliplr({'H_3','H_4','H_s_e_t','0','H_2','H_5'}))
+set(h, 'YTickLabel',fliplr({'\mu_0H_3','\mu_0H_2','B_s_e_t','0','-\mu_0H_2','-\mu_0H_3'}))
 
 
 for dd = 2:4

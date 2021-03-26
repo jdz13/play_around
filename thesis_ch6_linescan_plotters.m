@@ -555,9 +555,9 @@ title 'Number of possible channels'; thesis_fig_gen(ff.Number);
 
 %% Proper 2D scan data 
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV29p6.mat')
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter VI\matlab_SV30p10.mat')
 
-ist = SaveVar29p6;
+ist = SaveVar30p10;
 plotter = zeros(length(ist.varst.Lengths),length(ist.varst.PM));
 for ff = 1:length(ist.varst.Lengths)
     for gg = 1:length(ist.varst.PM)
