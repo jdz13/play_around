@@ -21,7 +21,7 @@ Zin = Yin(1:26); % Probe plane points in Z
 
 tic
 [SaveVar31p1] = search_tool_11p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar31p1.timer = toc; SaveVar31p1.comments = "Checking for artificial supression by working range in OD study";
+SaveVar31p1.timer = toc; SaveVar31p1.comments = "Running the ideal study - with no suppression (working range or minimum separation). OD study";
 
 folpath = 'C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V';
 % folpath = 'C:\Users\Jake\Documents\MATLAB';
@@ -34,7 +34,7 @@ tic
 Lengths = linspace(2,10,81).*1e-2; % Magnet lengths
 pm_cl = 4e-2; % Magnet outer diameters.
 [SaveVar31p2] = search_tool_11p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar31p2.timer = toc; SaveVar31p2.comments = "Checking for artificial supression by working range in OD study";
+SaveVar31p2.timer = toc; SaveVar31p2.comments = "Running the ideal study - with no suppression (working range or minimum separation). L study";
 
 [oldfolder] = cd(folpath);
 filename = 'matlab_SV31p2.mat';
@@ -48,7 +48,7 @@ Lengths = 4e-2; % Magnet lengths
 pm_cl = 4e-2; % Magnet outer diameters.
 s_rad = linspace(0.25,1,31).*1e-3;
 [SaveVar31p3] = search_tool_11p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar31p3.timer = toc; SaveVar31p3.comments = "Checking for artificial supression by working range in s_rad study";
+SaveVar31p3.timer = toc; SaveVar31p3.comments = "Running the ideal study - with no suppression (working range or minimum separation). s_rad study";
 
 [oldfolder] = cd(folpath);
 filename = 'matlab_SV31p3.mat';
@@ -61,7 +61,7 @@ pm_cl = 4e-2; % Magnet outer diameters.
 s_rad = 1e-3;
 RES = linspace(0.6,0.1,51); % Start field values. 
 [SaveVar31p4] = search_tool_11p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar31p4.timer = toc; SaveVar31p4.comments = "Checking for artificial supression by working range in B_0 study";
+SaveVar31p4.timer = toc; SaveVar31p4.comments = "Running the ideal study - with no suppression (working range or minimum separation). B_0 study";
 
 [oldfolder] = cd(folpath);
 filename = 'matlab_SV31p4.mat';
@@ -76,7 +76,7 @@ Lengths = 4e-2; % Magnet lengths
 pm_cl = 4e-2; % Magnet outer diameters.
 s_rad = linspace(0.25,1,31).*1e-3;
 [SaveVar31p5] = search_tool_11p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar31p5.timer = toc; SaveVar31p5.comments = "Checking for artificial supression by working range in s_rad study - double resolution";
+SaveVar31p5.timer = toc; SaveVar31p5.comments = "Running the ideal study - with no suppression (working range or minimum separation). s_rad study - double resolution";
 
 [oldfolder] = cd(folpath);
 filename = 'matlab_SV31p5.mat';
@@ -91,7 +91,7 @@ Lengths = 2e-2; % Magnet lengths
 
 tic
 [SaveVar31p7] = search_tool_11p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar31p7.timer = toc; SaveVar31p7.comments = "Checking for artificial supression by working range in KRV study";
+SaveVar31p7.timer = toc; SaveVar31p7.comments = "Running the ideal study - with no suppression (working range or minimum separation). KRV study";
 
 [oldfolder] = cd(folpath);
 filename = 'matlab_SV31p7.mat';
@@ -118,7 +118,7 @@ Zin = Yin(1:26); % Probe plane points in Z
 
 tic
 [SaveVar31p6] = search_tool_11p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar31p6.timer = toc; SaveVar31p6.comments = "same 2D scan as used before but removed working range in OD study";
+SaveVar31p6.timer = toc; SaveVar31p6.comments = "Running the ideal study - with no suppression (working range or minimum separation). 2D OD study";
 
 [oldfolder] = cd(folpath);
 filename = 'matlab_SV31p6.mat';
