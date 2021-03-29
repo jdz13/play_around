@@ -1,4 +1,4 @@
-function [SaveVar,varst] = search_tool_10p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con)
+function [SaveVar,varst] = search_tool_11p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con)
 
 %% Beta version of 8p1. This code should be used for checking suppression only.
 
@@ -18,7 +18,7 @@ D_prac = 10e-2; % maximum working distance for magnet surface-sample [m]
 N_probe = 10001; % distance probe points in z, defining resolution 
 M = 1e6; % Msat of magnet used for drive field [A/m]
 IB = 6e-3; % Inner bore of the drive magnet [m]
-min_separation = 5e-3;
+min_separation = 2e-4;
 a = 0.1; % Decay constant of the sigmoid - [Oe^-1] 
 
 % Find the maximum field (theta = 0) at each z probe point, for each set of
@@ -75,7 +75,7 @@ end
                         control = sum(sum(particle_loc));
 
 
-                        while abs(tmps(1) - tmps(2)) > min_separation && swinit > min_separation && tmps(2) ~= 0  
+                        while abs(tmps(1) - tmps(2)) > min_separation && SH0 > min_separation && tmps(2) ~= 0  
                             % 
                             % Do I need to change this to a physical value for all?
                             % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
@@ -135,7 +135,7 @@ end
 
                             end
 
-                            [FWHMX(1),MLOC(1),indout] = FWHMNVC_sig(NVC(1,:),theta,con);
+                            [FWHMX(1),MLOC(1),indout] = FWHMNVC(NVC(1,:),theta,con);
 
                             SWnextpos = MLOC(1)+(KRV(count2)*FWHMX(1));  
                             Bxnew = Xunitx.*cos(SWnextpos) + Yunitx.*sin(SWnextpos);                                             

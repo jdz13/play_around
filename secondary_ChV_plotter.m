@@ -578,3 +578,57 @@ text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
 thesis_fig_gen(h3.Number)
 
 % clear h3 jj tt
+
+
+%%
+%% graph plotter for SV22p1. Shows max possible channels for a linescan in OD
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV31p1.mat')
+ist = SaveVar31p1;
+plt1 = zeros(1, size(ist.varst.PM,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+xs = ist.varst.PM;
+j = figure; 
+plot(xs.*1000, plt1)
+xlabel 'OD [mm]'
+ylabel 'Number of possible channels'
+
+jj = gca; 
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nStart field = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
+thesis_fig_gen(j.Number)
+
+clear tt j jj kk lp ist
+
+%%
+
+%% graph plotter for SV22p2. Shows max possible channels for a linescan in L
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV31p2.mat')
+ist = SaveVar31p2;
+plt1 = zeros(1, size(ist.varst.Lengths,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+xs = ist.varst.Lengths;
+j = figure; 
+plot(xs.*1000, plt1)
+xlabel 'L [mm]'
+ylabel 'Number of possible channels'
+
+jj = gca; 
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nStart field = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
+thesis_fig_gen(j.Number)
+
+clear tt j jj kk lp ist
