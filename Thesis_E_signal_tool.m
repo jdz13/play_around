@@ -1,14 +1,16 @@
 
 %load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV29p6.mat')
 % theta = SaveVar29p6.varst.theta(SaveVar29p6.ind1res(1,1,11,1,1)-10:SaveVar29p6.ind2res(1,1,11,1,1)+10);
-theta = deg2rad(linspace(15,20,501));
+theta = deg2rad(17.5);
+% theta = deg2rad(linspace(15,20,501));
 RES = 0.4; % Start field values. 
 pm_cl = 6e-2; % Magnet outer diameters.
 Lengths = 2e-2; % Magnet lengths
 s_rad = 1e-3; % define the sample radius (where the particles will actually be
 Yin = linspace(-1e-3, 1e-3,40); % Probe plane points in Y 
 Zin = Yin(1:20); % Probe plane points in Z 
-xin = SaveVar29p6.probe_line(11,find(SaveVar29p6.MxB(11,:,1) >= 1.05*RES, 1, 'last'));
+% xin = SaveVar29p6.probe_line(11,find(SaveVar29p6.MxB(11,:,1) >= 1.05*RES, 1, 'last'));
+xin = 0.0351200000000000;
 IB = 6e-3;
 M = 1e6;
 
@@ -18,7 +20,7 @@ x = linspace(-sr,sr,ceil(2*sr/dx)); y = x;
 magDp = [2e-5, 2e-5, 2e-9];
 mu0 = 4*pi*1e-7;
 
-xline = linspace(-1e-3,1e-3,51);
+xline = linspace(-1e-3,1e-3,126);
 yline = xline;
 zline = 1e-5;
 
@@ -116,7 +118,7 @@ clear gg
 
 gg = figure; count = 0;
 
-for uu = round((1:6).*(length(theta)/6))
+for uu = [1,ceil((1:5).*(length(theta)/5))]
     count = count+1; subplot(2,3,count)
     imagesc(xline.*1e3, yline.*1e3, fliplr(HzAkoun_sum(:,:,uu)'))
     polarmap
