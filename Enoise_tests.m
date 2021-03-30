@@ -48,6 +48,7 @@ zline = linspace(-2.5e-3,2.5e-3,26);
 yline = zline;
 Lengths = 2e-2;
 pm_cl = 6e-2;
+IB = 6e-3;
 
 xline = 7e-3+(pm_cl/2)+1e-6;
 
