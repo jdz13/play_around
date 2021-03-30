@@ -135,7 +135,7 @@ end
 
                             end
 
-                            [FWHMX(1),MLOC(1),indout] = FWHMNVC(NVC(1,:),theta,con);
+                            [FWHMX(1),MLOC(1),indout] = FWHMNVC_sig(NVC(1,:),theta,con);
 
                             SWnextpos = MLOC(1)+(KRV(count2)*FWHMX(1));  
                             Bxnew = Xunitx.*cos(SWnextpos) + Yunitx.*sin(SWnextpos);                                             
