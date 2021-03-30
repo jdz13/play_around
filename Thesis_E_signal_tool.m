@@ -1,7 +1,7 @@
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV29p6.mat')
+%load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV29p6.mat')
 % theta = SaveVar29p6.varst.theta(SaveVar29p6.ind1res(1,1,11,1,1)-10:SaveVar29p6.ind2res(1,1,11,1,1)+10);
-theta = deg2rad(linspace(17,18,501));
+theta = deg2rad(linspace(15,20,501));
 RES = 0.4; % Start field values. 
 pm_cl = 6e-2; % Magnet outer diameters.
 Lengths = 2e-2; % Magnet lengths
@@ -106,7 +106,7 @@ for pull = 1:length(theta)
 end
 
 toc
-
+%%
 gg = figure;
 plot(rad2deg(theta), NVC)
 xlabel '\theta_M [deg]'
