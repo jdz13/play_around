@@ -8,7 +8,8 @@ Lengths = 2e-2; % Magnet lengths
 s_rad = 1e-3; % define the sample radius (where the particles will actually be
 Yin = linspace(-1e-3, 1e-3,40); % Probe plane points in Y 
 Zin = Yin(1:20); % Probe plane points in Z 
-xin = SaveVar29p6.probe_line(11,find(SaveVar29p6.MxB(11,:,1) >= 1.05*RES, 1, 'last'));
+% xin = SaveVar29p6.probe_line(11,find(SaveVar29p6.MxB(11,:,1) >= 1.05*RES, 1, 'last'));
+xin = 0.0351200000000000;
 IB = 6e-3;
 M = 1e6;
 a = 0.1;
@@ -60,7 +61,7 @@ for pull = 1:length(theta)
    Bxnew = new.newBxnew;
 
    %Find out how much of this areas is above or below the threshold
-   BZM = sigmf(Bxnew,[a.*1e4,swinit]);
+   BZM = sigmf(Bxnew,[a.*1e4,RES]);
    % Correlate with where the particles actually are in the world
 
    CM = BZM .* particle_loc;
@@ -117,7 +118,7 @@ clear gg
 
 gg = figure; count = 0;
 
-for uu = round((1:6).*(length(theta)/6))
+for uu = [1,round((1:5).*(length(theta)/6))]
     count = count+1; subplot(2,3,count)
     imagesc(xline.*1e3, yline.*1e3, fliplr(HzAkoun_sum(:,:,uu)'))
     polarmap
