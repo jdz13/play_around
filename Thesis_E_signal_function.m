@@ -67,7 +67,7 @@ function [outstr] = Thesis_E_signal_function(theta, coil_res_xy, method)
        elseif strcmp(method,'non ideal')
            
            %Find out how much of this areas is above or below the threshold
-           BZM = sigmf(Bxnew,[a.*1e4,swinit]);
+           BZM = sigmf(Bxnew,[a.*1e4,RES]);
            % Correlate with where the particles actually are in the world
            
        else 
