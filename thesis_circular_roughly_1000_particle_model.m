@@ -10,7 +10,7 @@ Mdil = MsatC * ApN / As;
 
 xline = linspace(-2.5e-3,2.5e-3,251);
 yline = xline;
-zline = logspace(-6,-2,100);
+zline = logspace(-4,-2,100);
 
 HxAkoun = zeros(size(xline,2), size(yline,2), size(zline,2));
 HyAkoun = HxAkoun; HzAkoun = HxAkoun;
