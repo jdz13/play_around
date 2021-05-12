@@ -627,7 +627,7 @@ end
 
 ff = figure; 
 semilogx(ist.varst.a,plotter) 
-xlabel 'a [Oe^-^1]'; ylabel '\eta'; 
+xlabel 'a [Oe]'; ylabel '\eta'; 
 jj = gca;
 tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000),' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nS_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
 text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);

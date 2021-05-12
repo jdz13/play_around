@@ -9,10 +9,10 @@ ist = minor_str;
 
         for count = 1:size(ist,2)
 
-           H1a(count) = ist(count).fitresult1st.a;
+           H1a(count) = 1./ist(count).fitresult1st.a;
            H1c(count) = ist(count).fitresult1st.c;
 
-           H2a(count) = ist(count).fitresult2nd.a;
+           H2a(count) = 1./ist(count).fitresult2nd.a;
            H2c(count) = ist(count).fitresult2nd.c;
            
         end 
@@ -25,20 +25,20 @@ ist = major_str;
         H2a1 = zeros(1, size(ist,2)); H2c = H2a1; H3a = H2a1; H3c = H2a1;
 
         for count = 1:size(ist,2)
-           H2a1(count) = ist(count).fitresult1st.a;
+           H2a1(count) = 1./ist(count).fitresult1st.a;
            H2c(count) = ist(count).fitresult1st.c;
 
-           H3a(count) = ist(count).fitresult2nd.a;
+           H3a(count) = 1./ist(count).fitresult2nd.a;
            H3c(count) = -ist(count).fitresult2nd.c;
         
         end 
         
         for  count = size(ist,2)+1:2*size(ist,2)
             
-           H2a1(count) = ist(count-size(ist,2)).fitresult3rd.a;
+           H2a1(count) = 1./ist(count-size(ist,2)).fitresult3rd.a;
            H2c(count) = -ist(count-size(ist,2)).fitresult3rd.c;
 
-           H3a(count) = ist(count-size(ist,2)).fitresult4th.a;
+           H3a(count) = 1./ist(count-size(ist,2)).fitresult4th.a;
            H3c(count) = ist(count-size(ist,2)).fitresult4th.c;
         end 
        
@@ -91,7 +91,7 @@ ist = major_str;
         ist = minor_str;
         for count = 1:size(ist,2)
             plot(ist(count).fitresult1st)
-            plot(ist(count).fitresult3rd)
+%             plot(ist(count).fitresult3rd)
             hold on
         end               
         xlabel 'Field [Oe]'

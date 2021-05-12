@@ -4,7 +4,7 @@
 
 x = 1:3000; y = sigmf(x,[0.15, 1950]);
 hh = figure; plot(x,y); xlabel ' Field [Oe]'; ylabel 'Membership function'
-text(500,0.8, compose('c = 1950 [Oe]\na = 0.15 [Oe^-^1]'))
+text(500,0.8, compose('c = 1950 [Oe]\na = 0.15 [Oe]'))
 thesis_fig_gen(hh.Number)
 clear hh x y 
 
@@ -12,7 +12,7 @@ clear hh x y
 
 x = 1:3000; y = sigmf(x,[0.1, 1950]);
 hh = figure; plot(x,y); xlabel ' Field [Oe]'; ylabel 'Membership function'
-text(500,0.8, compose('c = 1950 [Oe]\na = 0.1 [Oe^-^1]'))
+text(500,0.8, compose('c = 1950 [Oe]\na = 0.1 [Oe]'))
 thesis_fig_gen(hh.Number)
 clear hh x y 
 
@@ -34,7 +34,7 @@ y = sigmf(x,[a, 500]); plot(x,y)
 y = sigmf(x,[a, 1000]); plot(x,y)
 y = sigmf(x,[a, 2000]); plot(x,y)
 y = sigmf(x,[a, 2500]); plot(x,y)
-title (compose(['Channels centred around n*500 [Oe]\nAll with a = ',num2str(a),' [Oe^-^1]']))
+title (compose(['Channels centred around n*500 [Oe]\nAll with a = ',num2str(a),' [Oe]']))
 thesis_fig_gen(hh.Number)
 clear hh x y 
 

@@ -77,7 +77,7 @@ plot(ist.xline, ist.HzAkoun_sum(1,:))
 
 %%
 
-ist = outstr;
+ist = non_ideal_1144_full_V2;
 hh = figure;
 yyaxis left; plot(rad2deg(ist.theta), ist.phi)
 ylabel 'Flux \Phi [Wb]'; xlabel '\theta_M [deg]'; yyaxis right
@@ -87,7 +87,7 @@ thesis_fig_gen(hh.Number);
 
 %%
 speed = 20; % [Hz]
-ist = outstr;
+ist = non_ideal_1144_full_V2;
 t = ist.theta./2./pi./speed; % [s]
 EMF = -diff(ist.phi)./(t(2)-t(1));
 hh = figure;
@@ -96,6 +96,7 @@ ylabel 'Flux \Phi [Wb]'; xlabel 'time [s]'; yyaxis right
 plot(t(1:end-1), EMF); ylabel '\epsilon [V]'
 legend('Flux \Phi', '\epsilon'); 
 thesis_fig_gen(hh.Number);
+EMFav = mean(nonzeros(EMF));
 
 %%
 
@@ -108,7 +109,55 @@ cd(oldfolder);
 
 %%
 
-
 load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV30p6.mat')
 theta = SaveVar30p6.varst.theta(SaveVar30p6.ind1res(1,1,11,1,1)-10:SaveVar30p6.ind2res(1,1,11,1,1)+10);
 
+
+%%
+gg = figure;
+plot(rad2deg(ist.theta), ist.NVC)
+xlabel '\theta_M [deg]'
+ylabel 'NSA'
+thesis_fig_gen(gg.Number);
+clear gg
+
+gg = figure; count = 0;
+
+for uu = [1,ceil((1:5).*(length(ist.theta)/5))]
+    count = count+1; subplot(2,3,count)
+    imagesc(ist.xline.*1e3, ist.xline.*1e3, fliplr(ist.HzAkoun_sum(:,:,uu)'))
+    polarmap
+    xlabel 'X [mm]'
+    ylabel 'Y [mm]'
+    colorbar
+    title (['Field within a coil at ', num2str(rad2deg(ist.theta(uu))),' [deg]'])
+    axis equal; axis([-1,1,-1,1]); thesis_fig_gen(gg.Number)
+end
+
+%%
+
+gg = figure; yyaxis left; plot(rad2deg(ist.theta), ist.phi)
+ylabel 'Flux \Phi [Wb]'; xlabel '\theta_M [deg]';
+g = gca; f = g.YLim; yyaxis right
+plot(rad2deg(ist.theta), ist.Bav,'--'); ylabel 'Average field [T]'
+legend('Flux \Phi', 'Average field'); 
+xlim([rad2deg(ist.theta(1)),rad2deg(ist.theta(end))]);
+R_coil = 1e-3; ylim(f./pi./(R_coil^2));
+thesis_fig_gen(gg.Number);
+
+%%
+
+clear
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter VI\1144_particle_Phi_ideal_V2.mat')
+
+speed = 20; % [Hz]
+ist = outstr;
+gg = figure; yyaxis left; plot(rad2deg(ist.theta), ist.phi)
+ylabel 'Flux \Phi [Wb]'; xlabel '\theta_M [deg]';
+g = gca; f = g.YLim; yyaxis right
+plot(rad2deg(ist.theta), ist.Bav,'--'); ylabel ('$\overline{B} [T]$', 'Interpreter', 'latex')
+legend ('$flux , \Phi$','$\overline{B}$','Interpreter','latex')
+xlim([rad2deg(ist.theta(1)),rad2deg(ist.theta(end))]);
+R_coil = 1e-3; ylim(f./pi./(R_coil^2));
+thesis_fig_gen(gg.Number);

@@ -137,26 +137,26 @@ clear h1 h11 h12 h13 ax ax1 ax2 ax3 ax4 ax5 ax6 h11 s1 s2 s3 s4 s5 ...
 
 %% Transitions for series and J vs T_Pt plotting
 
-% C:\Users\JDZ\Documents\MOKE\2019 NOV\Films redo
+% C:\Users\JDZ\Documents\Thesis\Data\Usable J vs t_Pt data\Si Films
 [SiF, SiFfitting] = MOKE_data_in2(50, [200,800], [3:10]);
 thesis_fig_gen(50:52)
 figure(50); xlim([-1000, 10300]); ylim([-0.05,1.05])
 set(gcf, 'Position',  [100, 100, 540, 500]); title 'P-AP (H_4) transition - Si films'
-figure(52); xlim([-1000, 7000]); ylim([-0.55,0.05])
+figure(52); xlim([-1000, 7000]); ylim([-0.7,0.05])
 
-% C:\Users\JDZ\Documents\MOKE\DEC 2019\New folder
+% C:\Users\JDZ\Documents\Thesis\Data\Usable J vs t_Pt data\Si Particles
 [SiP, SiPfitting] = MOKE_data_in2(47, [300,820], [3,5:9]);
 thesis_fig_gen(47:49)
 figure(47); xlim([-1000, 9000]); ylim([-0.05,1.05])
 set(gcf, 'Position',  [100, 100, 540, 450]); title 'P-AP (H_4) transition - Si Particles'
-figure(49); xlim([-1000, 6000]); ylim([-0.9,0.05])
+figure(49); xlim([-1000, 6000]); ylim([-0.27,0.05])
 
-% C:\Users\JDZ\Documents\MOKE\DEC 2019\Ge particles redo
+% C:\Users\JDZ\Documents\Thesis\Data\Usable J vs t_Pt data\Ge Particles
 [GeP, GePfitting] = MOKE_data_in2(44, [300,820], [4:10]);
 thesis_fig_gen(44:47)
 figure(44); xlim([-1000, 6700]); ylim([-0.05,1.05])
 set(gcf, 'Position',  [100, 100, 540, 450]); title 'P-AP (H_4) transition - Ge Particles'
-figure(46); xlim([-1000, 6500]); ylim([-0.35,0.05])
+figure(46); xlim([-1000, 5000]); ylim([-0.5,0.05])
 
 J_vs_TPt_plotting
 
@@ -426,13 +426,26 @@ thesis_fig_gen(hh.Number)
 %%
 
 kk = figure; 
-errorbar(mean(SiF.a), 1, (std(SiF.a)) , (std(SiF.a)),  'horizontal', 'rx'); 
+errorbar(mean(1./SiF.a), 1, (std(1./SiF.a)) , (std(1./SiF.a)),  'horizontal', 'rx'); 
 hold on;
-errorbar(mean(SiP.a), 2, (std(SiP.a)) , (std(SiP.a)),  'horizontal', 'bx');
-errorbar(mean(GeP.a), 3, (std(GeP.a)) , (std(GeP.a)),  'horizontal', 'kx');
+errorbar(mean(1./SiP.a), 2, (std(1./SiP.a)) , (std(1./SiP.a)),  'horizontal', 'bx');
+errorbar(mean(1./GeP.a), 3, (std(1./GeP.a)) , (std(1./GeP.a)),  'horizontal', 'kx');
 ylim([0,4])
 legend('Si films' , 'Si particles', 'Ge particles')
-xlabel 'a [Oe^-^1]'
+xlabel 'a [Oe]'
+title 'Comparison of decay constant'
+thesis_fig_gen(kk.Number)
+
+%% V2
+
+kk = figure; 
+errorbar(mean(1./SiF.a(2:end)), 1, (std(1./SiF.a(2:end))) , (std(1./SiF.a(2:end))),  'horizontal', 'rx'); 
+hold on;
+errorbar(mean(1./SiP.a), 2, (std(1./SiP.a)) , (std(1./SiP.a)),  'horizontal', 'bx');
+errorbar(mean(1./GeP.a), 3, (std(1./GeP.a)) , (std(1./GeP.a)),  'horizontal', 'kx');
+ylim([0,4])
+legend('Si films' , 'Si particles', 'Ge particles')
+xlabel 'a [Oe]'
 title 'Comparison of decay constant'
 thesis_fig_gen(kk.Number)
 
@@ -525,14 +538,19 @@ end
 [gtest] = sigmoidal_mem_funct_gen(1700:2300,2000, 5, 2);
 title ''
 xlabel 'B_\perp'
+ylabel 'M/Msat'
 h = gca;
 set(h,'Xtick', [])
 set(h,'Ytick', [0,0.5,1])
 vline(2000,'r:')
 hline(0.5, 'k:')
 text(2020,0.15,'c','Fontsize',14,'Color','Red')
+hold on
+plot([gtest.params(1)-(1/gtest.params(2)),gtest.params(1)+(1/gtest.params(2))],[0.5,0.5],'m-')
+plot([gtest.params(1)-(1/gtest.params(2)),gtest.params(1)-(1/gtest.params(2))],[0.47,0.53],'m-')
+plot([gtest.params(1)+(1/gtest.params(2)),gtest.params(1)+(1/gtest.params(2))],[0.47,0.53],'m-')
+text(1950,0.6,'2a','Fontsize',14,'Color','Magenta')
 thesis_fig_gen(2)
-
 %% FWHM studies on the series.
 
 load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter IV\FWHM for series.mat')

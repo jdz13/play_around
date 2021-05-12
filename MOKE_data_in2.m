@@ -153,9 +153,9 @@ function[Data_str, fit_results] = MOKE_data_in2(figno, ind, Tpt)
     fit_results(1).polyfit = fitresult;
     fit_results(2).polyfit = gof;
     
-    subplot(1,2,1); plot (Pt_nm, Data_str.a, 'x--'); 
+    subplot(1,2,1); plot (Pt_nm, 1./Data_str.a, 'x--'); 
 %     title 'Comparing a values';
-    xlabel 'Platinum thickness t_P_t [nm]'; ylabel 'a [Oe^-^1]'
+    xlabel 'Platinum thickness t_P_t [nm]'; ylabel 'a [Oe]'
     hold on
     
     % look at differentiated signal 

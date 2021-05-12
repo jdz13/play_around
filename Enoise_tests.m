@@ -43,6 +43,8 @@ semilogy(probe_line-(pm_cl/2), MxB)
 
 %%
 
+tic
+
 M = 1e6; 
 zline = linspace(-2.5e-3,2.5e-3,26);
 yline = zline;
@@ -50,7 +52,7 @@ Lengths = 2e-2;
 pm_cl = 6e-2;
 IB = 6e-3;
 
-xline = 7e-3+(pm_cl/2)+1e-6;
+xline = 10e-3+(pm_cl/2)+1e-6;
 
 [BcartOD] = new3Dbanditunitvector(xline,yline,zline,Lengths/2,pm_cl/2,M);
 [BcartIB] = new3Dbanditunitvector(xline,yline,zline,Lengths/2,IB/2,M);
@@ -75,6 +77,8 @@ xlabel 'Angle [deg]';
 legend ('using mean([B_v_,_zcos(\theta_M)+B_u_,_zsin(\theta_M)])', 'using mean(B_u_,_z(\theta_M=0))\cdotcos(\theta_M)','Percentage difference','Location','Northeast')
 thesis_fig_gen(kk.Number); xlim([0,90])
 
+toc
+
 %%
 
 IB = 6e-3;
@@ -98,3 +102,77 @@ xlabel 'Y [mm]'; ylabel 'Z [mm]';
 %%
 
 
+tic
+
+M = 1e6; 
+zline = linspace(-2.5e-3,2.5e-3,26);
+yline = zline;
+Lengths = 2e-2;
+pm_cl = 6e-2;
+IB = 6e-3;
+
+xline = 10e-3+(pm_cl/2)+1e-6;
+
+count = 0;
+
+dispx = linspace(0,1e-3,10);
+
+dispy = dispx;
+res_disp = zeros(length(dispx),length(dispy));
+
+for yy = 1:length(dispy)
+    
+    ylinet = yline+dispy(yy);
+    
+    for xx = 1:length(dispx)
+        
+        zlinet = zline+dispx(xx);
+        [BcartOD] = new3Dbanditunitvector(xline,ylinet,zlinet,Lengths/2,pm_cl/2,M);
+        [BcartIB] = new3Dbanditunitvector(xline,ylinet,zlinet,Lengths/2,IB/2,M);
+        Bcart = BcartOD - BcartIB;
+        res_disp(xx,yy)  = mean(Bcart(:,:,1,1,1),'all');
+        clear BcartOD BcartIB Bcart
+        count = count+1;
+        if rem(count,10) == 0 
+            disp(count)
+        end 
+    end
+end
+
+delB0 = res_disp-res_disp(1,1);
+
+gg = figure; 
+imagesc(dispx.*1e3, dispy.*1e3, delB0.*1e4)
+c = colorbar;
+xlabel 'X displacement [mm]'
+ylabel 'Y displacment [mm]'
+
+f = 20; % [Hz]
+Rcoil = 1e-3;
+A = pi.*Rcoil^2;
+E = delB0.*f.*A;
+
+hh = figure;
+imagesc(dispx.*1e3, dispy.*1e3, E)
+cc = colorbar;
+xlabel 'X displacement [mm]'
+ylabel 'Y displacment [mm]'
+
+
+%%
+
+clear tester tester2
+dispx = linspace(0,1e-3, 51);
+[tester] = Noise_EMF(dispx, dispx, 0);
+gg = figure; imagesc(tester.dispx.*1e3, tester.dispy.*1e3,tester.EMF.*1e9); 
+xlabel 'X displacement [mm]'
+ylabel 'Y displacment [mm]'
+c = colorbar;set(gca,'ColorScale','log'); c.Ruler.TickLabelFormat='%g [nT]';
+set(get(c,'label'),'string','Noise from a displacement in X and Y'); 
+thesis_fig_gen(gg.Number)
+
+dispz = linspace(0,0.5e-3,501);
+[tester2] = Noise_EMF(0,0, dispz);
+gg = figure; plot(tester2.dispz.*1e3, squeeze(tester2.EMF).*1e9);
+xlabel 'displacement in Z [mm]'; ylabel 'EMF [nV]'
+thesis_fig_gen(gg.number)
