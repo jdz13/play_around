@@ -626,3 +626,56 @@ thesis_fig_gen(h.Number)
 %%
 
 
+
+h = figure(1);
+f = figure;
+
+for tt = 1:4
+    for pp = 1:3
+        figure(h);
+        subplot(2,2,tt); gcahol = gca; gcac = gcahol.Children; 
+        figure(f); subplot(2,2,tt)
+        plot(gcac(4-pp).XData, gcac(4-pp).YData, '--+')
+        hold on 
+    end
+    legend('Si Films', 'Si Particles', 'Ge Particles')
+    xlabel 'H_J [Oe]'
+    thesis_fig_gen(f.Number);
+end
+subplot(2,2,1); ylabel 'FWHM [Oe]'
+subplot(2,2,2); ylabel 'Separation [Oe]'
+subplot(2,2,3); ylabel 'Ratio of separation to FWHM [Oe]'
+subplot(2,2,4); ylabel 'Ratio of FWHM to separation [Oe]'
+
+%% Single data plotters for RSA to demonstrate the switching
+
+% Data file:
+% C:\Users\JDZ\Documents\Thesis\Data\SP8313_rotational_switching_as\SP8313_rotational_switching_as
+
+[zz] = fol_data_ext_function();
+
+gg = figure;
+
+subplot(2,2,1); n = 61;
+plot(zz(n).data(:,7), zz(n).data(:,15).*1e6)
+xlabel 'Angle [deg]'
+ylabel 'm_\perp [\muemu]'
+title 'Low field'
+thesis_fig_gen(gg.Number)
+subplot(2,2,2); n = 21;
+plot(zz(n).data(:,7), zz(n).data(:,15).*1e6)
+xlabel 'Angle [deg]'
+ylabel 'm_\perp [\muemu]'
+title 'Intermediate field'
+vline(40,'r:'); vline(50,'r:')
+thesis_fig_gen(gg.Number)
+subplot(2,2,3); n = 27;
+plot(zz(n).data(:,7), zz(n).data(:,15).*1e6)
+xlabel 'Angle [deg]'
+ylabel 'm_\perp [\muemu]'
+title 'High field'
+vline(125,'r:'); vline(135,'r:')
+vline(65,'r:'); vline(55,'r:')
+thesis_fig_gen(gg.Number)
+
+%%

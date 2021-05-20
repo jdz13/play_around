@@ -97,24 +97,30 @@ thesis_fig_gen(ff.Number)
 load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p4.mat')
 ist = SaveVar24p4;
 in = '+--';
+j = zeros(1,6);
 
 ff = figure;
 pt = nonzeros(ist.SWres(1,:,1,1)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,1)));
-plot(pt(1:length(pt1))', pt1,in); hold on
+plot(pt(1:length(pt1))', pt1,in); hold on; j(1) = length(pt);
 pt = nonzeros(ist.SWres(1,:,1,11)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,11)));
-plot(pt(1:length(pt1))', pt1,in); hold on
+plot(pt(1:length(pt1))', pt1,in); hold on; j(2) = length(pt);
 pt = nonzeros(ist.SWres(1,:,1,21)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,21)));
-plot(pt(1:length(pt1))', pt1,in); hold on
+plot(pt(1:length(pt1))', pt1,in); hold on; j(3) = length(pt);
 pt = nonzeros(ist.SWres(1,:,1,31)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,31)));
-plot(pt(1:length(pt1))', pt1,in); hold on
+plot(pt(1:length(pt1))', pt1,in); hold on; j(4) = length(pt);
 pt = nonzeros(ist.SWres(1,:,1,41)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,41)));
-plot(pt(1:length(pt1))', pt1,in); hold on
+plot(pt(1:length(pt1))', pt1,in); hold on; j(5) = length(pt);
 pt = nonzeros(ist.SWres(1,:,1,51)); pt1 = rad2deg(nonzeros(ist.FWHMres(1,:,1,51)));
-plot(pt(1:length(pt1))', pt1,in); hold on
+plot(pt(1:length(pt1))', pt1,in); hold on; j(6) = length(pt);
 xlabel 'Channel field [T]'; ylabel 'W_0_._3_-_0_._7 [deg]'
 legend ('B_s_t_a_r_t = 0.6 [T]','B_s_t_a_r_t = 0.5 [T]','B_s_t_a_r_t = 0.4 [T]','B_s_t_a_r_t = 0.3 [T]','B_s_t_a_r_t = 0.2 [T]','B_s_t_a_r_t = 0.1 [T]', 'Location', 'Southeast')
 thesis_fig_gen(ff.Number)
 
+ff = figure;
+x = linspace(0.1,0.6,6);
+plot(x, x./j.*1e4,'+--')
+xlabel 'Channel field [T]'; ylabel 'Average separation [Oe]'
+thesis_fig_gen(ff.Number)
 %% L study, what does the max field vs p look like for differing L 
 
 load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p2.mat')
@@ -632,3 +638,51 @@ text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
 thesis_fig_gen(j.Number)
 
 clear tt j jj kk lp ist
+
+%% 2D data analysis
+
+ mno = [2,4,9,15,19,22,25,28,30,33,35,37,39,41,43,45,46,48,50,51,53];
+pf = [2,2,3.2,3.2,2.8,3.2,3.6,3.2,4.4,4,4,3.6,4,4,4,3.2,3.2,3.6,3.2,3.2];
+ps = [2.8,4,4,5.2,6,6.4,6,7.2,5.6,6.4,6.8,6.8,6.8,6.4,6,7.6,6.8,5.6,6.8,5.6];
+pf = [2, pf]; ps = [2, ps];
+md = (pf+ps)./2;
+x = linspace(2,10,21);
+gg = figure;
+yyaxis left
+er = abs(pf-ps)./2;
+errorbar(x,md,er)
+ylabel 'L for Maximum \eta [cm]'
+yyaxis right 
+plot(x,mno)
+ylabel 'Maximum \eta'
+xlabel 'OD [cm]'
+annotation('arrow',[0.3,0.15],[0.6,0.6],'color' , [0,0.4470,0.7410])
+annotation('arrow',[0.15,0.3],[0.6,0.6],'color' , [0.8500,0.3250,0.0980])
+legend ('L for maximum \eta', 'Maximum \eta')
+thesis_fig_gen(gg.Number)
+
+%%
+
+clear
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV31p2.mat')
+ist = SaveVar31p2;
+
+
+L1 = length(ist.varst.Lengths);
+lp = squeeze(ist.SWres);
+hh = figure; 
+
+for uu = 1:6
+    ind = 1+((L1-1).*(uu-1)./5);
+    dat1 = nonzeros(lp(:,ind)).*1e4;
+
+    subplot(3,2, uu); histogram(dat1,50); %pd = fitdist(dat1','Normal'); 
+    xlabel 'B_n [Oe]'; title (['L = ', num2str(ist.varst.Lengths(ind).*1e2), ' [cm]'])
+    %h = gca; text(h.XLim(1)+abs(0.02*h.XLim(1)),h.YLim(2)*0.85, ['x = ' num2str(pd.mu) newline '\sigma = ' num2str(pd.sigma)])
+    thesis_fig_gen(hh.Number)
+    
+end 
+
+%%
+
+
