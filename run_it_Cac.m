@@ -21,7 +21,7 @@ Zin = Yin(1:26); % Probe plane points in Z
 tic
 Lengths = linspace(2,10,81).*1e-2; % Magnet lengths
 pm_cl = 4e-2; % Magnet outer diameters.
-[SaveVar34p2] = search_tool_11p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+[SaveVar34p2] = search_tool_12p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
 SaveVar34p2.timer = toc; SaveVar34p2.comments = "L study. 'Ideal' data. Minimum field applied, but not working range or minimum separation.";
 
 [oldfolder] = cd(folpath);
@@ -49,7 +49,7 @@ RES = 0.4;
 Lengths = 4e-2; % Magnet lengths
 pm_cl = 4e-2; % Magnet outer diameters.
 s_rad = linspace(0.25,1,31).*1e-3;
-[SaveVar34p3] = search_tool_11p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+[SaveVar34p3] = search_tool_12p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
 SaveVar34p3.timer = toc; SaveVar34p3.comments = "s_rad study. 'Ideal' data. Minimum field applied, but not working range or minimum separation.";
 
 [oldfolder] = cd(folpath);
@@ -62,7 +62,7 @@ Lengths = 4e-2; % Magnet lengths
 pm_cl = 4e-2; % Magnet outer diameters.
 s_rad = 1e-3;
 RES = linspace(0.6,0.1,51); % Start field values. 
-[SaveVar34p4] = search_tool_11p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+[SaveVar34p4] = search_tool_12p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
 SaveVar34p4.timer = toc; SaveVar34p4.comments = "B_0 study. 'Ideal' data. Minimum field applied, but not working range or minimum separation.";
 
 [oldfolder] = cd(folpath);
@@ -72,17 +72,17 @@ cd(oldfolder);
 % ------------------------------------------------------------------------
 
 % ------------------------------------------------------------------------
-KRV = linspace(3,35,33); % Key ratio values, how strict of a condition do we want 
-pm_cl = 6e-2; % Magnet outer diameters.
-Lengths = 2e-2; % Magnet lengths
-
-tic
-[SaveVar34p7] = search_tool_11p2_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
-SaveVar34p7.timer = toc; SaveVar34p7.comments = "KRV study. 'Ideal' data. Minimum field applied, but not working range or minimum separation.";
-
-[oldfolder] = cd(folpath);
-filename = 'matlab_SV34p7.mat';
-save(filename, 'SaveVar34p7')
-cd(oldfolder);
-% ------------------------------------------------------------------------
-
+% KRV = linspace(3,35,33); % Key ratio values, how strict of a condition do we want 
+% pm_cl = 6e-2; % Magnet outer diameters.
+% Lengths = 2e-2; % Magnet lengths
+% 
+% tic
+% [SaveVar34p7] = search_tool_12p1_Caciagli(KRV,RES,pm_cl,Lengths,theta,Yin,Zin,s_rad,con);
+% SaveVar34p7.timer = toc; SaveVar34p7.comments = "KRV study. 'Ideal' data. Minimum field applied, but not working range or minimum separation.";
+% 
+% [oldfolder] = cd(folpath);
+% filename = 'matlab_SV34p7.mat';
+% save(filename, 'SaveVar34p7')
+% cd(oldfolder);
+% % ------------------------------------------------------------------------
+% 
