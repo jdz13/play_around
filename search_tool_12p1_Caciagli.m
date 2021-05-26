@@ -14,11 +14,11 @@ clear SWres SH0 swinit SWnext count count2 NVC DNVC FWHMX MLOC SWnextpos
 
 % We need to have defined the maxima's for each part
 
-D_prac = 10e-2; % maximum working distance for magnet surface-sample [m]
+D_prac = 50e-2; % maximum working distance for magnet surface-sample [m]
 N_probe = 10001; % distance probe points in z, defining resolution 
 M = 1e6; % Msat of magnet used for drive field [A/m]
 IB = 6e-3; % Inner bore of the drive magnet [m]
-min_value = 25e-4;
+min_value = 25e-4; % [T]
 
 % Find the maximum field (theta = 0) at each z probe point, for each set of
 % magnet parameters (L,OD)
@@ -74,7 +74,7 @@ end
                         control = sum(sum(particle_loc));
 
 
-                        while  SH0 > min_value && tmps(2) ~= 0  
+                        while  tmps(2) > min_value && tmps(2) ~= 0  
                             % 
                             % Do I need to change this to a physical value for all?
                             % Confrim with Dot. SH0 > MxB(pm,length(MxB(pm,:)))
