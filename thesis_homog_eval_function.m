@@ -64,26 +64,33 @@ function [outstr] = thesis_homog_eval_function(ist,inmeth, B0_Oe)
         end
 
         hh = figure;
-        subplot(1,3,1)
-        plot(ist.varst.Lengths.*1e3, BzX.*1e3)
-        xlabel 'L [mm]'
+        subplot(2,2,1)
+        plot(ist.varst.PM.*1e3, BzX.*1e3)
+        xlabel 'OD [mm]'
         ylabel 'Range of B_z [mT]'
         title 'Range of B_z across X'
-        % xlim([20,100])
+        xlim([20,100])
         thesis_fig_gen(hh.Number)
-        subplot(1,3,2)
-        plot(ist.varst.Lengths.*1e3, BzY.*1e3)
-        xlabel 'L [mm]'
+        subplot(2,2,2)
+        plot(ist.varst.PM.*1e3, BzY.*1e3)
+        xlabel 'OD [mm]'
         ylabel 'Range of B_z [mT]'
         title 'Range of B_z across Y'
-        % xlim([20,100])
+        xlim([20,100])
         thesis_fig_gen(hh.Number)
-        subplot(1,3,3)
-        plot(ist.varst.Lengths.*1e3, dphi.*1e3)
-        xlabel 'L [mm]'
-        ylabel 'Range of B_z [mT]'
-        title 'd\phi/dt'
-        % xlim([20,100])
+        subplot(2,2,3)
+        plot(ist.varst.PM.*1e3, dphi.*1e3)
+        xlabel 'OD [mm]'
+        ylabel 'Range of d\phi/dt [mT/deg]'
+        title 'Range of d\phi/dt'
+        xlim([20,100])
+        thesis_fig_gen(hh.Number)
+        subplot(2,2,4)
+        plot(ist.varst.PM.*1e3, avphi.*1e3)
+        xlabel 'OD [mm]'
+        ylabel 'Average d\phi/dt [mT/deg]'
+        title 'Average d\phi/dt'
+        xlim([20,100])
         thesis_fig_gen(hh.Number)
         
     elseif strcmp(inmeth, 'L')
@@ -136,28 +143,34 @@ function [outstr] = thesis_homog_eval_function(ist,inmeth, B0_Oe)
 
         end
 
-
         hh = figure;
-        subplot(1,3,1)
+        subplot(2,2,1)
         plot(ist.varst.Lengths.*1e3, BzX.*1e3)
         xlabel 'L [mm]'
         ylabel 'Range of B_z [mT]'
         title 'Range of B_z across X'
-        % xlim([20,100])
+        xlim([20,100])
         thesis_fig_gen(hh.Number)
-        subplot(1,3,2)
+        subplot(2,2,2)
         plot(ist.varst.Lengths.*1e3, BzY.*1e3)
         xlabel 'L [mm]'
         ylabel 'Range of B_z [mT]'
         title 'Range of B_z across Y'
-        % xlim([20,100])
+        xlim([20,100])
         thesis_fig_gen(hh.Number)
-        subplot(1,3,3)
+        subplot(2,2,3)
         plot(ist.varst.Lengths.*1e3, dphi.*1e3)
         xlabel 'L [mm]'
-        ylabel 'Range of B_z [mT]'
-        title 'd\phi/dt'
-        % xlim([20,100])
+        ylabel 'Range of d\phi/dt [mT/deg]'
+        title 'Range of d\phi/dt'
+        xlim([20,100])
+        thesis_fig_gen(hh.Number)
+        subplot(2,2,4)
+        plot(ist.varst.Lengths.*1e3, avphi.*1e3)
+        xlabel 'L [mm]'
+        ylabel 'Average d\phi/dt [mT/deg]'
+        title 'Average d\phi/dt'
+        xlim([20,100])
         thesis_fig_gen(hh.Number)
         
     end
@@ -167,6 +180,8 @@ function [outstr] = thesis_homog_eval_function(ist,inmeth, B0_Oe)
         outstr.avphi = avphi;
         outstr.dphi = dphi;
         outstr.ist = ist; 
+        outstr.inmeth = inmeth;
+        outstr.B0_Oe = B0_Oe;
 
 end
 
