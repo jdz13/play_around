@@ -338,3 +338,197 @@ for count = 1:4
     thesis_fig_gen(gg.Number)
 end 
 
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+%% graph plotter for SV34p2. Shows max possible channels for a linescan in L
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p2.mat')
+ist = SaveVar34p2;
+plt1 = zeros(1, size(ist.varst.Lengths,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+xs = ist.varst.Lengths;
+j = figure; 
+yyaxis left 
+plot(xs.*1000, plt1)
+xlabel 'L [mm]'
+ylabel '\eta - full model'
+
+jj = gca; 
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\ns_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p2.mat')
+ist = SaveVar24p2;
+plt1 = zeros(1, size(ist.varst.Lengths,2));
+lp = squeeze(ist.SWres);
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+xs = ist.varst.Lengths;
+yyaxis right 
+plot(xs.*1000, plt1)
+ylabel '\eta - p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]'
+ylim ([18.7,22.3])
+legend ('full model', 'p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]')
+annotation('arrow',[0.3,0.15],[0.6,0.6],'color' , [0,0.4470,0.7410])
+annotation('arrow',[0.15,0.3],[0.6,0.6],'color' , [0.8500,0.3250,0.0980])
+thesis_fig_gen(j.Number)
+
+clear tt j jj kk lp ist xs
+
+%%
+%% graph plotter for SV34p1. Shows max possible channels for a linescan in OD
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p1.mat')
+ist = SaveVar34p1;
+
+plt1 = zeros(1, size(ist.varst.PM,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+xs = ist.varst.PM;
+j = figure; yyaxis left
+plot(xs.*1000, plt1)
+xlabel 'OD [mm]'
+ylabel '\eta - full model'
+
+jj = gca; 
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\ns_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 0.9*mean(jj.YLim), tt);
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p1.mat')
+ist = SaveVar24p1;
+plt1 = zeros(1, size(ist.varst.PM,2));
+lp = squeeze(ist.SWres);
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+xs = ist.varst.PM;
+yyaxis right 
+plot(xs.*1000, plt1)
+ylabel '\eta - p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]'
+legend ('full model', 'p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]')
+annotation('arrow',[0.3,0.15],[0.6,0.6],'color' , [0,0.4470,0.7410])
+annotation('arrow',[0.15,0.3],[0.6,0.6],'color' , [0.8500,0.3250,0.0980])
+thesis_fig_gen(j.Number)
+
+clear tt j jj kk lp ist xs
+%%
+
+%% graph plotter for SV34p3. Shows max possible channels for a linescan in s_rad
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p3.mat')
+ist = SaveVar34p3;
+
+plt1 = zeros(1, size(ist.varst.s_rad,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+j = figure; yyaxis left 
+xs = ist.varst.s_rad;
+plot(xs.*1000, plt1)
+
+xlabel 'Sample radius [mm]'
+ylabel '\eta - full model'
+
+jj = gca;
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
+text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p3.mat')
+ist = SaveVar24p3;
+plt1 = zeros(1, size(ist.varst.s_rad,2));
+lp = squeeze(ist.SWres);
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+xs = ist.varst.s_rad;
+yyaxis right 
+plot(xs.*1000, plt1)
+ylabel '\eta - p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]'
+legend ('full model', 'p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]')
+annotation('arrow',[0.3,0.15],[0.6,0.6],'color' , [0,0.4470,0.7410])
+annotation('arrow',[0.15,0.3],[0.6,0.6],'color' , [0.8500,0.3250,0.0980])
+thesis_fig_gen(j.Number)
+
+
+thesis_fig_gen(j.Number)
+
+clear tt j jj kk lp ist plt1 xs
+
+%%
+%% graph plotter for SV34p4. Shows max possible channels for a linescan in B_0
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p4.mat')
+ist = SaveVar34p4;
+
+plt1 = zeros(1, size(ist.varst.Lengths,2));
+
+lp = squeeze(ist.SWres);
+
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+
+xs = ist.varst.RES;
+j = figure; yyaxis left
+plot(xs, plt1)
+xlabel 'B_0 [T]'
+ylabel '\eta - full model'
+
+
+jj = gca; 
+tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\ns_r_a_d = ', num2str(ist.varst.s_rad*1000), ' [mm]\n\nID = 6 [mm]']);
+text(mean(jj.XLim), mean(jj.YLim), tt);
+
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p4.mat')
+ist = SaveVar24p4;
+plt1 = zeros(1, size(ist.varst.Lengths,2));
+lp = squeeze(ist.SWres);
+for kk = 1:size(lp,2)
+    plt1(kk) = nnz(lp(:,kk))-1;
+end 
+xs = ist.varst.RES;
+yyaxis right 
+plot(xs, plt1)
+ylabel '\eta - p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]'
+legend ('full model', 'p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]')
+annotation('arrow',[0.3,0.15],[0.6,0.6],'color' , [0,0.4470,0.7410])
+annotation('arrow',[0.15,0.3],[0.6,0.6],'color' , [0.8500,0.3250,0.0980])
+thesis_fig_gen(j.Number)
+
+clear tt j jj kk lp ist plt1 xs
+
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+
+

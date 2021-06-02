@@ -559,3 +559,71 @@ xlim([20,100])
 thesis_fig_gen(hh.Number)
 
 %%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+
+
+%% looking at how the homogeneity profile changes below 500 [Oe] for different L 
+
+figno = 2; figure(figno); clf;
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\homog_outputs_L.mat')
+
+thesis_homog_str_plotter(outstr1, figno, 'multi')
+thesis_homog_str_plotter(outstr2, figno, 'multi')
+thesis_homog_str_plotter(outstr3, figno, 'multi')
+thesis_homog_str_plotter(outstr4, figno, 'multi')
+ylim ([-0.5,1]); hline(0,':k')
+clear hh tt figno
+%% 500 [Oe] data on its own - L study.
+
+thesis_homog_str_plotter(outstr1, 3, 'single')
+
+%% looking at how the homogeneity profile changes below 500 [Oe] for different OD 
+
+figno = 2; figure(figno); clf;
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\homog_outputs_OD.mat')
+
+thesis_homog_str_plotter(outstr11, figno, 'multi')
+thesis_homog_str_plotter(outstr12, figno, 'multi')
+thesis_homog_str_plotter(outstr13, figno, 'multi')
+thesis_homog_str_plotter(outstr14, figno, 'multi')
+ylim ([-0.5,1]); hline(0,':k')
+clear hh tt figno
+%% 500 [Oe] data on its own - L study.
+
+thesis_homog_str_plotter(outstr11, 3, 'single')
+
+%% looking at how the homogeneity profile changes above 500 [Oe] for different OD and L 
+
+figno = 2; figure(figno); clf;
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\homog_outputs_L_OD_higher_field.mat')
+
+thesis_homog_str_plotter(L_outstr_4000, figno, 'multi')
+thesis_homog_str_plotter(L_outstr_3000, figno, 'multi')
+thesis_homog_str_plotter(L_outstr_2000, figno, 'multi')
+thesis_homog_str_plotter(L_outstr_1000, figno, 'multi')
+
+figno = 3; figure(figno); clf;
+thesis_homog_str_plotter(OD_outstr_4000, figno, 'multi')
+thesis_homog_str_plotter(OD_outstr_3000, figno, 'multi')
+thesis_homog_str_plotter(OD_outstr_2000, figno, 'multi')
+thesis_homog_str_plotter(OD_outstr_1000, figno, 'multi')
+
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+%%
+
