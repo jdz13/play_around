@@ -678,4 +678,167 @@ vline(125,'r:'); vline(135,'r:')
 vline(65,'r:'); vline(55,'r:')
 thesis_fig_gen(gg.Number)
 
+%% Plotting up the J vs t_Pt fit parameters for comparison. 
+% Will give values and error in the command window too. 
+% Need to have run the J vs t_Pt script first, to pull in data. 
+
+W0307_SiF = zeros(1,size(SiF.Bnorm,2));
+W0307_SiP = zeros(1,size(SiP.Bnorm,2));
+W0307_GeP = zeros(1,size(GeP.Bnorm,2));
+
+dc_SiF = abs(diff(SiF.c)); dc_SiF = [dc_SiF, dc_SiF(end)];
+dc_SiP = abs(diff(SiP.c)); dc_SiP = [dc_SiP, dc_SiP(end)];
+dc_GeP = abs(diff(GeP.c)); dc_GeP = [dc_GeP, dc_GeP(end)];
+
+ist = SiF;
+for count = 1:size(ist.Bnorm,2)
+    ind1 = find(ist.Normset(:,count) >= 0.7, 1, 'last');
+    ind2 = find(ist.Normset(:,count) >= 0.3, 1, 'last');
+    W0307_SiF(count) = abs(ist.Bnorm(ind1,count)- ist.Bnorm(ind2,count));
+end 
+
+ist = SiP;
+for count = 1:size(ist.Bnorm,2)
+    ind1 = find(ist.Normset(:,count) >= 0.7, 1, 'last');
+    ind2 = find(ist.Normset(:,count) >= 0.3, 1, 'last');
+    W0307_SiP(count) = abs(ist.Bnorm(ind1,count)- ist.Bnorm(ind2,count));
+end 
+
+ist = GeP;
+for count = 1:size(ist.Bnorm,2)
+    ind1 = find(ist.Normset(:,count) >= 0.7, 1, 'last');
+    ind2 = find(ist.Normset(:,count) >= 0.3, 1, 'last');
+    W0307_GeP(count) = abs(ist.Bnorm(ind1,count)- ist.Bnorm(ind2,count));
+end 
+
+KRV_SiF = dc_SiF./W0307_SiF;
+KRV_SiP = dc_SiP./W0307_SiP;
+KRV_GeP = dc_GeP./W0307_GeP;
+
+yy = figure;
+subplot(2,2,1)
+plot(SiF.c,W0307_SiF,'+--'); hold on
+plot(SiP.c,W0307_SiP,'+--')
+plot(GeP.c,W0307_GeP,'+--')
+xlabel 'H_J [Oe]'; 
+ylabel 'W_0_._3_-_0_._7 [Oe]'
+legend('Si Films','Si Particles','Ge Particles')
+thesis_fig_gen(yy.Number)
+
+diff(SiF.c)
+
+subplot(2,2,2)
+plot(SiF.c,dc_SiF,'+--'); hold on
+plot(SiP.c,dc_SiP,'+--')
+plot(GeP.c,dc_GeP,'+--')
+xlabel 'H_J [Oe]'; 
+ylabel 'Separation [Oe]'
+legend('Si Films','Si Particles','Ge Particles')
+thesis_fig_gen(yy.Number)
+
+subplot(2,2,3)
+plot(SiF.c,KRV_SiF,'+--'); hold on
+plot(SiP.c,KRV_SiP,'+--')
+plot(GeP.c,KRV_GeP,'+--')
+xlabel 'H_J [Oe]'; 
+ylabel 'KRV [Oe]'
+legend('Si Films','Si Particles','Ge Particles')
+thesis_fig_gen(yy.Number)
+
+ff = figure;
+subplot(1,2,1)
+errorbar(mean(W0307_SiF),1, std(W0307_SiF), std(W0307_SiF),  'horizontal', 'rx'); hold on
+errorbar(mean(W0307_SiP(2:end)),2, std(W0307_SiP(2:end)), std(W0307_SiP(2:end)),  'horizontal', 'kx')
+errorbar(mean(W0307_GeP),3, std(W0307_GeP), std(W0307_GeP),  'horizontal', 'bx')
+title 'Comparison of transition width'
+ylim([0.5,4])
+xlim([-15,150])
+xlabel 'W_0_._3_-_0_._7 [Oe]'
+legend('Si films',  'Si particles', 'Ge particles')
+set(gca,'Ytick',[])
+thesis_fig_gen(ff.Number)
+
+subplot(1,2,2)
+errorbar(mean(KRV_SiF),1, std(KRV_SiF), std(KRV_SiF),  'horizontal', 'rx'); hold on
+errorbar(mean(KRV_SiP(2:end)),2, std(KRV_SiP(2:end)), std(KRV_SiP(2:end)),  'horizontal', 'kx')
+errorbar(mean(KRV_GeP),3, std(KRV_GeP), std(KRV_GeP),  'horizontal', 'bx')
+title 'Comparison of KRV'
+ylim([0.5,4])
+xlim([-5,58])
+xlabel 'KRV'
+legend('Si films',  'Si particles', 'Ge particles')
+set(gca,'Ytick',[])
+thesis_fig_gen(ff.Number)
+
+disp(['SiF, - KRV: ', num2str(mean(KRV_SiF)), ' +/- ',num2str(std(KRV_SiF))])
+disp(['SiP, - KRV: ', num2str(mean(KRV_SiP(2:end))), ' +/- ',num2str(std(KRV_SiP(2:end)))])
+disp(['GeP, - KRV: ', num2str(mean(KRV_GeP)), ' +/- ',num2str(std(KRV_GeP))])
+
+disp(['SiF, - W: ', num2str(mean(W0307_SiF)), ' +/- ',num2str(std(W0307_SiF))])
+disp(['SiP, - W: ', num2str(mean(W0307_SiP(2:end))), ' +/- ',num2str(std(W0307_SiP(2:end)))])
+disp(['GeP, - W: ', num2str(mean(W0307_GeP)), ' +/- ',num2str(std(W0307_GeP))])
+
 %%
+
+figno = 2;
+hh = figure(figno); clf;
+
+[gtest] = sigmoidal_mem_funct_gen(1700:2300,2000, 5, figno);
+title ''
+xlabel 'B_\perp'
+ylabel 'M/Msat'
+h = gca;
+set(h,'Xtick', [])
+set(h,'Ytick', [0,0.3,0.5,0.7,1])
+vline(2000,'r:')
+hline(0.5, 'k:')
+text(2020,0.15,'c','Fontsize',14,'Color','Red')
+hold on
+plot([gtest.params(1)-(1/gtest.params(2)),gtest.params(1)+(1/gtest.params(2))],[0.5,0.5],'m-')
+plot([gtest.params(1)-(1/gtest.params(2)),gtest.params(1)-(1/gtest.params(2))],[0.47,0.53],'m-')
+plot([gtest.params(1)+(1/gtest.params(2)),gtest.params(1)+(1/gtest.params(2))],[0.47,0.53],'m-')
+text(1950,0.4,'2a','Fontsize',14,'Color','Magenta')
+thesis_fig_gen(figno)
+
+
+ind1 = find(gtest.Sigmoidy >= 0.3, 1, 'first');
+ind2 = find(gtest.Sigmoidy >= 0.7, 1, 'first');
+
+plot([gtest.x(ind1),gtest.x(ind2)],[0.6,0.6],'b-')
+plot([gtest.x(ind1),gtest.x(ind1)],[0.57,0.63],'b-')
+plot([gtest.x(ind2),gtest.x(ind2)],[0.57,0.63],'b-')
+text(2050,0.65,'W_0_._3_-_0_._7','Fontsize',14,'Color','Blue')
+vline(gtest.x(ind1),'b:'); vline(gtest.x(ind2),'b:'); 
+hline(0.3, 'b:'); hline(0.7, 'b:');
+
+
+%%
+
+ff = figure;
+subplot(1,2,1)
+errorbar(mean(W0307_SiF),1, std(W0307_SiF), std(W0307_SiF),  'horizontal', 'rx'); hold on
+errorbar(mean(W0307_SiP(2:end)),2, std(W0307_SiP(2:end)), std(W0307_SiP(2:end)),  'horizontal', 'kx')
+errorbar(mean(W0307_GeP),3, std(W0307_GeP), std(W0307_GeP),  'horizontal', 'bx')
+title 'Comparison of transition width'
+ylim([0.5,4])
+xlim([-15,150])
+xlabel 'W_0_._3_-_0_._7 [Oe]'
+legend('Si films',  'Si particles', 'Ge particles')
+set(gca,'Ytick',[])
+thesis_fig_gen(ff.Number)
+
+subplot(1,2,2)
+errorbar(mean(1./SiF.a),1, std(1./SiF.a), std(1./SiF.a),  'horizontal', 'rx'); hold on
+errorbar(mean(1./SiP.a),2, std(1./SiP.a), std(1./SiP.a),  'horizontal', 'kx')
+errorbar(mean(1./GeP.a),3, std(1./GeP.a), std(1./GeP.a),  'horizontal', 'bx')
+title 'Comparison of transition sharpness '
+ylim([0.5,4])
+xlim([-10,60])
+xlabel 'a [Oe]'
+legend('Si films',  'Si particles', 'Ge particles')
+set(gca,'Ytick',[])
+thesis_fig_gen(ff.Number)
+
+%%
+
+
