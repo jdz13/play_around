@@ -95,7 +95,7 @@ function [outstr] = thesis_homog_eval_function(ist,inmeth, B0_Oe)
 
         for tt = 1:length(ist.varst.Lengths)
             cnt = cnt + 2;
-            r = ist.probe_line(tt,find(ist.MxB(1,:,tt) > B0.*1.05, 1, 'last'));
+            r = ist.probe_line(1,find(ist.MxB(1,:,tt) > B0.*1.05, 1, 'last'));
             [main] = new3Dbanditunitvector(r,Yin,Zin,ist.varst.Lengths(tt)./2,ist.varst.PM./2,M);
             [IBs] = new3Dbanditunitvector(r,Yin,Zin,ist.varst.Lengths(tt)./2,IB./2,M);
 
