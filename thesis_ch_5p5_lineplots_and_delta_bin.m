@@ -45,6 +45,8 @@ for count = 1:4
 
         dat1 = nonzeros(lp(:,uu)).*1e4;
         h = histogram(dat1,nbins); %pd = fitdist(dat1','Normal'); 
+        h.BinLimits = [0,ist.varst.RES.*1e4];
+        h.NumBins = nbins;
         datstr(uu,:) = h.Values;
         if uu == 1
             m0 = h.Values;
@@ -52,7 +54,7 @@ for count = 1:4
         m0dat(uu,:) = h.Values - m0;
     end 
 
-    close(hh.Number)
+    
     difdatstr = diff(datstr,2);
 
     figure(gg.Number)
@@ -75,8 +77,9 @@ for count = 1:4
     xlim([0,1000])
     xlabel 'Centre of bin [Oe]'
     ylabel '\Delta\eta  from L=2 [cm]';
-    title (['binsize = ', num2str(binsize), ' [Oe]']);
+    title (['binsize = ', num2str(h.BinWidth), ' [Oe]']);
     thesis_fig_gen(gg.Number)
+    close(hh.Number)
 end 
 
 
@@ -131,6 +134,8 @@ for count = 1:4
 
         dat1 = nonzeros(lp(:,uu)).*1e4;
         h = histogram(dat1,nbins); %pd = fitdist(dat1','Normal'); 
+        h.BinLimits = [0,ist.varst.RES.*1e4];
+        h.NumBins = nbins;
         datstr(uu,:) = h.Values;
         if uu == 1
             m0 = h.Values;
@@ -218,6 +223,8 @@ for count = 1:4
 
         dat1 = nonzeros(lp(:,uu)).*1e4;
         h = histogram(dat1,nbins); %pd = fitdist(dat1','Normal'); 
+        h.BinLimits = [0,ist.varst.RES.*1e4];
+        h.NumBins = nbins;
         datstr(uu,:) = h.Values;
         if uu == 1
             m0 = h.Values;
@@ -283,60 +290,67 @@ thesis_fig_gen(j.Number)
 clear tt j jj kk lp ist plt1
 
 
+ %% Plot the difference between histogram bins for a dataset, with changing binsize.
 
-%% Plot the difference between histogram bins for a dataset, with changing binsize.
-
-clear;
-gg = figure;
-nbins0 = 60;
-
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p4.mat')
-ist = SaveVar34p4;
-for count = 1:4
-    hh = figure;
-    L1 = length(ist.varst.RES);
-    lp = squeeze(ist.SWres);
-    nbins = nbins0.*(2^(count-1));
-    datstr = zeros(L1, nbins);
-    m0dat = zeros(L1, nbins);
-
-    for uu = 1:L1
-
-        dat1 = nonzeros(lp(:,uu)).*1e4;
-        h = histogram(dat1,nbins); %pd = fitdist(dat1','Normal'); 
-        datstr(uu,:) = h.Values;
-        if uu == 1
-            m0 = h.Values;
-        end 
-        m0dat(uu,:) = h.Values - m0;
-    end 
-
-    close(hh.Number)
-    difdatstr = diff(datstr,2);
-
-    figure(gg.Number)
-    subplot(2,2,count);
-    inputno = 6;
-    channel_max = max(lp, [], 'all').*1e4;
-    binsize = channel_max./nbins;
-    xdat = linspace(binsize./2,channel_max -(binsize./2),nbins);
-    for uu = 1:inputno
-        ind = 1+((L1-1).*(uu-1)./(inputno-1));
-        plot(xdat,m0dat(ind,:),'--+');
-        hold on
-    end 
+ % This doesn't work as the bin number is changing, not allowing for a 
+% direct comparison between bins.
 
 
-    ind = 1+((L1-1).*([1:inputno]-1)./(inputno-1));
-    temp = ist.varst.RES(ind);
-    legendCell = cellstr(num2str(temp', 'B_0 = %-g [T]')); 
-    legend(legendCell, 'Location', 'Northeast')
-    xlim([0,1000])
-    xlabel 'Centre of bin [Oe]'
-    ylabel '\Delta\eta  from B_0=0.6 [T]';
-    title (['binsize = ', num2str(binsize), ' [Oe]']);
-    thesis_fig_gen(gg.Number)
-end 
+% % % % % clear;
+% % % % % gg = figure;
+% % % % % widths0 = 50;
+% % % % % 
+% % % % % load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p4.mat')
+% % % % % ist = SaveVar34p4;
+% % % % % for count = 1:4
+% % % % %     hh = figure;
+% % % % %     L1 = length(ist.varst.RES);
+% % % % %     mRes = max(ist.varst.RES,[],'all').*1e4;   
+% % % % %     wDyn =  widths0./(2^(count-1));
+% % % % %     nbins = mRes./wDyn;
+% % % % %     lp = squeeze(ist.SWres);
+% % % % %     datstr = zeros(L1, nbins);
+% % % % %     m0dat = zeros(L1, nbins);
+% % % % % 
+% % % % %     for uu = 1:L1
+% % % % % 
+% % % % %         dat1 = nonzeros(lp(:,uu)).*1e4;
+% % % % %         h = histogram(dat1,nbins); %pd = fitdist(dat1','Normal'); 
+% % % % %         h.BinWidth = wDyn;
+% % % % %         h.BinLimits = [0,ist.varst.RES(uu).*1e4];
+% % % % %         datstr(uu,1:h.NumBins) = h.Values;
+% % % % %         if uu == 1
+% % % % %             m0 = h.Values;
+% % % % %         end 
+% % % % %         m0dat(uu,:) = h.Values - m0;
+% % % % %     end 
+% % % % % 
+% % % % %     close(hh.Number)
+% % % % %     difdatstr = diff(datstr,2);
+% % % % % 
+% % % % %     figure(gg.Number)
+% % % % %     subplot(2,2,count);
+% % % % %     inputno = 6;
+% % % % %     channel_max = max(lp, [], 'all').*1e4;
+% % % % %     binsize = channel_max./nbins;
+% % % % %     xdat = linspace(binsize./2,channel_max -(binsize./2),nbins);
+% % % % %     for uu = 1:inputno
+% % % % %         ind = 1+((L1-1).*(uu-1)./(inputno-1));
+% % % % %         plot(xdat,m0dat(ind,:),'--+');
+% % % % %         hold on
+% % % % %     end 
+% % % % % 
+% % % % % 
+% % % % %     ind = 1+((L1-1).*([1:inputno]-1)./(inputno-1));
+% % % % %     temp = ist.varst.RES(ind);
+% % % % %     legendCell = cellstr(num2str(temp', 'B_0 = %-g [T]')); 
+% % % % %     legend(legendCell, 'Location', 'Northeast')
+% % % % %     xlim([0,1000])
+% % % % %     xlabel 'Centre of bin [Oe]'
+% % % % %     ylabel '\Delta\eta  from B_0=0.6 [T]';
+% % % % %     title (['binsize = ', num2str(binsize), ' [Oe]']);
+% % % % %     thesis_fig_gen(gg.Number)
+% % % % % end 
 
 %%
 %%
@@ -456,16 +470,16 @@ jj = gca;
 tt = compose(['KRV = ', num2str(ist.varst.KRV), '\n\nOD = ', num2str(ist.varst.PM*1000), ' [mm]\n\nL = ', num2str(ist.varst.Lengths*1000), ' [mm]\n\nID = 6 [mm]\n\nB_0 = ', num2str(ist.varst.RES), ' [T]']);
 text(mean(jj.XLim), 1.05*mean(jj.YLim), tt);
 
-load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV24p3.mat')
-ist = SaveVar24p3;
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV28p3.mat')
+ist = SaveVar28p3;
 plt1 = zeros(1, size(ist.varst.s_rad,2));
 lp = squeeze(ist.SWres);
 for kk = 1:size(lp,2)
     plt1(kk) = nnz(lp(:,kk))-1;
 end 
 xs = ist.varst.s_rad;
-yyaxis right 
-plot(xs.*1000, plt1)
+in = 5; yyaxis right; 
+plot(xs(in:end).*1000, plt1(in:end))
 ylabel '\eta - p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]'
 legend ('full model', 'p < 10 [cm] and B_n_+_1 - B_n > 50 [Oe]')
 annotation('arrow',[0.3,0.15],[0.6,0.6],'color' , [0,0.4470,0.7410])
@@ -529,6 +543,66 @@ clear tt j jj kk lp ist plt1 xs
 %%
 %%
 %%
-%%
+%% Single histogram plotter for the OD studies 
 
+clear;
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p1.mat')
+ist = SaveVar34p1;
 
+hh = figure;
+lp = squeeze(ist.SWres);
+nbins = 80;
+subplot(1,2,1);
+dat1 = nonzeros(lp(:,1)).*1e4;
+h = histogram(dat1(1:end-1),nbins); %pd = fitdist(dat1','Normal'); 
+h.BinLimits = [0,ist.varst.RES.*1e4];
+h.NumBins = nbins;
+xlabel 'Centre of bin [Oe]'
+legend 'OD=2 [cm]';
+title (['binsize = ', num2str(h.BinWidth), ' [Oe]']);
+% xlim([0,1000])
+thesis_fig_gen(hh.Number)
+
+nbins = 320;
+subplot(1,2,2);
+dat1 = nonzeros(lp(:,1)).*1e4;
+h = histogram(dat1(1:end-1),nbins); %pd = fitdist(dat1','Normal'); 
+h.BinLimits = [0,ist.varst.RES.*1e4];
+h.NumBins = nbins;
+xlabel 'Centre of bin [Oe]'
+legend 'OD=2 [cm]';
+title (['binsize = ', num2str(h.BinWidth), ' [Oe]']);
+% xlim([0,1000])
+thesis_fig_gen(hh.Number)
+
+%% Single histogram plotter for the L studies 
+
+clear;
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p2.mat')
+ist = SaveVar34p2;
+
+hh = figure;
+lp = squeeze(ist.SWres);
+nbins = 80;
+subplot(1,2,1);
+dat1 = nonzeros(lp(:,1)).*1e4;
+h = histogram(dat1(1:end-1),nbins); %pd = fitdist(dat1','Normal'); 
+h.BinLimits = [0,ist.varst.RES.*1e4];
+h.NumBins = nbins;
+xlabel 'Centre of bin [Oe]'
+legend 'L=2 [cm]';
+title (['binsize = ', num2str(h.BinWidth), ' [Oe]']);
+% xlim([0,1000])
+thesis_fig_gen(hh.Number)
+
+nbins = 320;
+subplot(1,2,2);
+dat1 = nonzeros(lp(:,1)).*1e4;
+h = histogram(dat1(1:end-1),nbins); %pd = fitdist(dat1','Normal'); 
+h.BinLimits = [0,ist.varst.RES.*1e4];
+h.NumBins = nbins;
+xlabel 'Centre of bin [Oe]'
+legend 'L=2 [cm]';
+title (['binsize = ', num2str(h.BinWidth), ' [Oe]']);
+% xlim([0,1000])
+thesis_fig_gen(hh.Number)

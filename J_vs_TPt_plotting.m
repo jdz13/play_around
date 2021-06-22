@@ -239,21 +239,25 @@ c3 = confint(SiP.fit,0.95);
 figure(12); clf;
 subplot(1,2,1)
 errorbar(SiF.fit.a,1, abs(SiF.fit.a - c1(1,1)) , abs(SiF.fit.a - c1(2,1)),  'horizontal', 'rx'); hold on
-errorbar(GeP.fit.a,2, abs(GeP.fit.a - c2(1,1)) , abs(GeP.fit.a - c2(2,1)),  'horizontal', 'kx')
-errorbar(SiP.fit.a,3, abs(SiP.fit.a - c3(1,1)) , abs(SiP.fit.a - c3(2,1)),  'horizontal', 'bx')
+errorbar(GeP.fit.a,3, abs(GeP.fit.a - c2(1,1)) , abs(GeP.fit.a - c2(2,1)),  'horizontal', 'kx')
+errorbar(SiP.fit.a,2, abs(SiP.fit.a - c3(1,1)) , abs(SiP.fit.a - c3(2,1)),  'horizontal', 'bx')
 title 'Comparison of A values'
 ylim([0.5,4])
+ xlim([1,1.7].*1e4)
 xlabel 'A [J\cdotnm]'
-legend('Si films' , 'Ge particles', 'Si particles')
+legend('Films on Si',  'Particles on Si', 'Particles on Ge')
+thesis_fig_gen(12)
 subplot(1,2,2)
 errorbar(SiF.fit.b,1, abs(SiF.fit.b - c1(1,2)) , abs(SiF.fit.b - c1(2,2)),  'horizontal', 'rx'); hold on
-errorbar(GeP.fit.b,2, abs(GeP.fit.b - c2(1,2)) , abs(GeP.fit.b - c2(2,2)),  'horizontal', 'kx')
-errorbar(SiP.fit.b,3, abs(SiP.fit.b - c3(1,2)) , abs(SiP.fit.b - c3(2,2)),  'horizontal', 'bx')
+errorbar(GeP.fit.b,3, abs(GeP.fit.b - c2(1,2)) , abs(GeP.fit.b - c2(2,2)),  'horizontal', 'kx')
+errorbar(SiP.fit.b,2, abs(SiP.fit.b - c3(1,2)) , abs(SiP.fit.b - c3(2,2)),  'horizontal', 'bx')
 title 'Comparison of t_d values'
 ylim([0.5,4])
+xlim([0.18,0.27])
 xlabel 't_d [nm]'
-legend('Si films' , 'Ge particles', 'Si particles')
-
+legend('Films on Si',  'Particles on Si', 'Particles on Ge')
+thesis_fig_gen(12)
+%%
 thesis_fig_gen(7:12)
 figure(12); subplot(1,2,1); 
 figure(48); subplot(1,2,2); figure(51); subplot(1,2,2); figure(45); subplot(1,2,2); 

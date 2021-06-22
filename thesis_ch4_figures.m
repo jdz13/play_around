@@ -747,34 +747,34 @@ thesis_fig_gen(yy.Number)
 
 ff = figure;
 subplot(1,2,1)
-errorbar(mean(W0307_SiF),1, std(W0307_SiF), std(W0307_SiF),  'horizontal', 'rx'); hold on
+errorbar(mean(W0307_SiF(2:end)),1, std(W0307_SiF(2:end)), std(W0307_SiF(2:end)),  'horizontal', 'rx'); hold on
 errorbar(mean(W0307_SiP(2:end)),2, std(W0307_SiP(2:end)), std(W0307_SiP(2:end)),  'horizontal', 'kx')
 errorbar(mean(W0307_GeP),3, std(W0307_GeP), std(W0307_GeP),  'horizontal', 'bx')
 title 'Comparison of transition width'
 ylim([0.5,4])
 xlim([-15,150])
 xlabel 'W_0_._3_-_0_._7 [Oe]'
-legend('Si films',  'Si particles', 'Ge particles')
+legend('Films on Si',  'Particles on Si', 'Particles on Ge')
 set(gca,'Ytick',[])
 thesis_fig_gen(ff.Number)
 
 subplot(1,2,2)
-errorbar(mean(KRV_SiF),1, std(KRV_SiF), std(KRV_SiF),  'horizontal', 'rx'); hold on
+errorbar(mean(KRV_SiF(2:end)),1, std(KRV_SiF(2:end)), std(KRV_SiF(2:end)),  'horizontal', 'rx'); hold on
 errorbar(mean(KRV_SiP(2:end)),2, std(KRV_SiP(2:end)), std(KRV_SiP(2:end)),  'horizontal', 'kx')
 errorbar(mean(KRV_GeP),3, std(KRV_GeP), std(KRV_GeP),  'horizontal', 'bx')
 title 'Comparison of KRV'
 ylim([0.5,4])
 xlim([-5,58])
 xlabel 'KRV'
-legend('Si films',  'Si particles', 'Ge particles')
+legend('Films on Si',  'Particles on Si', 'Particles on Ge')
 set(gca,'Ytick',[])
 thesis_fig_gen(ff.Number)
 
-disp(['SiF, - KRV: ', num2str(mean(KRV_SiF)), ' +/- ',num2str(std(KRV_SiF))])
+disp(['SiF, - KRV: ', num2str(mean(KRV_SiF(2:end))), ' +/- ',num2str(std(KRV_SiF(2:end)))])
 disp(['SiP, - KRV: ', num2str(mean(KRV_SiP(2:end))), ' +/- ',num2str(std(KRV_SiP(2:end)))])
 disp(['GeP, - KRV: ', num2str(mean(KRV_GeP)), ' +/- ',num2str(std(KRV_GeP))])
 
-disp(['SiF, - W: ', num2str(mean(W0307_SiF)), ' +/- ',num2str(std(W0307_SiF))])
+disp(['SiF, - W: ', num2str(mean(W0307_SiF(2:end))), ' +/- ',num2str(std(W0307_SiF(2:end)))])
 disp(['SiP, - W: ', num2str(mean(W0307_SiP(2:end))), ' +/- ',num2str(std(W0307_SiP(2:end)))])
 disp(['GeP, - W: ', num2str(mean(W0307_GeP)), ' +/- ',num2str(std(W0307_GeP))])
 
@@ -814,31 +814,76 @@ hline(0.3, 'b:'); hline(0.7, 'b:');
 
 %%
 
+% % % % C:\Users\JDZ\Documents\Thesis\Data\Usable J vs t_Pt data\Si Films
+% % % [SiF, SiFfitting] = MOKE_data_in2(50, [200,800], [3:10]);
+% % % thesis_fig_gen(50:52)
+% % % figure(50); xlim([-1000, 10300]); ylim([-0.05,1.05])
+% % % set(gcf, 'Position',  [100, 100, 540, 500]); title 'P-AP (H_4) transition - Si films'
+% % % figure(52); xlim([-1000, 7000]); ylim([-0.7,0.05])
+% % % 
+% % % % C:\Users\JDZ\Documents\Thesis\Data\Usable J vs t_Pt data\Si Particles
+% % % [SiP, SiPfitting] = MOKE_data_in2(47, [300,820], [3,5:9]);
+% % % thesis_fig_gen(47:49)
+% % % figure(47); xlim([-1000, 9000]); ylim([-0.05,1.05])
+% % % set(gcf, 'Position',  [100, 100, 540, 450]); title 'P-AP (H_4) transition - Si Particles'
+% % % figure(49); xlim([-1000, 6000]); ylim([-0.27,0.05])
+% % % 
+% % % % C:\Users\JDZ\Documents\Thesis\Data\Usable J vs t_Pt data\Ge Particles
+% % % [GeP, GePfitting] = MOKE_data_in2(44, [300,820], [4:10]);
+% % % thesis_fig_gen(44:47)
+% % % figure(44); xlim([-1000, 6700]); ylim([-0.05,1.05])
+% % % set(gcf, 'Position',  [100, 100, 540, 450]); title 'P-AP (H_4) transition - Ge Particles'
+% % % figure(46); xlim([-1000, 5000]); ylim([-0.5,0.05])
+
 ff = figure;
 subplot(1,2,1)
-errorbar(mean(W0307_SiF),1, std(W0307_SiF), std(W0307_SiF),  'horizontal', 'rx'); hold on
-errorbar(mean(W0307_SiP(2:end)),2, std(W0307_SiP(2:end)), std(W0307_SiP(2:end)),  'horizontal', 'kx')
-errorbar(mean(W0307_GeP),3, std(W0307_GeP), std(W0307_GeP),  'horizontal', 'bx')
+errorbar(mean(W0307_SiF(2:end)),1, std(W0307_SiF(2:end)), std(W0307_SiF(2:end)),  'horizontal', 'rx'); hold on
+errorbar(mean(W0307_SiP(2:end)),2, std(W0307_SiP(2:end)), std(W0307_SiP(2:end)),  'horizontal', 'bx')
+errorbar(mean(W0307_GeP),3, std(W0307_GeP), std(W0307_GeP),  'horizontal', 'kx')
 title 'Comparison of transition width'
 ylim([0.5,4])
 xlim([-15,150])
 xlabel 'W_0_._3_-_0_._7 [Oe]'
-legend('Si films',  'Si particles', 'Ge particles')
+legend('Films on Si',  'Particles on Si', 'Particles on Ge')
 set(gca,'Ytick',[])
 thesis_fig_gen(ff.Number)
 
 subplot(1,2,2)
 errorbar(mean(1./SiF.a),1, std(1./SiF.a), std(1./SiF.a),  'horizontal', 'rx'); hold on
-errorbar(mean(1./SiP.a),2, std(1./SiP.a), std(1./SiP.a),  'horizontal', 'kx')
-errorbar(mean(1./GeP.a),3, std(1./GeP.a), std(1./GeP.a),  'horizontal', 'bx')
+errorbar(mean(1./SiP.a),2, std(1./SiP.a), std(1./SiP.a),  'horizontal', 'bx')
+errorbar(mean(1./GeP.a),3, std(1./GeP.a), std(1./GeP.a),  'horizontal', 'kx')
 title 'Comparison of transition sharpness '
 ylim([0.5,4])
 xlim([-10,60])
 xlabel 'a [Oe]'
-legend('Si films',  'Si particles', 'Ge particles')
+legend('Films on Si',  'Particles on Si', 'Particles on Ge')
 set(gca,'Ytick',[])
 thesis_fig_gen(ff.Number)
 
+
+
 %%
 
+load('C:\Users\JDZ\Documents\Thesis\Data\CoFeB_1nm_EA_loop_SP6772.mat')
+plot(Raw_Applied_Field_For_Plot_, Signal_X_direction.*1e6)
+ylabel 'Moment [\muemu]'; xlabel 'Applied field [Oe]'
 
+%% Plot from chapter III too. Comparing sigmoids
+
+clear 
+c = 2000; a = 100; 
+
+hh = figure;
+syms x; fplot(rectangularPulse(2000,5000,x), [0 4000])
+xlabel 'Field [Oe]'
+ylabel ('Membership function \chi')
+ylim([-0.05, 1.05]); hline(0); hline(1);
+gc = gca;
+text((diff(gc.XLim).*0.15)+gc.XLim(1), (diff(gc.YLim).*0.8)+gc.YLim(1),(compose("c = " + num2str(c) + "[Oe]\na = " + num2str(0) + " [Oe]")))
+thesis_fig_gen(hh.Number)
+
+
+nn = figure;
+[gtest] = sigmoidal_mem_funct_gen_real_a(1:4000, c, a, nn.Number);
+
+clear nn hh x gc c a 

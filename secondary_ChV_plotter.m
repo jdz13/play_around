@@ -686,3 +686,58 @@ end
 %%
 
 
+
+%% Showing the channel progression and separation in the L and OD studies (unsuppressed)
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p1.mat')
+ist = SaveVar34p1;
+
+in = '+--'; inv = 50;
+para = [1,21,41,61,81];
+ff = figure;
+subplot(2,2,1)
+for kk = 1:length(para)
+    semilogy(0:inv-1,ist.SWres(1,1:inv,para(kk),1,1,1).*1e4,in); hold on
+end 
+temp = ist.varst.PM(para).*1e2;
+legendCell = cellstr(num2str(temp', 'OD = %-g [cm]')); 
+legend(legendCell, 'Location', 'Northeast')
+xlabel 'Channel number (n)'; ylabel 'Channel field B_n [Oe]'
+thesis_fig_gen(ff.Number)
+
+subplot(2,2,2)
+for kk = 1:length(para)
+    semilogy(0:inv-1,-diff(ist.SWres(1,1:inv+1,para(kk),1,1,1)).*1e4,in); hold on
+end 
+temp = ist.varst.PM(para).*1e2;
+legendCell = cellstr(num2str(temp', 'OD = %-g [cm]')); 
+legend(legendCell, 'Location', 'Northeast')
+xlabel 'Channel number (n)'; ylabel 'Difference between adjacent channels [Oe]'
+hline(50, 'r:', '50 [Oe]')
+thesis_fig_gen(ff.Number)
+
+
+load('C:\Users\JDZ\Documents\Thesis\Code Outputs\Chapter V\matlab_SV34p2.mat')
+ist = SaveVar34p2;
+
+subplot(2,2,3)
+for kk = 1:length(para)
+    semilogy(0:inv-1,ist.SWres(1,1:inv,1,1,para(kk),1).*1e4,in); hold on
+end 
+temp = ist.varst.Lengths(para).*1e2;
+legendCell = cellstr(num2str(temp', 'L = %-g [cm]')); 
+legend(legendCell, 'Location', 'Northeast')
+xlabel 'Channel number (n)'; ylabel 'Channel field B_n [Oe]'
+thesis_fig_gen(ff.Number)
+
+
+subplot(2,2,4)
+for kk = 1:length(para)
+    semilogy(0:inv-1,-diff(ist.SWres(1,1:inv+1,1,1,para(kk),1)).*1e4,in); hold on
+end 
+temp = ist.varst.Lengths(para).*1e2;
+legendCell = cellstr(num2str(temp', 'L = %-g [cm]')); 
+legend(legendCell, 'Location', 'Northeast')
+xlabel 'Channel number (n)'; ylabel 'Difference between adjacent channels [Oe]'
+hline(50, 'r:', '50 [Oe]')
+thesis_fig_gen(ff.Number)
